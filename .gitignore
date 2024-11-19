@@ -1,6 +1,7 @@
 _raw/
-_data/
+data/
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+.R4BDS_project.Rproj
