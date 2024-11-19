@@ -22,6 +22,10 @@ raw_dir = "../_raw"
 data_file = "/raw_data.xls"
 data_path = str_c(raw_dir,data_file)
   # Use the R.utils library to decompress a gz file 
+if(!dir.exists(raw_dir)) {
+  dir.create(path = raw_dir)
+}
+  
 if(!file.exists(data_path)) {
  gunzip("../_raw/GSE239956_counts_RPMs_RPKMs.xls.gz", remove = FALSE) #remove = TRUE will delete the .gz file 
   
