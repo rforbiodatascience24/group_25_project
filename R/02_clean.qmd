@@ -1,1 +1,41 @@
+This script will tidy the data to prepare it for visualization and analysis.
 
+First, we will rename the columns, as this will enable us to understand our data better.
+
+```{r}
+info <- c("reads", "RPM", "RPKM")
+conditions <- c("control", "tau")
+samples <- 1:3
+
+new_col_names <- expand.grid(samples, conditions, info) |>
+  transmute(name = glue::glue("{Var3}_{Var2}_{Var1}")) |>
+  pull(name)
+
+tidy_data <- joined_data |>
+  rename_with(~ new_col_names, .cols = 4:21) |>
+  rename(experiment = 1, gene_name = 2)
+
+```
+
+Next, we will eliminate all the observations for which all of the variables have a value of 0, as this means that they are not affected by the overexpression of Tau, and therefore not relevant to our analysis.
+
+```{r}
+tidy_data <- tidy_data |>
+  filter(!if_all(4:21, ~ . == 0))
+
+tidy_data
+```
+
+Next, we will remove the columns that we don't need, specifically column 2.
+
+```{r}
+tidy_data <- tidy_data |>
+  select(-description)
+```
+
+Now, we will sort by gene name
+
+```{r}
+tidy_data <- tidy_data |>
+  arrange(gene_name)
+```
