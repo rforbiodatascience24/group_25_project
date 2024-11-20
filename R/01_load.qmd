@@ -39,7 +39,7 @@ reads_df <- read_excel(data_path, sheet = 1)
 RPMs_df <- read_excel(data_path, sheet = 2)
 RPKMs_df <- read_excel(data_path, sheet = 3)
 ```
-Since there was an attribute without a name these collumns were named ...1 
+Since there was an attribute without a name these columns were named ...1 
 
 4. Join all excel sheets into raw_data
 
