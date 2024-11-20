@@ -133,7 +133,7 @@ The data is now tidy:
 Save the tidy data.
 
 ```{r}
-df_long |> 
+df |> 
   write_tsv(file = "../data/02_data_load.tsv.gz")
 
 gene_info |> 
