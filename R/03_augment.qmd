@@ -1,1 +1,56 @@
+---
+title: "Augment data"
+format: html
+editor: visual
+---
+
+1. Load data and relevant libraries
+
+```{r}
+#| message: false
+library("tidyverse")
+library("dplyr")
+
+```
+
+```{r}
+data_dir <- "../data"
+data_file <- "/02_data_load.tsv.gz" 
+aug_input <- read_tsv(str_c(data_dir, data_file))
+
+```
+
+2. Normalizing the data by log transformation. 
+Adding a small value before log transforming data, to ensure that zeros do not appear. 
+
+
+```{r}
+df_aug <- aug_input %>%
+  mutate(across(starts_with("reads") | starts_with("RPM") | starts_with("RPKM"),~ log(.+0.0001)))
+```
+
+
+3. Calculating mean of the three groups, and adding columns to the file
+
+```{r}
+data_augmented <- df_aug %>%
+  mutate(
+    mean_reads = rowMeans(across(starts_with("reads")), na.rm = TRUE),  
+    mean_rpm = rowMeans(across(starts_with("RPM")), na.rm = TRUE),     
+    mean_rpkm = rowMeans(across(starts_with("RPKM")), na.rm = TRUE)    
+  )
+```
+
+
+
+4. 
+```{r}
+df_long_augmented <- data_augmented |> 
+  pivot_longer(
+    cols = contains(c("control", "tau")), 
+    names_to = "experiment", 
+    values_to = "gene_expression"
+  )
+```
+```
 
