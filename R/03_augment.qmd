@@ -42,8 +42,7 @@ data_augmented <- df_aug %>%
 ```
 
 
-
-4. 
+4. Grouping data 
 ```{r}
 df_long_augmented <- data_augmented |> 
   pivot_longer(
