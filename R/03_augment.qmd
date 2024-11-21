@@ -30,7 +30,7 @@ df_aug <- aug_input %>%
 ```
 
 
-3. Calculating mean of the three groups, and adding columns to the file
+3. Calculating mean of the three groups, and adding the columns to the file
 
 ```{r}
 data_augmented <- df_aug %>%
@@ -44,12 +44,22 @@ data_augmented <- df_aug %>%
 
 4. Our dataset is a wide dataset however, It might be of interest having our df in a long format
 ```{r}
-df_long_augmented <- data_augmented |> 
+data_long_augmented <- data_augmented |> 
   pivot_longer(
     cols = contains(c("control", "tau")), 
     names_to = "experiment", 
     values_to = "gene_expression"
   )
 ```
+
+
+The data is now normalized, mean is calcualted for each category and the data is in long format. 
+
+5. Data is saved in file: 
+
+```{r}
+data_long_augmented |> 
+  write_tsv(file = "../data/03_data_load.tsv.gz")
+
 ```
 
