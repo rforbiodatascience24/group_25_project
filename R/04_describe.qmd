@@ -20,7 +20,7 @@ describe_input <- read_tsv(str_c(data_dir, data_file))
 
 ```
 
-2.  Basic summary statistics. Group by gene. Group each gene by experiment. Find mean, variance, std, other? for each.
-3.  Mean reads, mean rpm and mean rpmk should all equal for the 3 replicates for each gene. Why? Check that this is true.
-4.  How many genes with negative gene expression? How many are there? What does it mean to have negative value? What should we do with them
-5.  Box plot or bar plot? For the gene expression for each gene. Should we keep all 3 replicates or use an average? Maybe argue this decision based on summary statistics? (if there is variance between the replicates, then they should be kept)
+2.  Basic summary statistics. Group by gene. Group each gene by experiment? Find mean, variance, std, other? for each. -Will
+3.  Mean reads, mean rpm and mean rpmk should all equal for the 3 replicates for each gene. Why? Check that this is true. - Jenni
+4.  How many genes with negative gene expression? How many are there? What does it mean to have negative value? What should we do with them - Jenni
+5.  Box plot or bar plot? For the gene expression for each gene. Should we keep all 3 replicates or use an average? Maybe argue this decision based on summary statistics? (if there is variance between the replicates, then they should be kept) -Will
