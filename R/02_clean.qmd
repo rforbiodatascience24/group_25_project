@@ -1,18 +1,35 @@
-This script will tidy the data to prepare it for visualization and analysis.
+---
+title: "Clean Data"
+format: html
+editor: visual
+---
 
-1.  Load data and relevant libraries
+This script will tidy the data to prepare it for visualization and analysis.
 
 ```{r}
 library("tidyverse")
 ```
 
 ```{r}
-data_dir <- "../data"
-data_file <- "/01_data_load.tsv.gz" 
-df <- read_tsv(str_c(data_dir, data_file))
+
+reads_df <- read_tsv("../data/01_data_load_reads.tsv.gz")
+RPMs_df <- read_tsv("../data/01_data_load_RPMs.tsv.gz")
+RPKMs_df <- read_tsv("../data/01_data_load_RPKMs.tsv.gz")
 ```
 
-2.  Rename columns
+```{r}
+df <- reads_df |> 
+  full_join(RPMs_df,
+            by = c("...1", "GeneName", "description"),
+            relationship = "many-to-many") |> 
+  full_join(RPKMs_df,
+            by = c("...1", "GeneName", "description"),
+            relationship = "many-to-many")
+```
+
+The data set is messy: the .x values corresponds to the reads dataframe, the .y to tge RPMs dataframe and the reamining values correspond to the RPKMs_df. - Rename columns - Check for invalid values - Remove unnecessary observations - Create a meta_data file to store relevant information about all genes
+
+1.  Rename columns
 
 First we create a small df with all 21 column names
 
@@ -46,7 +63,7 @@ df <- df |>
          gene_ID = 2)
 ```
 
-3.  Remove genes with no expression.
+2.  Check for invalid data
 
 Before removing genes with no expression, we can check if our dataset has any missing values or invalid values
 
@@ -64,7 +81,9 @@ df |>
 
 The data seems to not have any invalid or missing values.
 
-Next, we will eliminate all the observations for which all of the variables have a value of 0.
+3.  Remove unnecessary observations
+
+We will eliminate all the observations for which all of the variables have a value of 0.
 
 ```{r}
 df |> 
@@ -80,6 +99,8 @@ df |>
 ```
 
 Around 30000 genes were removed.
+
+4.  Create a meta data file
 
 Next, we will remove the columns that we don't need, specifically the gene_esembl and description columns. We will also create a separate dataframe with the information about the genes.
 
@@ -105,22 +126,6 @@ df <- df |>
   select(-description, -gene_ensembl)
 ```
 
-Our dataset is a wide dataset however, It might be of interest having our df in a long format
-
-```{r}
-df_long <- df |> 
-  pivot_longer(
-    cols = contains(c("control", "tau")), 
-    names_to = "experiment", 
-    values_to = "gene_expression"
-  )
-```
-
-```{r}
-df_long |> 
-  sample_n(10)
-```
-
 The data is now tidy:
 
 -   Each row corresponds to an observation (unique combination of an experiment and gene).
@@ -128,7 +133,6 @@ The data is now tidy:
 -   Each column corresponds to a variable (What gene, what type of experiment and the expression of the gene).
 
 -   Each cell is a value.
-
 
 Save the tidy data.
 

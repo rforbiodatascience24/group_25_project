@@ -1,3 +1,9 @@
+---
+title: "Load Data"
+format: html
+editor: visual
+---
+
 The following script will load the raw data set that contains 3 sheets to be joined:
 
 -   The read counts for each experiment - The Reads Per Million (RPM) for each experiment.
@@ -6,64 +12,78 @@ The following script will load the raw data set that contains 3 sheets to be joi
 
 -   The output of this script will be a data set with all 3 sheets combined.
 
-1.  Load Libraries
+0.  Load Libraries
 
 ```{r}
 #| message: false
+library("GEOquery")
 library("tidyverse")
 library(readxl)
 library(R.utils)
 ```
 
-2.  Load Raw Data
-Since the readxl library does not direclt decompress .gz files we are required to use the R.utils library to manualy decompress our file
+1.  Extract GEO dataset using the GEOquery package
+
 ```{r}
-raw_dir = "../_raw"
-data_file = "/raw_data.xls"
-data_path = str_c(raw_dir,data_file)
-  # Use the R.utils library to decompress a gz file 
-if(!dir.exists(raw_dir)) {
-  dir.create(path = raw_dir)
+gset <- getGEO("GSE239956", GSEMatrix = TRUE, getGPL = FALSE)[[1]]
+
+# gset is an object. Inspecting it, we see that our data is on a list called "other"
+#Since gset is an object, we have to use slot function to extract information individual slots in an object
+data_loc <- gset |> 
+  experimentData() |> 
+  slot("other") |> 
+  pluck("supplementary_file")
+
+# Print the URL
+print(data_loc)
+```
+
+2.  Create required directories to load the data
+
+```{r}
+raw_dir <- "../_raw"
+data_dir <- "../data"
+compressed_file <- str_c(raw_dir, "/raw_data.xls.gz")
+decompressed_file <- str_c(raw_dir, "/raw_data.xls")
+
+# Create required directories if they don't exist
+if (!dir.exists(raw_dir)) dir.create(raw_dir)
+if (!dir.exists(data_dir)) dir.create(data_dir)
+
+```
+
+3.  Load and decompress the data file
+
+```{r}
+if (!file.exists(decompressed_file)) {
+  download.file(
+    url = data_loc,
+    destfile = compressed_file,
+    mode = "wb"
+  )
 }
-  
-if(!file.exists(data_path)) {
- gunzip("../_raw/GSE239956_counts_RPMs_RPKMs.xls.gz", remove = FALSE) #remove = TRUE will delete the .gz file 
-  
- file.rename("../_raw/GSE239956_counts_RPMs_RPKMs.xls", data_path)}
+
+# Decompress the file, 
+if (!file.exists(decompressed_file)) {
+  gunzip(compressed_file, destname = decompressed_file, remove = FALSE)
+}
 ```
 
-3. Get Excel sheets
+4.  Load all available sheets
 
 ```{r}
-reads_df <- read_excel(data_path, sheet = 1)
-RPMs_df <- read_excel(data_path, sheet = 2)
-RPKMs_df <- read_excel(data_path, sheet = 3)
+reads_df <- read_excel(decompressed_file, sheet = 1)
+RPMs_df <- read_excel(decompressed_file, sheet = 2)
+RPKMs_df <- read_excel(decompressed_file, sheet = 3)
 ```
-Since there was an attribute without a name these columns were named ...1 
 
-4. Join all excel sheets into raw_data
-
+5.  Save sheets
 
 ```{r}
-joined_data <- reads_df |> 
-  full_join(RPMs_df,
-            by = c("...1", "GeneName", "description"),
-            relationship = "many-to-many") |> 
-  full_join(RPKMs_df,
-            by = c("...1", "GeneName", "description"),
-            relationship = "many-to-many")
+reads_df |> 
+  write_tsv("../data/01_data_load_reads.tsv.gz")
+RPMs_df |> 
+  write_tsv("../data/01_data_load_RPMs.tsv.gz")
+RPKMs_df |> 
+  write_tsv("../data/01_data_load_RPKMs.tsv.gz")
 ```
-
-The data set is messy: the .x values corresponds to the reads dataframe, the .y to tge RPMs dataframe and the reamining values correspond to the RPKMs_df.
-
-5. Load joined data
-
-```{r}
-joined_data |> 
-  write_tsv(file = "../data/01_data_load.tsv.gz")
-```
-
-
-
-
-
