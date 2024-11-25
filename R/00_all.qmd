@@ -1,0 +1,53 @@
+---
+title: "Run all scripts"
+format: html
+editor: visual
+---
+
+```{r}
+library("quarto")
+```
+
+1.  Load Data
+
+```{r}
+#| include: false
+quarto_render(
+  input = "01_load.qmd"
+)
+file.rename(from = "01_load.html",
+            to = "../results/01_load.html")
+```
+
+2.  Clean Data
+
+```{r}
+#| include: false
+quarto_render(
+  input = "02_clean.qmd"
+)
+file.rename(from = "02_clean.html",
+            to = "../results/02_clean.html")
+```
+
+3.  Augment Data
+
+```{r}
+#| include: false
+quarto_render(
+  input = "03_augment.qmd"
+)
+file.rename(from =  "03_augment.html",
+            to = "../results/03_augment.html")
+```
+
+4.  Describe Data
+
+
+## Master Document
+
+```{r}
+file.rename(from = "00_all.html",
+            to = "../results/00_all.html")
+```
+

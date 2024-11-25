@@ -1,7 +1,12 @@
 ---
 title: "Load Data"
-format: html
+format:
+  html:
+    embed-resources: true
 editor: visual
+execute:
+  warning: FALSE
+  message: FALSE
 ---
 
 The following script will load the raw data set that contains 3 sheets to be joined:
@@ -15,7 +20,7 @@ The following script will load the raw data set that contains 3 sheets to be joi
 0.  Load Libraries
 
 ```{r}
-#| message: false
+#| output: false
 library("GEOquery")
 library("tidyverse")
 library(readxl)
@@ -25,7 +30,8 @@ library(R.utils)
 1.  Extract GEO dataset using the GEOquery package
 
 ```{r}
-gset <- getGEO("GSE239956", GSEMatrix = TRUE, getGPL = FALSE)[[1]]
+gset <- getGEO("GSE239956", GSEMatrix = TRUE, getGPL = FALSE) |> 
+  pluck(1)
 
 # gset is an object. Inspecting it, we see that our data is on a list called "other"
 #Since gset is an object, we have to use slot function to extract information individual slots in an object
@@ -41,20 +47,24 @@ print(data_loc)
 2.  Create required directories to load the data
 
 ```{r}
+#| output: false
 raw_dir <- "../_raw"
 data_dir <- "../data"
+results_dir <- "../results"
 compressed_file <- str_c(raw_dir, "/raw_data.xls.gz")
 decompressed_file <- str_c(raw_dir, "/raw_data.xls")
 
 # Create required directories if they don't exist
 if (!dir.exists(raw_dir)) dir.create(raw_dir)
 if (!dir.exists(data_dir)) dir.create(data_dir)
+if (!dir.exists(results_dir)) dir.create(results_dir)
 
 ```
 
 3.  Load and decompress the data file
 
 ```{r}
+#| output: false
 if (!file.exists(decompressed_file)) {
   download.file(
     url = data_loc,
@@ -72,6 +82,7 @@ if (!file.exists(decompressed_file)) {
 4.  Load all available sheets
 
 ```{r}
+#| output: false
 reads_df <- read_excel(decompressed_file, sheet = 1)
 RPMs_df <- read_excel(decompressed_file, sheet = 2)
 RPKMs_df <- read_excel(decompressed_file, sheet = 3)
@@ -80,6 +91,7 @@ RPKMs_df <- read_excel(decompressed_file, sheet = 3)
 5.  Save sheets
 
 ```{r}
+#| output: false
 reads_df |> 
   write_tsv("../data/01_data_load_reads.tsv.gz")
 RPMs_df |> 
