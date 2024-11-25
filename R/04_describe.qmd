@@ -20,12 +20,26 @@ describe_input <- read_tsv(str_c(data_dir, data_file))
 
 ```
 
+Here a basic summary of the data is computed. The mean of each experiment has been taken by grouping by gene ID and experiment. The reads, reads per million and reads per kilobase per million are all identical, therefore standard deviation was not calculated. The mean and standard deviation of gene expression was calculated.
+
 ```{r}
 describe_input |> 
-  group_by(gene_ID)
+  mutate(experiment = substr(experiment, 1, nchar(experiment) - 2)) |> 
+  group_by(gene_ID, experiment) |> 
+  summarise(
+    mean_reads = mean(mean_reads, na.rm = TRUE),
+    mean_rpm = mean(mean_rpm, na.rm = TRUE),
+    mean_rpkm = mean(mean_rpkm, na.rm = TRUE),
+    mean_gene_expression = mean(gene_expression, na.rm = TRUE),
+    sd_gene_expression = sd(gene_expression, na.rm = TRUE),
+    .groups = "drop"  # Ensure ungrouped data for ggplot
+  ) |> 
+  ggplot(aes(x = experiment, y = sd_gene_expression)) +
+  geom_boxplot() +  # Create boxplot
+  theme_minimal() +
+  labs(
+    title = "Boxplot of Gene Expression Standard Deviations",
+    x = "Experiment",
+    y = "Standard Deviation of Gene Expression"
+  )
 ```
-
-2.  Basic summary statistics. Group by gene. Group each gene by experiment. Find mean, variance, std, other? for each.
-3.  Mean reads, mean rpm and mean rpmk should all equal for the 3 replicates for each gene. Why? Check that this is true.
-4.  How many genes with negative gene expression? How many are there? What does it mean to have negative value? What should we do with them
-5.  Box plot or bar plot? For the gene expression for each gene. Should we keep all 3 replicates or use an average? Maybe argue this decision based on summary statistics? (if there is variance between the replicates, then they should be kept)
