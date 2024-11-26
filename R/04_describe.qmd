@@ -14,8 +14,8 @@ library("dplyr")
 
 ```{r}
 data_dir <- "../data"
-data_file <- "/03_data_load.tsv.gz" 
-describe_input <- read_tsv(str_c(data_dir, data_file))
+data_file_long <- "/03_data_load.tsv.gz"
+describe_input_long <- read_tsv(str_c(data_dir, data_file_long))
 
 ```
 
@@ -25,13 +25,13 @@ After tidying the data, we now have 522648 genes (observations) and 6 attributes
 
 ```{r}
 
-dim(describe_input)
+dim(describe_input_long)
 ```
 
 There are 28927 different genes
 
 ```{r}
-unique_genes <- describe_input |>
+unique_genes <- describe_input_long |>
   select(gene_ID) |>
   distinct()
 
@@ -41,14 +41,14 @@ dim(unique_genes)
 Let's look at the experiments. Seems like there are 18 per gene.
 
 ```{r}
-gene_counts <- describe_input |>
+gene_counts <- describe_input_long |>
   group_by(gene_ID) |>
   summarise(row_count = n())
 
 gene_counts
 ```
 
-However, this is not the case. Seems like there are 21 that do not have data for all 18 experiments.
+However, this is not the case. Seems like there are 21 that have data for more than 18 experiments.
 
 ```{r}
 problematic_genes <- gene_counts |>
@@ -56,13 +56,6 @@ problematic_genes <- gene_counts |>
   pull(gene_ID)
 
 print(problematic_genes)
-```
-
-Let's looks further. These genes seem to double data for same experiments.
-
-```{r}
-describe_input |>
-  filter(gene_ID == 'DIABLO')
 ```
 
 # Attributes
@@ -79,10 +72,10 @@ For each gene ID, there are
 
 # Gene expression values
 
-Let's find the range of the gene expression values. The log transformation performed in the augment explains the negative values
+Let's find the range of the gene expression values. The log transformation performed in the augment script explains the negative values.
 
 ```{r}
-gene_expression_summary <- describe_input |>
+gene_expression_summary <- describe_input_long |>
   #group_by(gene_ID) |>
   summarize(
     mean_value = mean(gene_expression),
@@ -93,95 +86,77 @@ gene_expression_summary <- describe_input |>
 gene_expression_summary
 ```
 
-# Variation across replicates (all genes)
-
-```{r}
-describe_input |> 
-  group_by(gene_ID, experiment) |> 
-  summarise(
-    sd_gene_expression = sd(gene_expression, na.rm = TRUE), # Calculate SD across replicates
-    .groups = "drop" # Ungroup data for downstream operations
-  ) |> 
-  ggplot(aes(x = experiment, y = sd_gene_expression)) +
-  geom_boxplot() +
-  theme_minimal() +
-  theme(text = element_text(size = 8),
-        legend.position = 'bottom',
-        axis.text.x = element_text(angle = 90,
-                                   hjust = 0.5)) +
-  labs(
-    title = "Boxplot of Gene Expression Standard Deviations Across Replicates",
-    x = "Replicates",
-    y = "Standard Deviation of Gene Expression"
-  )
-```
-
 # Variation across replicates (per gene)
 
-For each experiment, there is data for each experiments. To find out if we are it is necessary to keep the replicates, or use the average of them in further analysis, we look at the standard deviation of gene expression for each expression.
-
-Since it is hard to visualize the STD for all 520686 genes, we visualize the top and bottom 20 genes.
+For each gene, there is data for 6 experiments. Each of them has 3 replicates. To find out if we are it is necessary to keep the replicates, or use the average of them in further analysis, we look at the standard deviation (SD) of gene expression for each experiment. Furthermore, we find the mean of the standard deviation for the 6 experiments for each gene, which is used to filter out the genes with too high mean SD.
 
 ```{r}
-library(cowplot)
-# First, summarize the SD per gene across replicates
-sd_per_gene <- describe_input |> 
-  group_by(gene_ID, experiment) |> 
-  summarise(
-    sd_gene_expression = sd(gene_expression, na.rm = TRUE),
-    .groups = "drop"
-  )
+SD_gene_expression <- describe_input_long |> 
+  mutate(base_experiment = sub("_\\d+$", "", experiment)) |> 
+  group_by(gene_ID, base_experiment) |>
+  summarize(SD_gene_expression = sd(gene_expression, na.rm = TRUE),
+            .groups = "drop")
 
-top_variability_genes <- sd_per_gene |> 
-  arrange(desc(sd_gene_expression)) |> 
-  head(20)  # Get top 20 genes with highest variability
-
-low_variability_genes <- sd_per_gene |> 
-  arrange(sd_gene_expression) |> 
-  head(20)  # Get top 20 genes with lowest variability
-
-
-plot1 <- ggplot(data = low_variability_genes,
-                mapping = aes(x = gene_ID,
-                              y = sd_gene_expression)) +
-  labs(title = "Genes with lowest STD across replicates",
-       x = "Gene ID",
-       y = " Standard deviation per experiment") + 
-  geom_boxplot()
-
-plot2 <- ggplot(data = top_variability_genes,
-                mapping = aes(x = gene_ID,
-                              y = sd_gene_expression)) +
-  labs(title = "Genes with highest STD across replicates",
-       x = "Gene ID",
-       y = " Standard deviation per experiment") + 
-  geom_boxplot()
-
-plot_grid(plot1, plot2)
+mean_SD_replicates <- SD_gene_expression |>
+  group_by(gene_ID) |>
+  summarize(
+    mean_of_SD_gene_expression = mean(SD_gene_expression, na.rm = TRUE),
+    .groups = "drop")
 ```
 
-# Standard deviation across experiments
-
-The mean of each experiment has been taken by grouping by gene ID and experiment. The mean and standard deviation of gene expression was calculated. Then a box plot was created of the standard deviations to visually understand the significance between different trials.
+Now we set a threshold of 1, and find the genes with higher SD.
 
 ```{r}
-describe_input |> 
-  mutate(experiment = substr(experiment, 1, nchar(experiment) - 2)) |> 
-  group_by(gene_ID, experiment) |> 
-  summarise(
-    mean_reads = mean(mean_reads, na.rm = TRUE),
-    mean_rpm = mean(mean_rpm, na.rm = TRUE),
-    mean_rpkm = mean(mean_rpkm, na.rm = TRUE),
-    mean_gene_expression = mean(gene_expression, na.rm = TRUE),
-    sd_gene_expression = sd(gene_expression, na.rm = TRUE),
-    .groups = "drop"  # Ensure ungrouped data for ggplot
-  ) |> 
-  ggplot(aes(x = experiment, y = sd_gene_expression)) +
-  geom_boxplot() +  # Create boxplot
-  theme_minimal() + #Plot visuals
-  labs(
-    title = "Boxplot of Gene Expression Standard Deviations",
-    x = "Experiment",
-    y = "Standard Deviation of Gene Expression"
-  )
+to_be_deleted <- mean_SD_replicates |>
+  filter(mean_of_SD_gene_expression > 1) |
+  pull(gene_ID)
 ```
+
+Filter a dataset from the input data, that only includes the ones with SD \<=1
+
+```{r}
+filtered_data <- describe_input_long |>
+  filter(!gene_ID %in% to_be_deleted)
+```
+
+Now we have 20023 genes left
+
+```{r}
+unique_genes <- filtered_data |>
+  select(gene_ID) |>
+  distinct()
+
+dim(unique_genes)
+```
+
+Now, for these genes, we would like to use the mean of the replicates and thus reduce the number of total observations. Instead of 18 observations per gene, there are now 6 per gene.
+
+```{r}
+filtered_data_for_analysis <- filtered_data |> 
+  mutate(base_experiment = sub("_\\d+$", "", experiment)) |>
+  group_by(gene_ID, base_experiment) |>
+  summarize(mean_reads = mean(mean_reads),
+            mean_rpm = mean(mean_rpm),
+            mean_rpkm = mean(mean_rpkm),
+            gene_expression_mean = mean(gene_expression),
+            .groups = "drop")
+```
+
+The data has now 120138 observations in total.
+
+```{r}
+dim(filtered_data_for_analysis)
+```
+
+Save this filtered data in a file for analysis
+
+```{r}
+filtered_data_for_analysis |> 
+  write_tsv(file = "../data/04_data_load.tsv.gz")
+```
+
+# Visualizing the data
+
+We would like to visualize the filtered data, to gain an overview of the values we are about to analyze next.
+
+Will: try either density plot or barplot of the gene expressions. If looks bad then maybe scatter plot? If it looks like there is just too much data, try maybe filter for top and bottom 1000 obsercations?

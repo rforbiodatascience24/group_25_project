@@ -60,3 +60,8 @@ data_long_augmented |>
   write_tsv(file = "../data/03_data_load.tsv.gz")
 
 ```
+
+```{r}
+data_augmented |>
+  write_tsv(file = "../data/03_data_load_wide.tsv.gz")
+```
