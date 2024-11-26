@@ -1,1 +1,76 @@
+---
+title: "Analysis part 1: PCA"
+format: html
+editor: visual
+---
 
+```{r}
+#| message: false
+library("tidyverse")
+library("broom")
+```
+
+```{r}
+data_dir <- "../data"
+data_file <- "/04_data_load.tsv.gz"
+analysis_input <- read_tsv(str_c(data_dir, data_file))
+
+```
+
+In this script, we perform principal component analysis (PCA) on the data. The goal is to observe patterns and reduce dimensionality of the data. For this purpose we first must convert the data back to wide format.
+
+```{r}
+wide_data <- pivot_wider(data = analysis_input,
+            id_cols = gene_ID,
+            names_from = base_experiment,
+            values_from = gene_expression_mean)
+```
+
+Using prcomp() to perform PCA on the data. Including the gene expression values of all 6 experiments.
+
+```{r}
+pca_fit <- wide_data |> 
+  select(-gene_ID, reads_control, reads_tau) |> # Select everything but gene_ID
+  scale() |>
+  prcomp()
+```
+
+Visualize the PCA components
+
+```{r}
+pca_fit |>
+  augment(wide_data) |> # add original dataset back in
+  ggplot(aes(.fittedPC1, .fittedPC2, color = "red")) + 
+  geom_point(size = 1.5) +
+  scale_color_manual(
+    values = c(RPM_control = "#D55E00", RPM_tau = "#0072B2")) +
+  theme_half_open(12) +
+  background_grid() +
+  labs(title = 'Principal component analysis',
+       x = 'PC 1',
+       y = 'PC 2')
+```
+
+# Variance explained by each component
+
+```{r}
+pca_fit |>
+  tidy(matrix = "eigenvalues")
+```
+
+Visualize:
+
+```{r}
+pca_fit |>
+  tidy(matrix = "eigenvalues") |>
+  ggplot(aes(PC, percent)) +
+  geom_col(fill = "#56B4E9", alpha = 0.8) +
+  scale_x_continuous(breaks = 1:9) +
+  scale_y_continuous(
+    labels = scales::percent_format(),
+    expand = expansion(mult = c(0, 0.01))
+  ) +
+  theme_minimal_hgrid(12)
+```
+
+It looks like the first component explains over 90% of the variance in the data. This can also be seen as the big cluster in the scatter plot above.
