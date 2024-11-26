@@ -1,1 +1,14 @@
+---
+title: "R for Bio Data Science"
+author: "Group 25"
+format: revealjs
+---
 
+
+## Slide 1
+
+Hello
+
+## Slide 2
+
+Hello
