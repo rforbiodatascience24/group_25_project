@@ -20,7 +20,7 @@ describe_input <- read_tsv(str_c(data_dir, data_file))
 
 ```
 
-Here a basic summary of the data is computed. The mean of each experiment has been taken by grouping by gene ID and experiment. The reads, reads per million and reads per kilobase per million are all identical, therefore standard deviation was not calculated. The mean and standard deviation of gene expression was calculated.
+Here a basic summary of the data is computed. The mean of each experiment has been taken by grouping by gene ID and experiment. The reads, reads per million and reads per kilobase per million are all identical, therefore standard deviation was not calculated. The mean and standard deviation of gene expression was calculated. Then a boxplot was created of the standard deviations to visually understand the significance between different trials.
 
 ```{r}
 describe_input |> 
@@ -36,7 +36,7 @@ describe_input |>
   ) |> 
   ggplot(aes(x = experiment, y = sd_gene_expression)) +
   geom_boxplot() +  # Create boxplot
-  theme_minimal() +
+  theme_minimal() + #Plot visuals
   labs(
     title = "Boxplot of Gene Expression Standard Deviations",
     x = "Experiment",
