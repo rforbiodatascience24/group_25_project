@@ -4,11 +4,76 @@ author: "Group 25"
 format: revealjs
 ---
 
+## Slide 1: Title Slide
 
-## Slide 1
+# R for Bio Data Science  
+### Group 25  
+[22100: R for Bio Data Science]
 
-Hello x2
+---
 
-## Slide 2
+## Slide 2: Introduction
 
-Hello
+Text
+
+---
+
+## Slide 3: Materials and Methods
+
+Text
+
+---
+
+## Slide 4: Continued
+
+
+---
+
+## Slide 5: Continued
+
+
+
+---
+
+## Slide 6: Continued
+
+
+
+---
+
+## Slide 7: Results
+
+### Key Findings
+- [Finding 1]
+- [Finding 2]
+- [Finding 3]
+
+---
+
+## Slide 8: Continued
+
+### Key Plots
+- [Describe or embed a plot]
+- [Describe or embed another plot]
+
+---
+
+## Slide 9: Discussion
+
+### Challenges
+- [Challenge 1]
+- [Challenge 2]
+
+### Limitations
+- [Limitation 1]
+- [Limitation 2]
+
+---
+
+## Slide 10: Conclusion
+
+### Summary
+- Key takeaways from the analysis
+
+### Future Work
+- [Plan for next steps]
