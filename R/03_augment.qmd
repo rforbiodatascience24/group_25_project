@@ -26,7 +26,10 @@ aug_input <- read_tsv(str_c(data_dir, data_file))
 
 ```{r}
 df_aug <- aug_input |> 
-  mutate(across(starts_with("reads") | starts_with("RPM") | starts_with("RPKM"),~ log(.+0.0001)))
+  mutate(across(starts_with("reads") | starts_with("RPM") | starts_with("RPKM"),~ log2(.+0.0001)))
+```
+```{r}
+colnames(data_augmented)
 ```
 
 3.  Calculating mean of the three groups, and adding the columns to the file
@@ -34,13 +37,57 @@ df_aug <- aug_input |>
 ```{r}
 data_augmented <- df_aug |> 
   mutate(
-    mean_reads = rowMeans(across(starts_with("reads")), na.rm = TRUE),  
-    mean_rpm = rowMeans(across(starts_with("RPM")), na.rm = TRUE),     
-    mean_rpkm = rowMeans(across(starts_with("RPKM")), na.rm = TRUE)    
+    mean_reads_control = rowMeans(across(starts_with("reads_control")),
+                          na.rm = TRUE),
+    mean_reads_tau = rowMeans(across(starts_with("reads_tau")),
+                          na.rm = TRUE),
+    mean_rpm_control = rowMeans(across(starts_with("RPM_control")),
+                        na.rm = TRUE),
+    mean_rpm_tau = rowMeans(across(starts_with("RPM_tau")),
+                        na.rm = TRUE),
+    mean_rpkm_control = rowMeans(across(starts_with("RPKM_control")),
+                         na.rm = TRUE),
+    mean_rpkm_tau = rowMeans(across(starts_with("RPKM_tau")),
+                         na.rm = TRUE))
+```
+
+4.    Calculate the variance
+```{r}
+data_augmented <- data_augmented |>
+  rowwise() |> 
+  mutate(
+    var_reads = var(c_across(starts_with("reads")), na.rm = TRUE),
+    var_rpm = var(c_across(starts_with("RPM")), na.rm = TRUE),
+    var_rpmkm = var(c_across(starts_with("RPKM")), na.rm = TRUE)
+  ) |> 
+  ungroup()
+```
+
+Create a separate data set for our statistics and add a fold change variable
+
+```{r}
+stats_df <- data_augmented |> 
+  select(
+    starts_with("mean"),
+    starts_with("var")
+  ) |> 
+  mutate(
+    fold_change_reads = mean_reads_tau / mean_reads_control,
+    fold_change_rpm = mean_rpm_tau / mean_rpm_control,
+    fold_change_rpkm = mean_rpkm_tau / mean_rpkm_control
   )
 ```
 
-4.  Our dataset is a wide dataset however, It might be of interest having our df in a long format
+```{r}
+data_augmented <- data_augmented |> 
+  select(
+    -starts_with("var"),
+    -starts_with("mean")
+  )
+```
+
+
+5.  Our dataset is a wide dataset however, It might be of interest having our df in a long format
 
 ```{r}
 data_long_augmented <- data_augmented |> 
@@ -53,7 +100,7 @@ data_long_augmented <- data_augmented |>
 
 The data is now normalized, mean is calcualted for each category and the data is in long format.
 
-5.  Data is saved in file:
+6.  Data is saved in file:
 
 ```{r}
 data_long_augmented |> 

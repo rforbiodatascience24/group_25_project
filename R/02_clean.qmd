@@ -125,7 +125,7 @@ gene_info <- gene_info |>
 
 ```{r}
 df <- df |>
-  select(-description, -gene_ensembl)
+  select(-description, -gene_ID)
 ```
 
 The data is now tidy:
