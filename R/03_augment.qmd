@@ -28,9 +28,7 @@ aug_input <- read_tsv(str_c(data_dir, data_file))
 df_aug <- aug_input |> 
   mutate(across(starts_with("reads") | starts_with("RPM") | starts_with("RPKM"),~ log2(.+0.0001)))
 ```
-```{r}
-colnames(data_augmented)
-```
+
 
 3.  Calculating mean of the three groups, and adding the columns to the file
 
@@ -68,6 +66,7 @@ Create a separate data set for our statistics and add a fold change variable
 ```{r}
 stats_df <- data_augmented |> 
   select(
+    gene_ensembl,
     starts_with("mean"),
     starts_with("var")
   ) |> 
@@ -101,6 +100,10 @@ data_long_augmented <- data_augmented |>
 The data is now normalized, mean is calcualted for each category and the data is in long format.
 
 6.  Data is saved in file:
+3 datasets will be saved:
+-   A wide dataset with all experiments
+-   a long dataset with all experiments
+-   a dataset containing relevant statistics that might be useful in filtering the genes with that have more expression differences.
 
 ```{r}
 data_long_augmented |> 
@@ -112,3 +115,9 @@ data_long_augmented |>
 data_augmented |>
   write_tsv(file = "../data/03_data_load_wide.tsv.gz")
 ```
+
+```{r}
+stats_df |> 
+  write_tsv(file = "../data/03_data_stats_load.tsv.gz")
+```
+
