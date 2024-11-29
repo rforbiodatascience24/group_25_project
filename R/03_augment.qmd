@@ -6,7 +6,7 @@ format:
 editor: visual
 ---
 
-1.  Load data and relevant libraries
+## Load data and relevant libraries
 
 ```{r}
 #| message: false
@@ -22,15 +22,16 @@ aug_input <- read_tsv(str_c(data_dir, data_file))
 
 ```
 
-2.  Normalizing the data by log transformation. Adding a small value before log transforming data, to ensure that zeros do not appear.
+## Normalizing the data by log transformation.
+
+Adding a small value before log transforming data, to ensure that zeros do not appear.
 
 ```{r}
 df_aug <- aug_input |> 
   mutate(across(starts_with("reads") | starts_with("RPM") | starts_with("RPKM"),~ log2(.+0.0001)))
 ```
 
-
-3.  Calculating mean of the three groups, and adding the columns to the file
+## Calculating mean of the three groups, and adding the columns to the file
 
 ```{r}
 data_augmented <- df_aug |> 
@@ -49,7 +50,23 @@ data_augmented <- df_aug |>
                          na.rm = TRUE))
 ```
 
-4.    Calculate the variance
+## Pivot data to long format
+
+Our dataset is a wide dataset, it might be of interest having our df in a long format
+
+```{r}
+data_long_augmented <- data_augmented |> 
+  pivot_longer(
+    cols = contains(c("control", "tau")), 
+    names_to = "experiment", 
+    values_to = "gene_expression"
+  )
+```
+
+The data is now normalized, mean is calculated for each category and the data is in long format.
+
+## Calculate the variance and create a statistics data frame
+
 ```{r}
 data_augmented <- data_augmented |>
   rowwise() |> 
@@ -85,25 +102,32 @@ data_augmented <- data_augmented |>
   )
 ```
 
-
-5.  Our dataset is a wide dataset however, It might be of interest having our df in a long format
+For each gene, there is data for 6 experiments. Each of them has 3 replicates. To find out if it is necessary to keep the replicates, or use the average of them in further analysis, we look at the mean of standard deviation (SD) of gene expression for each experiment. Then we can filter out the ones with too high mean SD (\>1), and use the average of the rest of the replicates.
 
 ```{r}
-data_long_augmented <- data_augmented |> 
-  pivot_longer(
-    cols = contains(c("control", "tau")), 
-    names_to = "experiment", 
-    values_to = "gene_expression"
-  )
+# Find genes with mean SD >1
+too_high_SD <- stats_df |>
+  filter(var_reads > 1) |>
+  pull(gene_ensembl)
+
+# Filter these genes out
+filtered_data <- data_long_augmented |>
+  filter(!gene_ensembl %in% too_high_SD)
+
+# Keep only the rows with the mean value of the replicates
+filtered_data_mean_of_replicates <- filtered_data |> 
+  group_by(gene_ensembl) |>
+  filter(str_starts(experiment, "mean"))
 ```
 
-The data is now normalized, mean is calcualted for each category and the data is in long format.
+## Save data in a files
 
-6.  Data is saved in file:
 3 datasets will be saved:
+
+-   A long dataset with all experiments
 -   A wide dataset with all experiments
--   a long dataset with all experiments
--   a dataset containing relevant statistics that might be useful in filtering the genes with that have more expression differences.
+-   A data set containing relevant statistics that might be useful in filtering the genes with that have more expression differences.
+-   A data set, where genes with high mean SD have have been filtered out
 
 ```{r}
 data_long_augmented |> 
@@ -121,3 +145,7 @@ stats_df |>
   write_tsv(file = "../data/03_data_stats_load.tsv.gz")
 ```
 
+```{r}
+filtered_data_mean_of_replicates |> 
+  write_tsv(file = "../data/03_data_filtered_load.tsv.gz")
+```
