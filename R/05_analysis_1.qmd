@@ -44,9 +44,8 @@ df <- df |>
   )
 ```
 
-
-
 We will perform 3 different PCAs for each experiment to assess whether or not there are significant gene expression changes. For simplicity reasons we will first filter our genes according to the fold change values
+
 ```{r}
 top_genes <- stats_df |> 
   select(gene_ensembl, var_reads) |> 
@@ -56,7 +55,6 @@ top_genes <- stats_df |>
   pull()
 ```
 
-
 ```{r}
 df |> 
   perform_PCA(type_experiment = "reads", top_genes)
@@ -64,20 +62,15 @@ df |>
 
 ```{r}
 df |> 
-  perform_PCA(type_experiment = "RPM", top_100)
+  perform_PCA(type_experiment = "RPM", top_genes)
 ```
-
 
 ```{r}
 df |> 
-  perform_PCA(type_experiment = "RPKM", top_100)
+  perform_PCA(type_experiment = "RPKM", top_genes)
 ```
-
 
 ```{r}
 df |> 
-  perform_PCA_on_all_conditions(top_100)
+  perform_PCA_on_all_conditions(top_genes)
 ```
-
-
-

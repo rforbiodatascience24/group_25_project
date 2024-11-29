@@ -1,21 +1,21 @@
 
 
 perform_PCA <- function(data_set, type_experiment, gene_list){
-    
-  pc_df <- data_set |> 
-    filter(str_starts(experiment, type_experiment)) |> 
-    select(experiment, group, top_100, replicate)
-  
-  pc_fit <- pc_df |> 
-    select(-experiment, -group, -replicate) |> 
+
+  pc_df <- data_set |>
+    filter(str_starts(experiment, type_experiment)) |>
+    select(experiment, group, gene_list, replicate)
+
+  pc_fit <- pc_df |>
+    select(-experiment, -group, -replicate) |>
     select(where(~ var(.) > 0)) |>  # Exclude columns with zero variance
     scale() |>  # Scale the data
     prcomp()  # Perform PCA
-  
-  
-  plt <- pc_fit |> 
-    augment(pc_df) |> 
-    ggplot(aes(.fittedPC1, .fittedPC2, color = group, shape = replicate)) + 
+
+
+  plt <- pc_fit |>
+    augment(pc_df) |>
+    ggplot(aes(.fittedPC1, .fittedPC2, color = group, shape = replicate)) +
     geom_point(size = 3, alpha = 0.8) +  # Plot points
     labs(
       title = paste("PCA Plot for", type_experiment, "experiment"),
@@ -34,29 +34,29 @@ perform_PCA <- function(data_set, type_experiment, gene_list){
     ) +
     scale_color_manual(
       values = c("control" = "blue", "tau" = "red")
-    ) 
-  
-  
+    )
+
+
   return(plt)
 
-  
+
 }
 
 perform_PCA_on_all_conditions <- function(data_set, gene_list){
-  
-  pc_df <- data_set |> 
-    select(experiment, group, top_100, replicate)
-  
-  pc_fit <- pc_df |> 
-    select(-experiment, -group, -replicate) |> 
+
+  pc_df <- data_set |>
+    select(experiment, group, gene_list, replicate)
+
+  pc_fit <- pc_df |>
+    select(-experiment, -group, -replicate) |>
     select(where(~ var(.) > 0)) |>  # Exclude columns with zero variance
     scale() |>  # Scale the data
     prcomp()  # Perform PCA
-  
-  
-  plt <- pc_fit |> 
-    augment(pc_df) |> 
-    ggplot(aes(.fittedPC1, .fittedPC2, color = group, shape = replicate)) + 
+
+
+  plt <- pc_fit |>
+    augment(pc_df) |>
+    ggplot(aes(.fittedPC1, .fittedPC2, color = group, shape = replicate)) +
     geom_point(size = 3, alpha = 0.5) +  # Plot points
     labs(
       title = paste("PCA Plot for all experiments"),
@@ -75,10 +75,10 @@ perform_PCA_on_all_conditions <- function(data_set, gene_list){
     ) +
     scale_color_manual(
       values = c("control" = "blue", "tau" = "red")
-    ) 
-  
-  
+    )
+
+
   return(plt)
-  
-  
+
+
 }
