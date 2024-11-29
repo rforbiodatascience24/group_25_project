@@ -4,97 +4,131 @@ author: "Group 25"
 format:
   revealjs: 
     theme: dark
-
 ---
 
-## Slide 1: Title Slide
-
-# R for Bio Data Science
-
 ------------------------------------------------------------------------
 
-## Introduction
+#### 1. Introduction
 
 Text
-
 ------------------------------------------------------------------------
 
-## Materials and Methods
-
-Augment
-
-------------------------------------------------------------------------
-
-## Materials and Methods: description of data
+#### 2. Materials and Methods: Augment part 1
 
 ::: columns
-::: {.column width="40%"}
-<div style="font-size: small;">
+::: {.column width="40%" style="font-size: small;"}
 ::: incremental
--   522648 observations, 3 attributes
--   29036 genes, 6 experiments, 3 replicates for each
--   Find mean of SD of replicates for each experiment
-    -   6 experiments –> 3 experiments
-    -   Filter out genes with mean SD > 1
--   Now 19379 genes with 116274 observations
+text
 :::
-</div>
 :::
 
-::: {.column width="60%"}
-![](images/data.png){width="300"}
+::: {.column width="60%" style="font-size: small;"}
+::: incremental
+text
+:::
 :::
 :::
 
 ------------------------------------------------------------------------
 
-## Materials and methods
+#### 3. Materials and Methods: Augment part 2
+
+::: columns
+::: {.column width="40%" style="font-size: small;"}
+::: incremental
+Statistics data frame
+
+-   Variance for the 3 replicates for each attributes
+
+Filtered data
+
+-   Genes with mean variance \> 1 were filtered out
+
+-   For the rest, average of replicates was kept
+
+    -   Data frame 3 times smaller
+:::
+:::
+
+::: {.column width="60%" style="font-size: small;"}
+![](images/data.png){fig-align="right" width="300"}
+:::
+:::
+:::
+------------------------------------------------------------------------
+
+#### 4. Materials and Methods: Describe part 1
+
+::: columns
+::: {.column width="40%" style="font-size: small;"}
+::: incremental
+All data
+
+-   522,648 observations, 3 attributes
+
+-   29,036 genes
+
+-   18 experiments, each of them have 3 replicates :::
+:::
+:::
+
+::: {.column width="60%" style="font-size: small;"}
+::: incremental
+Filtered data
+
+-   110,958 observations
+
+-   19,379 genes
+:::
+:::
+:::
 
 ------------------------------------------------------------------------
 
-## Materials and methods
+#### 5. Materials and methods: Describe part 2
+
+Plots
 
 ------------------------------------------------------------------------
 
-## Results
+#### 6. Materials and methods: Analysis, PCA
 
-### Key Findings
-
--   \[Finding 1\]
--   \[Finding 2\]
--   \[Finding 3\]
 
 ------------------------------------------------------------------------
 
-## Results
-
-### Key Plots
-
--   \[Describe or embed a plot\]
--   \[Describe or embed another plot\]
+## 7. Materials and methods: Analysis, GSEA
 
 ------------------------------------------------------------------------
 
-## Discussion
+#### 8. Results
 
-### Challenges
+Key Findings                                
+\- \[Finding 1\] 
+- \[Finding 2\] 
+- \[Finding 3\]
+
+---------------------------------------------------------------------
+
+#### 9. Discussion
+
+Challenges
 
 -   \[Challenge 1\]
 -   \[Challenge 2\]
 
-### Limitations
+Limitations
 
 -   \[Limitation 1\]
 -   \[Limitation 2\]
 
 ------------------------------------------------------------------------
 
-## Conclusion
+#### 10. Conclusion
 
-### Summary
+Summary
 
 -   Key takeaways from the analysis
 
-### Future Work
+Future Work
 
 -   \[Plan for next steps\]
