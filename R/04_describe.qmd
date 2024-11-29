@@ -78,7 +78,7 @@ gene_expression_summary
 
 # Variation across replicates (per gene)
 
-For each gene, there is data for 6 experiments. Each of them has 3 replicates. To find out if we are it is necessary to keep the replicates, or use the average of them in further analysis, we look at the standard deviation (SD) of gene expression for each experiment. Furthermore, we find the mean of the standard deviation for the 6 experiments for each gene, which is used to filter out the genes with too high mean SD.
+For each gene, there is data for 6 experiments. Each of them has 3 replicates. To find out if it is necessary to keep the replicates, or use the average of them in further analysis, we look at the standard deviation (SD) of gene expression for each experiment. Furthermore, we find the mean of the standard deviation for the 6 experiments for each gene, which is used to filter out the genes with too high mean SD.
 
 ```{r}
 SD_gene_expression <- describe_input_long |> 
@@ -144,12 +144,30 @@ filtered_data_for_analysis |>
 
 # Visualizing the data
 
-We would like to visualize the filtered data, to gain an overview of the values we are about to analyze next.
-
-Will: try either density plot or barplot of the gene expressions. If looks bad then maybe scatter plot? If it looks like there is just too much data, try maybe filter for top and bottom 1000 obsercations?
 
 ```{r}
-filtered_data_for_analysis |>
-  ggplot(mapping = aes(x = gene_ensembl, fill = gene_expression_mean)) + 
-  geom_density()
+plot1 <- filtered_data_for_analysis |>
+  filter(base_experiment %in% c("RPKM_control", "RPKM_tau")) |> 
+  ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
+  geom_density(alpha = 0.5) + 
+  theme_minimal() + 
+  labs(title = "RPKM Data")
+
+plot2 <- filtered_data_for_analysis |>
+  filter(base_experiment %in% c("RPM_control", "RPM_tau")) |> 
+  ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
+  geom_density(alpha = 0.5) + 
+  theme_minimal() + 
+  labs(title = "RPM Data")
+
+plot3 <- filtered_data_for_analysis |>
+  filter(base_experiment %in% c("reads_control", "reads_tau")) |> 
+  ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
+  geom_density(alpha = 0.5) + 
+  theme_minimal() + 
+  labs(title = "Reads Data")
+
+# Combining the plots above each other
+combined_plot <- plot1 / plot2 / plot3
+combined_plot
 ```
