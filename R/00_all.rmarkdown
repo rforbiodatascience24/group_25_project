@@ -8,7 +8,9 @@ editor: visual
 library("quarto")
 ```
 
+
 1.  Load Data
+
 
 ```{r}
 #| include: false
@@ -19,7 +21,9 @@ file.rename(from = "01_load.html",
             to = "../results/01_load.html")
 ```
 
+
 2.  Clean Data
+
 
 ```{r}
 #| include: false
@@ -30,7 +34,9 @@ file.rename(from = "02_clean.html",
             to = "../results/02_clean.html")
 ```
 
+
 3.  Augment Data
+
 
 ```{r}
 #| include: false
@@ -41,7 +47,9 @@ file.rename(from =  "03_augment.html",
             to = "../results/03_augment.html")
 ```
 
+
 4.  Describe Data
+
 
 ```{r}
 #| include: false
@@ -52,7 +60,9 @@ file.rename(from =  "04_describe.html",
             to = "../results/04_describe.html")
 ```
 
+
 5.  Analysis - PCA
+
 
 ```{r}
 #| include: false
@@ -63,9 +73,12 @@ file.rename(from =  "05_analysis_1.html",
             to = "../results/05_analysis_1.html")
 ```
 
+
 ## Master Document
+
 
 ```{r}
 file.rename(from = "00_all.html",
             to = "../results/00_all.html")
 ```
+
