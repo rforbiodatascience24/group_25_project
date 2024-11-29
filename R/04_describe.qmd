@@ -28,34 +28,24 @@ After tidying the data, we now have 522648 genes (observations) and 6 attributes
 dim(describe_input_long)
 ```
 
-There are 28927 different genes
+There are 29036 different genes
 
 ```{r}
 unique_genes <- describe_input_long |>
-  select(gene_ID) |>
+  select(gene_ensembl) |>
   distinct()
 
 dim(unique_genes)
 ```
 
-Let's look at the experiments. Seems like there are 18 per gene.
+Let's look at the experiments. There are 18 per gene.
 
 ```{r}
 gene_counts <- describe_input_long |>
-  group_by(gene_ID) |>
+  group_by(gene_ensembl) |>
   summarise(row_count = n())
 
 gene_counts
-```
-
-However, this is not the case. Seems like there are 21 that have data for more than 18 experiments.
-
-```{r}
-problematic_genes <- gene_counts |>
-  filter(row_count != 18) |>
-  pull(gene_ID)
-
-print(problematic_genes)
 ```
 
 # Attributes
@@ -93,12 +83,12 @@ For each gene, there is data for 6 experiments. Each of them has 3 replicates. T
 ```{r}
 SD_gene_expression <- describe_input_long |> 
   mutate(base_experiment = sub("_\\d+$", "", experiment)) |> 
-  group_by(gene_ID, base_experiment) |>
+  group_by(gene_ensembl, base_experiment) |>
   summarize(SD_gene_expression = sd(gene_expression, na.rm = TRUE),
             .groups = "drop")
 
 mean_SD_replicates <- SD_gene_expression |>
-  group_by(gene_ID) |>
+  group_by(gene_ensembl) |>
   summarize(
     mean_of_SD_gene_expression = mean(SD_gene_expression, na.rm = TRUE),
     .groups = "drop")
@@ -108,22 +98,22 @@ Now we set a threshold of 1, and find the genes with higher SD.
 
 ```{r}
 to_be_deleted <- mean_SD_replicates |>
-  filter(mean_of_SD_gene_expression > 1) |
-  pull(gene_ID)
+  filter(mean_of_SD_gene_expression > 1) |>
+  pull(gene_ensembl)
 ```
 
 Filter a dataset from the input data, that only includes the ones with SD \<=1
 
 ```{r}
 filtered_data <- describe_input_long |>
-  filter(!gene_ID %in% to_be_deleted)
+  filter(!gene_ensembl %in% to_be_deleted)
 ```
 
-Now we have 20023 genes left
+Now we have 19379 genes left
 
 ```{r}
 unique_genes <- filtered_data |>
-  select(gene_ID) |>
+  select(gene_ensembl) |>
   distinct()
 
 dim(unique_genes)
@@ -134,15 +124,12 @@ Now, for these genes, we would like to use the mean of the replicates and thus r
 ```{r}
 filtered_data_for_analysis <- filtered_data |> 
   mutate(base_experiment = sub("_\\d+$", "", experiment)) |>
-  group_by(gene_ID, base_experiment) |>
-  summarize(mean_reads = mean(mean_reads),
-            mean_rpm = mean(mean_rpm),
-            mean_rpkm = mean(mean_rpkm),
-            gene_expression_mean = mean(gene_expression),
+  group_by(gene_ensembl, base_experiment) |>
+  summarize(gene_expression_mean = mean(gene_expression),
             .groups = "drop")
 ```
 
-The data has now 120138 observations in total.
+The data has now 116274 observations in total.
 
 ```{r}
 dim(filtered_data_for_analysis)
@@ -160,3 +147,9 @@ filtered_data_for_analysis |>
 We would like to visualize the filtered data, to gain an overview of the values we are about to analyze next.
 
 Will: try either density plot or barplot of the gene expressions. If looks bad then maybe scatter plot? If it looks like there is just too much data, try maybe filter for top and bottom 1000 obsercations?
+
+```{r}
+filtered_data_for_analysis |>
+  ggplot(mapping = aes(x = gene_ensembl, fill = gene_expression_mean)) + 
+  geom_density()
+```
