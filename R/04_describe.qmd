@@ -12,11 +12,19 @@ library("tidyverse")
 library("dplyr")
 ```
 
+From the augment script, we will use 2 of the files.
+
+1\) All data in long format
+
+2\) Filtered data, where genes with too high mean SD between replicates have been filtered out, and the average of the replicates is used for the rest.
+
 ```{r}
 data_dir <- "../data"
 data_file_long <- "/03_data_load.tsv.gz"
-describe_input_long <- read_tsv(str_c(data_dir, data_file_long))
+filtered_data_file <- "/03_data_filtered_load.tsv.gz"
 
+all_data_long <- read_tsv(str_c(data_dir, data_file_long))
+filtered_data <- read_tsv(str_c(data_dir, filtered_data_file))
 ```
 
 # Size of the data and number of genes
@@ -25,13 +33,13 @@ After tidying the data, we now have 522648 observations and 3 attributes.
 
 ```{r}
 
-dim(describe_input_long)
+dim(all_data_long)
 ```
 
 There are 29036 different genes
 
 ```{r}
-unique_genes <- describe_input_long |>
+unique_genes <- all_data_long |>
   select(gene_ensembl) |>
   distinct()
 
@@ -41,11 +49,9 @@ dim(unique_genes)
 Let's look at the experiments. There are 18 per gene.
 
 ```{r}
-gene_counts <- describe_input_long |>
+all_data_long |>
   group_by(gene_ensembl) |>
   summarise(row_count = n())
-
-gene_counts
 ```
 
 # Attributes
@@ -65,7 +71,7 @@ For each gene ID, there are
 Let's find the range of the gene expression values. The log transformation performed in the augment script explains the negative values.
 
 ```{r}
-gene_expression_summary <- describe_input_long |>
+gene_expression_summary <- all_data_long |>
   #group_by(gene_ID) |>
   summarize(
     mean_value = mean(gene_expression),
@@ -76,40 +82,9 @@ gene_expression_summary <- describe_input_long |>
 gene_expression_summary
 ```
 
-# Variation across replicates (per gene)
+# Filtered data
 
-For each gene, there is data for 6 experiments. Each of them has 3 replicates. To find out if it is necessary to keep the replicates, or use the average of them in further analysis, we look at the standard deviation (SD) of gene expression for each experiment. Furthermore, we find the mean of the standard deviation for the 6 experiments for each gene, which is used to filter out the genes with too high mean SD.
-
-```{r}
-SD_gene_expression <- describe_input_long |> 
-  mutate(base_experiment = sub("_\\d+$", "", experiment)) |> 
-  group_by(gene_ensembl, base_experiment) |>
-  summarize(SD_gene_expression = sd(gene_expression, na.rm = TRUE),
-            .groups = "drop")
-
-mean_SD_replicates <- SD_gene_expression |>
-  group_by(gene_ensembl) |>
-  summarize(
-    mean_of_SD_gene_expression = mean(SD_gene_expression, na.rm = TRUE),
-    .groups = "drop")
-```
-
-Now we set a threshold of 1, and find the genes with higher SD.
-
-```{r}
-to_be_deleted <- mean_SD_replicates |>
-  filter(mean_of_SD_gene_expression > 1) |>
-  pull(gene_ensembl)
-```
-
-Filter a dataset from the input data, that only includes the ones with SD \<=1
-
-```{r}
-filtered_data <- describe_input_long |>
-  filter(!gene_ensembl %in% to_be_deleted)
-```
-
-Now we have 19379 genes left
+In the filtered data, there are 19379 genes left
 
 ```{r}
 unique_genes <- filtered_data |>
@@ -119,54 +94,39 @@ unique_genes <- filtered_data |>
 dim(unique_genes)
 ```
 
-Now, for these genes, we would like to use the mean of the replicates and thus reduce the number of total observations. Instead of 18 observations per gene, there are now 6 per gene.
+The filtered data has 110958 observations in total.
 
 ```{r}
-filtered_data_for_analysis <- filtered_data |> 
-  mutate(base_experiment = sub("_\\d+$", "", experiment)) |>
-  group_by(gene_ensembl, base_experiment) |>
-  summarize(gene_expression_mean = mean(gene_expression),
-            .groups = "drop")
-```
-
-The data has now 116274 observations in total.
-
-```{r}
-dim(filtered_data_for_analysis)
-```
-
-Save this filtered data in a file for analysis
-
-```{r}
-filtered_data_for_analysis |> 
-  write_tsv(file = "../data/04_data_load.tsv.gz")
+dim(filtered_data)
 ```
 
 # Visualizing the data
+
 The data has been visualised below in separated plots for each experiment. Despite not accounting for different gene types, the plots depict a clear trend, with the control samples consistantly presenting greater gene expression. Furthermore, the fact that the control and tau curves follow such a similar shape indicates that is it likely that the increased tau protein has caused a linear shift in the gene expression.
 
 ```{r}
-RPKMplot <- filtered_data_for_analysis |>
-  filter(base_experiment %in% c("RPKM_control", "RPKM_tau")) |> 
-  ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
+RPKMplot <- filtered_data |>
+  filter(experiment %in% c("RPKM_control", "RPKM_tau")) |> 
+  ggplot(mapping = aes(x = gene_expression, fill = experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
   labs(title = "RPKM Data", y = "Density", x = "Mean Gene Expression")
 
-RPMplot <- filtered_data_for_analysis |>
-  filter(base_experiment %in% c("RPM_control", "RPM_tau")) |> 
-  ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
+RPMplot <- filtered_data |>
+  filter(experiment %in% c("RPM_control", "RPM_tau")) |> 
+  ggplot(mapping = aes(x = gene_expression, fill = experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
   labs(title = "RPM Data", y = "Density", x = "Mean Gene Expression")
 
-readsplot <- filtered_data_for_analysis |>
-  filter(base_experiment %in% c("reads_control", "reads_tau")) |> 
-  ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
+readsplot <- filtered_data |>
+  filter(experiment %in% c("reads_control", "reads_tau")) |> 
+  ggplot(mapping = aes(x = gene_expression, fill = experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
   labs(title = "Reads Data", y = "Density", x = "Mean Gene Expression")
 
+readsplot
 # Combining the plots above each other
 combined_plot <- RPKMplot / RPMplot / readsplot
 combined_plot
