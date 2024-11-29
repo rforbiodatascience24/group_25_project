@@ -1,79 +1,101 @@
 ---
 title: "R for Bio Data Science"
 author: "Group 25"
-format: revealjs
+format:
+  revealjs: 
+    theme: dark
 ---
 
 ## Slide 1: Title Slide
 
-# R for Bio Data Science  
-### Group 25  
-[22100: R for Bio Data Science]
+# R for Bio Data Science
 
----
+### Group 25
 
-## Slide 2: Introduction
+------------------------------------------------------------------------
 
-Text
-
----
-
-## Slide 3: Materials and Methods
+## Introduction
 
 Text
 
----
+------------------------------------------------------------------------
 
-## Slide 4: Continued
+## Materials and Methods
 
+Augment
 
----
+------------------------------------------------------------------------
 
-## Slide 5: Continued
+## Materials and Methods: description of data
 
+::: columns
+::: {.column width="40%"}
+<div style="font-size: small;">
+::: incremental
+-   522648 observations, 3 attributes
+-   29036 genes, 6 experiments, 3 replicates for each
+-   Find mean of SD of replicates for each experiment
+    -   6 experiments –> 3 experiments
+    -   Filter out genes with mean SD > 1
+-   Now 19379 genes with 116274 observations
+:::
+</div>
+:::
 
+::: {.column width="60%"}
+![](images/data.png){width="300"}
+:::
+:::
 
----
+------------------------------------------------------------------------
 
-## Slide 6: Continued
+## Materials and methods
 
+------------------------------------------------------------------------
 
+## Materials and methods
 
----
+------------------------------------------------------------------------
 
-## Slide 7: Results
+## Results
 
 ### Key Findings
-- [Finding 1]
-- [Finding 2]
-- [Finding 3]
 
----
+-   \[Finding 1\]
+-   \[Finding 2\]
+-   \[Finding 3\]
 
-## Slide 8: Continued
+------------------------------------------------------------------------
+
+## Results
 
 ### Key Plots
-- [Describe or embed a plot]
-- [Describe or embed another plot]
 
----
+-   \[Describe or embed a plot\]
+-   \[Describe or embed another plot\]
 
-## Slide 9: Discussion
+------------------------------------------------------------------------
+
+## Discussion
 
 ### Challenges
-- [Challenge 1]
-- [Challenge 2]
+
+-   \[Challenge 1\]
+-   \[Challenge 2\]
 
 ### Limitations
-- [Limitation 1]
-- [Limitation 2]
 
----
+-   \[Limitation 1\]
+-   \[Limitation 2\]
 
-## Slide 10: Conclusion
+------------------------------------------------------------------------
+
+## Conclusion
 
 ### Summary
-- Key takeaways from the analysis
+
+-   Key takeaways from the analysis
 
 ### Future Work
-- [Plan for next steps]
+
+-   \[Plan for next steps\]
