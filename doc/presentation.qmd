@@ -1,13 +1,10 @@
 ---
 title: "R for Bio Data Science"
 author: "Group 25"
-<<<<<<< HEAD
 format:
   revealjs: 
     theme: dark
-=======
-format: html
->>>>>>> e1278932b68b9fd1cb757c82c58aa3adc13eb3a6
+
 ---
 
 ## Slide 1: Title Slide
