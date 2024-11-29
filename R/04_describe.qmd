@@ -169,5 +169,6 @@ plot3 <- filtered_data_for_analysis |>
 
 # Combining the plots above each other
 combined_plot <- plot1 / plot2 / plot3
+
 combined_plot
 ```
