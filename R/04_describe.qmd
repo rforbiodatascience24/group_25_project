@@ -21,7 +21,7 @@ describe_input_long <- read_tsv(str_c(data_dir, data_file_long))
 
 # Size of the data and number of genes
 
-After tidying the data, we now have 522648 genes (observations) and 6 attributes.
+After tidying the data, we now have 522648 observations and 3 attributes.
 
 ```{r}
 
