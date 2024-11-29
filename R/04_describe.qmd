@@ -143,32 +143,31 @@ filtered_data_for_analysis |>
 ```
 
 # Visualizing the data
-
+The data has been visualised below in separated plots for each experiment. Despite not accounting for different gene types, the plots depict a clear trend, with the control samples consistantly presenting greater gene expression. Furthermore, the fact that the control and tau curves follow such a similar shape indicates that is it likely that the increased tau protein has caused a linear shift in the gene expression.
 
 ```{r}
-plot1 <- filtered_data_for_analysis |>
+RPKMplot <- filtered_data_for_analysis |>
   filter(base_experiment %in% c("RPKM_control", "RPKM_tau")) |> 
   ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
-  labs(title = "RPKM Data")
+  labs(title = "RPKM Data", y = "Density", x = "Mean Gene Expression")
 
-plot2 <- filtered_data_for_analysis |>
+RPMplot <- filtered_data_for_analysis |>
   filter(base_experiment %in% c("RPM_control", "RPM_tau")) |> 
   ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
-  labs(title = "RPM Data")
+  labs(title = "RPM Data", y = "Density", x = "Mean Gene Expression")
 
-plot3 <- filtered_data_for_analysis |>
+readsplot <- filtered_data_for_analysis |>
   filter(base_experiment %in% c("reads_control", "reads_tau")) |> 
   ggplot(mapping = aes(x = gene_expression_mean, fill = base_experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
-  labs(title = "Reads Data")
+  labs(title = "Reads Data", y = "Density", x = "Mean Gene Expression")
 
 # Combining the plots above each other
-combined_plot <- plot1 / plot2 / plot3
-
+combined_plot <- RPKMplot / RPMplot / readsplot
 combined_plot
 ```
