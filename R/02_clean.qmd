@@ -94,13 +94,13 @@ df |>
 
 ```{r}
 df <- df |>
-  filter(!if_all(4:21, ~ . == 0))
+  filter(if_all(4:9, ~ . != 0))
 
 df |> 
   dim()
 ```
 
-Around 30000 genes were removed.
+Around 40000 genes were removed.
 
 4.  Create a meta data file
 
