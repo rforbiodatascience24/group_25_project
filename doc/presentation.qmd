@@ -9,9 +9,32 @@ format:
 ------------------------------------------------------------------------
 
 #### 1. Introduction
+Protein Tau:
+-Observed to be key in several neuronal functions. 
+-Its destabilization has been associated with neuronal dysfunction and death. 
+-Aggregation associated with Alzheimer's disease and other neurodegenerative disorders. 
 
-Text
-------------------------------------------------------------------------
+Experiment design: RNA sequencing of SH-SY5Y neuroblastoma cell line. Two groups: Tau overexpressing, control. Three samples (replicates) per group. 
+
+Objective: analyse the effect of the protein Tau on the neural transcriptome and on gene expression. 
+
+#### 1.2 Data descriptiom
+
+Data
+The data consists of three sheets:
+-Reads
+-RPM (Reads per million)
+-RPKM (Reads per Kilobase per Million)
+
+Each sheet has six values:
+-Three control repeats
+-Three Tau overexpressing repeats
+
+There are two additional columns: 
+-Gene name
+-Experiment ID
+(maybe put a screenshot of data)
+
 
 #### 2. Materials and Methods: Augment part 1
 
@@ -54,8 +77,8 @@ Filtered data
 ![](images/data.png){fig-align="right" width="300"}
 :::
 :::
-:::
-------------------------------------------------------------------------
+
+## :::
 
 #### 4. Materials and Methods: Describe part 1
 
@@ -93,7 +116,6 @@ Plots
 
 #### 6. Materials and methods: Analysis, PCA
 
-
 ------------------------------------------------------------------------
 
 ## 7. Materials and methods: Analysis, GSEA
@@ -102,12 +124,10 @@ Plots
 
 #### 8. Results
 
-Key Findings                                
-\- \[Finding 1\] 
-- \[Finding 2\] 
-- \[Finding 3\]
+Key Findings\
+- \[Finding 1\] - \[Finding 2\] - \[Finding 3\]
 
----------------------------------------------------------------------
+------------------------------------------------------------------------
 
 #### 9. Discussion
 
