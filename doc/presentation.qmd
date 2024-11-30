@@ -2,7 +2,9 @@
 title: "R for Bio Data Science"
 author: "Group 25"
 format:
-  revealjs: 
+  revealjs:
+    slide-number: true
+    embed-resources: true 
     theme: dark
 ---
 
