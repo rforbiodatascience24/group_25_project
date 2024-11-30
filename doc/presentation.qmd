@@ -8,75 +8,67 @@ format:
 
 #### 1. Introduction
 
-<div style="display: flex; align-items: flex-start; justify-content: space-between;">
-
-<div style="width: 45%; font-size: 55%; text-align: justify;">
-  
+::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
+::: {style="width: 45%; font-size: 50%; text-align: justify;"}
 ### Protein Tau
 
-- **Function**: Microtubule protein essential for cytoskeletal stability and neuronal transport.  
-- **Key Role**: Supports healthy neuronal functions.  
-- **Pathology**:  
-    - Destabilization linked to neuronal dysfunction, death, and **Alzheimer's Disease**.  
-    - Aggregates contribute to neurodegeneration.  
+-   **Function**: Microtubule protein essential for cytoskeletal stability and neuronal transport.\
+-   **Key Role**: Supports healthy neuronal functions.\
+-   **Pathology**:
+    -   Destabilization linked to neuronal dysfunction, death, and **Alzheimer's Disease**.\
+    -   Aggregates contribute to neurodegeneration.
 
----
+------------------------------------------------------------------------
 
 ### Experimental Objective
 
-- Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.   
+-   Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.
 
-What we want to conclude:  
-**Is the overexpression of Tau associated to gene expression alterations?**
+Experiment Objective:\
+\
+<span style="width: 45%; font-size: 120%; text-align: justify;">**Is the overexpression of Tau associated to gene expression alterations?**</span>
 
-</div>
+:::
 
-<div style="width: 55%; text-align: right;">
-  <img src="images/Tau_Protein.png" alt="Tau Protein Diagram" style="width: 100%; height: 600px;">
-</div>
+::: {style="width: 55%; text-align: right;"}
+<img src="images/Tau_Protein.png" alt="Tau Protein Diagram" style="width: 100%; height: 600px;"/>
+:::
+:::
 
-</div>
 ------------------------------------------------------------------------
 
 #### 1.2 Experimental Setup
 
-<div style="display: flex; align-items: flex-start; justify-content: space-between;">
-
-<div style="width: 45%; font-size: 50%; text-align: justify;">
-
+::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
+::: {style="width: 45%; font-size: 50%; text-align: justify;"}
 ### Overall Design
 
-**Differential gene expression analysis of RNA-seq data performed on**:  
+**Differential gene expression analysis of RNA-seq data performed on**:
 
-- **Control**: 3 samples of SH-SY5Y cells with overexpression of a control vector.  
-- **Experimental Condition**: 3 samples of SH-SY5Y cells with overexpression of Tau 0N4R isoform.  
+-   **Control**: 3 samples of SH-SY5Y cells with overexpression of a control vector.\
+-   **Experimental Condition**: 3 samples of SH-SY5Y cells with overexpression of Tau 0N4R isoform.
 
----
+------------------------------------------------------------------------
 
 ### Results
 
-RNA-seq data was reported on 3 xls sheets:  
+RNA-seq data was reported on 3 xls sheets:
 
-- **Read Counts** sheet: Total number of reads for each gene.  
-- **RPM** (Reads Per Million) sheet: Read Counts are divided by a million factor (total number of reads divided by 1 million).  
-- **RPKM** (Reads Per Kilobase Million) sheet: Corresponds to RPM divided by the length of each gene.    
+-   **Read Counts** sheet: Total number of reads for each gene.\
+-   **RPM** (Reads Per Million) sheet: Read Counts are divided by a million factor (total number of reads divided by 1 million).\
+-   **RPKM** (Reads Per Kilobase Million) sheet: Corresponds to RPM divided by the length of each gene.
 
 The 3 sheets were joined into one large tibble data frame.
+:::
 
-</div>
-
-<div style="width: 50%; text-align: right;">
+::: {style="width: 50%; text-align: right;"}
 ```{r, echo = FALSE, message=FALSE}
 library("tidyverse")
 reads_df <- read_tsv("../data/01_data_load_reads.tsv.gz")
 reads_df
 ```
-
-  
-</div>
-
-</div>
-
+:::
+:::
 
 ------------------------------------------------------------------------
 
