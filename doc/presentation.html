@@ -340,14 +340,88 @@ Group 25
 <section class="slide level2">
 
 <h4 id="introduction">1. Introduction</h4>
+<div style="display: flex; align-items: flex-start; justify-content: space-between;">
+<div style="width: 45%; font-size: 55%; text-align: justify;">
+<h3 id="protein-tau">Protein Tau</h3>
+<ul>
+<li><strong>Function</strong>: Microtubule protein essential for cytoskeletal stability and neuronal transport.<br>
+</li>
+<li><strong>Key Role</strong>: Supports healthy neuronal functions.<br>
+</li>
+<li><strong>Pathology</strong>:
+<ul>
+<li>Destabilization linked to neuronal dysfunction, death, and <strong>Alzheimer’s Disease</strong>.<br>
+</li>
+<li>Aggregates contribute to neurodegeneration.</li>
+</ul></li>
+</ul>
+<hr>
+<h3 id="experimental-objective">Experimental Objective</h3>
+<ul>
+<li>Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.</li>
+</ul>
+<p>What we want to conclude:<br>
+<strong>Is the overexpression of Tau associated to gene expression alterations?</strong></p>
+</div>
+<div style="width: 55%; text-align: right;">
+<p><img src="images/Tau_Protein.png" alt="Tau Protein Diagram" style="width: 100%; height: 600px;"></p>
+</div>
+</div>
 </section>
-<section id="text" class="slide level2">
-<h2>Text</h2>
+<section class="slide level2">
+
+<h4 id="experimental-setup">1.2 Experimental Setup</h4>
+<div style="display: flex; align-items: flex-start; justify-content: space-between;">
+<div style="width: 45%; font-size: 50%; text-align: justify;">
+<h3 id="overall-design">Overall Design</h3>
+<p><strong>Differential gene expression analysis of RNA-seq data performed on</strong>:</p>
+<ul>
+<li><strong>Control</strong>: 3 samples of SH-SY5Y cells with overexpression of a control vector.<br>
+</li>
+<li><strong>Experimental Condition</strong>: 3 samples of SH-SY5Y cells with overexpression of Tau 0N4R isoform.</li>
+</ul>
+<hr>
+<h3 id="results">Results</h3>
+<p>RNA-seq data was reported on 3 xls sheets:</p>
+<ul>
+<li><strong>Read Counts</strong> sheet: Total number of reads for each gene.<br>
+</li>
+<li><strong>RPM</strong> (Reads Per Million) sheet: Read Counts are divided by a million factor (total number of reads divided by 1 million).<br>
+</li>
+<li><strong>RPKM</strong> (Reads Per Kilobase Million) sheet: Corresponds to RPM divided by the length of each gene.</li>
+</ul>
+<p>The 3 sheets were joined into one large tibble data frame.</p>
+</div>
+<div style="width: 50%; text-align: right;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 58,395 × 9
+   ...1     GeneName description SH_ctrl_1 SH_ctrl_2 SH_ctrl_3 SH_tau_1 SH_tau_2
+   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 ENSG000… TSPAN6   tetraspani…       319       582       280      214      189
+ 2 ENSG000… TNMD     tenomoduli…         0         0         0        0        0
+ 3 ENSG000… DPM1     dolichyl-p…       792      1556       781      521      502
+ 4 ENSG000… SCYL3    SCY1 like …       517       561       445      323      365
+ 5 ENSG000… C1orf112 chromosome…       533       537       566      601      584
+ 6 ENSG000… FGR      FGR proto-…         0         0         0        2        2
+ 7 ENSG000… CFH      complement…         2         0         1        0        0
+ 8 ENSG000… FUCA2    alpha-L-fu…       487       761       447      341      321
+ 9 ENSG000… GCLC     glutamate-…       430       703       246      233      218
+10 ENSG000… NFYA     nuclear tr…      1101      1156       760      898      583
+# ℹ 58,385 more rows
+# ℹ 1 more variable: SH_tau_3 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
 <h4 id="materials-and-methods-augment-part-1">2. Materials and Methods: Augment part 1</h4>
 <div class="columns">
 <div class="column" style="font-size: small;">
 <div>
-<p>text</p>
+<p>text text</p>
 </div>
 </div><div class="column" style="font-size: small;">
 <div>
@@ -384,8 +458,8 @@ Group 25
 </div>
 </div>
 </section>
-<section id="section" class="slide level2">
-<h2>## :::</h2>
+<section class="slide level2">
+
 <h4 id="materials-and-methods-describe-part-1">4. Materials and Methods: Describe part 1</h4>
 <div class="columns">
 <div class="column" style="font-size: small;">
@@ -394,7 +468,7 @@ Group 25
 <ul>
 <li class="fragment"><p>522,648 observations, 3 attributes</p></li>
 <li class="fragment"><p>29,036 genes</p></li>
-<li class="fragment"><p>18 experiments, each of them have 3 replicates :::</p></li>
+<li class="fragment"><p>18 experiments, each of them have 3 replicates</p></li>
 </ul>
 </div>
 </div><div class="column" style="font-size: small;">
@@ -422,7 +496,7 @@ Group 25
 </section>
 <section class="slide level2">
 
-<h4 id="results">8. Results</h4>
+<h4 id="results-1">8. Results</h4>
 <p>Key Findings<br>
 - [Finding 1] - [Finding 2] - [Finding 3]</p>
 </section>
@@ -667,6 +741,44 @@ Group 25
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

@@ -6,42 +6,86 @@ format:
     theme: dark
 ---
 
+#### 1. Introduction
+
+<div style="display: flex; align-items: flex-start; justify-content: space-between;">
+
+<div style="width: 45%; font-size: 55%; text-align: justify;">
+  
+### Protein Tau
+
+- **Function**: Microtubule protein essential for cytoskeletal stability and neuronal transport.  
+- **Key Role**: Supports healthy neuronal functions.  
+- **Pathology**:  
+    - Destabilization linked to neuronal dysfunction, death, and **Alzheimer's Disease**.  
+    - Aggregates contribute to neurodegeneration.  
+
+---
+
+### Experimental Objective
+
+- Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.   
+
+What we want to conclude:  
+**Is the overexpression of Tau associated to gene expression alterations?**
+
+</div>
+
+<div style="width: 55%; text-align: right;">
+  <img src="images/Tau_Protein.png" alt="Tau Protein Diagram" style="width: 100%; height: 600px;">
+</div>
+
+</div>
 ------------------------------------------------------------------------
 
-#### 1. Introduction
-Protein Tau:
--Observed to be key in several neuronal functions. 
--Its destabilization has been associated with neuronal dysfunction and death. 
--Aggregation associated with Alzheimer's disease and other neurodegenerative disorders. 
+#### 1.2 Experimental Setup
 
-Experiment design: RNA sequencing of SH-SY5Y neuroblastoma cell line. Two groups: Tau overexpressing, control. Three samples (replicates) per group. 
+<div style="display: flex; align-items: flex-start; justify-content: space-between;">
 
-Objective: analyse the effect of the protein Tau on the neural transcriptome and on gene expression. 
+<div style="width: 45%; font-size: 50%; text-align: justify;">
 
-#### 1.2 Data descriptiom
+### Overall Design
 
-Data
-The data consists of three sheets:
--Reads
--RPM (Reads per million)
--RPKM (Reads per Kilobase per Million)
+**Differential gene expression analysis of RNA-seq data performed on**:  
 
-Each sheet has six values:
--Three control repeats
--Three Tau overexpressing repeats
+- **Control**: 3 samples of SH-SY5Y cells with overexpression of a control vector.  
+- **Experimental Condition**: 3 samples of SH-SY5Y cells with overexpression of Tau 0N4R isoform.  
 
-There are two additional columns: 
--Gene name
--Experiment ID
-(maybe put a screenshot of data)
+---
 
+### Results
+
+RNA-seq data was reported on 3 xls sheets:  
+
+- **Read Counts** sheet: Total number of reads for each gene.  
+- **RPM** (Reads Per Million) sheet: Read Counts are divided by a million factor (total number of reads divided by 1 million).  
+- **RPKM** (Reads Per Kilobase Million) sheet: Corresponds to RPM divided by the length of each gene.    
+
+The 3 sheets were joined into one large tibble data frame.
+
+</div>
+
+<div style="width: 50%; text-align: right;">
+```{r, echo = FALSE, message=FALSE}
+library("tidyverse")
+reads_df <- read_tsv("../data/01_data_load_reads.tsv.gz")
+reads_df
+```
+
+  
+</div>
+
+</div>
+
+
+------------------------------------------------------------------------
 
 #### 2. Materials and Methods: Augment part 1
 
 ::: columns
 ::: {.column width="40%" style="font-size: small;"}
 ::: incremental
-text
+text text
 :::
 :::
 
@@ -78,7 +122,7 @@ Filtered data
 :::
 :::
 
-## :::
+------------------------------------------------------------------------
 
 #### 4. Materials and Methods: Describe part 1
 
@@ -91,7 +135,7 @@ All data
 
 -   29,036 genes
 
--   18 experiments, each of them have 3 replicates :::
+-   18 experiments, each of them have 3 replicates
 :::
 :::
 
