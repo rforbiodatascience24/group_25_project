@@ -29,7 +29,7 @@ df <- reads_df |>
             relationship = "many-to-many")
 ```
 
-The data set is messy: the .x values corresponds to the reads dataframe, the .y to tge RPMs dataframe and the reamining values correspond to the RPKMs_df. - Rename columns - Check for invalid values - Remove unnecessary observations - Create a meta_data file to store relevant information about all genes
+The data set is messy: the .x values corresponds to the reads dataframe, the .y to tge RPMs dataframe and the remaining values correspond to the RPKMs_df. - Rename columns - Check for invalid values - Remove unnecessary observations - Create a meta_data file to store relevant information about all genes
 
 1.  Rename columns
 

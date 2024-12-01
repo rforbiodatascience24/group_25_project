@@ -76,16 +76,23 @@ reads_df
 #### 3. Data Wrangling
 
 ::: columns
-::: {.column width="40%" style="font-size: small;"}
+::: {.column width="40%" style="font-size: 50%;"}
 ::: incremental
-Talk about log transformation done and means, var , fold change...
+
+First the data was prepared and made clean by,
+1. by joining all dataframes into one
+2. renaming columns
+3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
 :::
+Some of the key functions that were used include full_join, mutate, rename, select)
+Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
 ::: {.column width="60%" style="font-size: small;"}
 ::: incremental
-text
 :::
+The data was then log transformed to enable a deeper analysis of observations with small margins of difference.
+Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
 :::
 :::
 
@@ -148,7 +155,9 @@ Filtered data
 
 #### 6. Data Description part 2
 
-Plots
+Insert picture of plot
+Similar description to that in the report
+
 
 ------------------------------------------------------------------------
 

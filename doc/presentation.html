@@ -1237,14 +1237,16 @@ Group 25
 
 <h4 id="data-wrangling">3. Data Wrangling</h4>
 <div class="columns">
-<div class="column" style="font-size: small;">
+<div class="column" style="font-size: 50%;">
 <div>
-<p>Talk about log transformation done and means, var , fold change…</p>
+<p>First the data was prepared and made clean by, 1. by joining all dataframes into one 2. renaming columns 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)</p>
 </div>
+<p>Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value.</p>
 </div><div class="column" style="font-size: small;">
 <div>
-<p>text</p>
+
 </div>
+<p>The data was then log transformed to enable a deeper analysis of observations with small margins of difference. Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT</p>
 </div>
 </div>
 </section>
