@@ -11,14 +11,13 @@ format:
 #### 1. Introduction
 
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
-::: {style="width: 45%; font-size: 50%; text-align: justify;"}
+::: {style="width: 45%; font-size: 55%; text-align: justify;"}
 ### Protein Tau
 
 -   **Function**: Microtubule protein essential for cytoskeletal stability and neuronal transport.\
--   **Key Role**: Supports healthy neuronal functions.\
--   **Pathology**:
-    -   Destabilization linked to neuronal dysfunction, death, and **Alzheimer's Disease**.\
-    -   Aggregates contribute to neurodegeneration.
+-   Supports healthy neuronal functions.\
+-   Destabilization linked to neuronal dysfunction, death, and **Alzheimer's Disease**.\
+-   Aggregates contribute to neurodegeneration.
 
 ------------------------------------------------------------------------
 
@@ -78,28 +77,26 @@ reads_df
 ::: columns
 ::: {.column width="40%" style="font-size: 50%;"}
 ::: incremental
-
-First the data was prepared and made clean by,
-1. by joining all dataframes into one
-2. renaming columns
-3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
+First the data was prepared and made clean by:\
+1. by joining all dataframes into one\
+2. renaming columns\
+3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)\
 :::
-Some of the key functions that were used include full_join, mutate, rename, select)
-Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
+
+Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
 ::: {.column width="60%" style="font-size: small;"}
 ::: incremental
 :::
-The data was then log transformed to enable a deeper analysis of observations with small margins of difference.
-Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
+
+The data was then log transformed to enable a deeper analysis of observations with small margins of difference. Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
 :::
 :::
 
 ------------------------------------------------------------------------
 
-#### 4. Data Augment 
-
+#### 4. Data Augment
 
 ::: columns
 ::: {.column width="40%" style="font-size: small;"}
@@ -155,32 +152,31 @@ Filtered data
 
 #### 6. Data Description part 2
 
-Insert picture of plot
-Similar description to that in the report
-
+Insert picture of plot Similar description to that in the report
 
 ------------------------------------------------------------------------
 
-#### 7. Analysis  PCA
+#### 7. Analysis PCA
 
 The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment.
 
-We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all. 
+We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all.
 
 ------------------------------------------------------------------------
 
-#### 8. Analysis  PCA
+#### 8. Analysis PCA
+
 Maybe for plots
 
 ------------------------------------------------------------------------
 
 ## 9. Gene Set Enrichment Analysis
-Text
 
+Text
 
 ------------------------------------------------------------------------
 
-#### 10. Discussion based on the GSEA/conclusion  
+#### 10. Discussion based on the GSEA/conclusion
 
 Which genes were overexpressed? Does it make sense with the literature?
 
@@ -193,5 +189,3 @@ Limitations
 
 -   \[Limitation 1\]
 -   \[Limitation 2\]
-
-
