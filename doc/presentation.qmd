@@ -1,62 +1,59 @@
 ---
-title: "R for Bio Data Science"
-author: "Group 25"
+title: "Protein Tau's Role in Gene Expression"
+author: "Group 25:  Ana  Moral (s232119),  Jacqueline Printz (s194377),  Jenni Kinnunen (s204697), João Prazeres (s243036), William Gunns (s242051)"
 format:
   revealjs:
     slide-number: true
     embed-resources: true 
-    theme: dark
+    theme: night
+    smaller: true 
+    scroll: true
 ---
 
-#### 1. Introduction
+### 1. Introduction - Protein Tau
 
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
-::: {style="width: 45%; font-size: 55%; text-align: justify;"}
-### Protein Tau
+::: {style="width: 55%; font-size: 22px; text-align: justify;"}
 
 -   **Function**: Microtubule protein essential for cytoskeletal stability and neuronal transport.\
+\
 -   Supports healthy neuronal functions.\
--   Destabilization linked to neuronal dysfunction, death, and **Alzheimer's Disease**.\
--   Aggregates contribute to neurodegeneration.
-
-------------------------------------------------------------------------
-
-### Experimental Objective
+\
+-   Destabilization linked to neuronal dysfunction,  and **Alzheimer's Disease**.\
+\
 
 -   Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.
-
-Experiment Objective:\
 \
-[**Is the overexpression of Tau associated to gene expression alterations?**]{style="width: 45%; font-size: 120%; text-align: justify;"}
+
+[**Experimental Objective:**]{style="width: 45%; font-size: 120%; text-align: justify;"}\
+\
+[Is the overexpression of Tau associated to gene expression alterations?]{style="width: 45%; font-size: 120%; text-align: justify;"}
 :::
 
-::: {style="width: 55%; text-align: right;"}
+::: {style="width: 45%; text-align: right;"}
 <img src="images/Tau_Protein.png" alt="Tau Protein Diagram" style="width: 100%; height: 600px;"/>
 :::
 :::
 
 ------------------------------------------------------------------------
 
-#### 2. Experimental Setup
+### 2. Experimental Setup
 
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
-::: {style="width: 45%; font-size: 50%; text-align: justify;"}
-### Overall Design
+::: {style="width: 45%; font-size: 22px; text-align: justify;"}
 
 **Differential gene expression analysis of RNA-seq data performed on**:
 
 -   **Control**: 3 samples of SH-SY5Y cells with overexpression of a control vector.\
 -   **Experimental Condition**: 3 samples of SH-SY5Y cells with overexpression of Tau 0N4R isoform.
 
-------------------------------------------------------------------------
 
-### Results
 
-RNA-seq data was reported on 3 xls sheets:
+**RNA-seq data was reported on 3 xls sheets:**
 
--   **Read Counts** sheet: Total number of reads for each gene.\
--   **RPM** (Reads Per Million) sheet: Read Counts are divided by a million factor (total number of reads divided by 1 million).\
--   **RPKM** (Reads Per Kilobase Million) sheet: Corresponds to RPM divided by the length of each gene.
+-   **Read Counts**.\
+-   **RPM** (Reads Per Million). \
+-   **RPKM** (Reads Per Kilobase Million). \
 
 The 3 sheets were joined into one large tibble data frame.
 :::
@@ -72,10 +69,10 @@ reads_df
 
 ------------------------------------------------------------------------
 
-#### 3. Data Wrangling
+### 3. Data Wrangling
 
 ::: columns
-::: {.column width="40%" style="font-size: 50%;"}
+::: {.column width="40%" style="font-size: 22px;"}
 ::: incremental
 First the data was prepared and made clean by:\
 1. by joining all dataframes into one\
@@ -86,7 +83,7 @@ First the data was prepared and made clean by:\
 Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
-::: {.column width="60%" style="font-size: small;"}
+::: {.column width="60%" style="font-size: 22px;"}
 ::: incremental
 :::
 
@@ -96,10 +93,10 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ------------------------------------------------------------------------
 
-#### 4. Data Augment
+### 4. Data Augment
 
 ::: columns
-::: {.column width="40%" style="font-size: small;"}
+::: {.column width="40%" style="font-size: 22px;"}
 ::: incremental
 Statistics data frame
 
@@ -122,10 +119,10 @@ Filtered data
 
 ------------------------------------------------------------------------
 
-#### 5. Data Description part 1
+### 5. Data Description part 1
 
 ::: columns
-::: {.column width="40%" style="font-size: small;"}
+::: {.column width="40%" style="font-size: 22px;"}
 ::: incremental
 All data
 
@@ -137,7 +134,7 @@ All data
 :::
 :::
 
-::: {.column width="60%" style="font-size: small;"}
+::: {.column width="60%" style="font-size: 22px;"}
 ::: incremental
 Filtered data
 
@@ -150,13 +147,13 @@ Filtered data
 
 ------------------------------------------------------------------------
 
-#### 6. Data Description part 2
+### 6. Data Description part 2
 
 Insert picture of plot Similar description to that in the report
 
 ------------------------------------------------------------------------
 
-#### 7. Analysis PCA
+### 7. Analysis PCA
 
 The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment.
 
@@ -164,19 +161,19 @@ We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA
 
 ------------------------------------------------------------------------
 
-#### 8. Analysis PCA
+### 8. Analysis PCA
 
 Maybe for plots
 
 ------------------------------------------------------------------------
 
-## 9. Gene Set Enrichment Analysis
+### 9. Gene Set Enrichment Analysis
 
 Text
 
 ------------------------------------------------------------------------
 
-#### 10. Discussion based on the GSEA/conclusion
+### 10. Discussion based on the GSEA/conclusion
 
 Which genes were overexpressed? Does it make sense with the literature?
 
