@@ -15,62 +15,86 @@ source("99_proj_func.R")
 ```{r}
 #| output: false
 data_dir <- "../data"
-data_file <- "/03_data_load.tsv.gz"
-stats_file <- "/03_data_stats_load.tsv.gz"
-df <- read_tsv(str_c(data_dir, data_file))
-stats_df <- read_tsv(str_c(data_dir, stats_file))
+filtered_stats_data_file <- "/03_data_filtered_stats.tsv.gz"
+log_data_file <- "/03_data_log_load.tsv.gz" 
+
+log_data <- read_tsv(str_c(data_dir, log_data_file))
+stats_data <- read_tsv(str_c(data_dir, filtered_stats_data_file))
 ```
 
-In this script, we perform principal component analysis (PCA) on the data. The goal is to observe patterns and reduce dimensionality of the data. For this purpose we first must convert the data back to wide format.
+In this script, we perform principal component analysis (PCA) on the data. The goal is to observe patterns and reduce dimensionality of the data. For this purpose we first must transpose the data frames so we have the genes as columns.
 
 ```{r}
-df <- df |> 
-  pivot_wider(
-    names_from = gene_ensembl,
-    values_from = gene_expression
-  ) |> 
-    mutate(
+log_data_t <- log_data |> 
+  column_to_rownames(var = "gene_ensembl") |> 
+  t() |>                                     
+  as.data.frame() |>                         
+  rownames_to_column(var = "experiment")
+
+# Bring row names back as a column
+stats_data_t <- stats_data |>
+  select(-starts_with("fold")) |> 
+  column_to_rownames(var = "gene_ensembl") |> 
+  t() |>                                     
+  as.data.frame() |>                         
+  rownames_to_column(var = "experiment")
+  
+```
+
+And factor variables that are interesting for PCA plotting
+
+```{r}
+log_data_t <- log_data_t |> 
+  mutate(
     group = case_when(
-      str_detect(experiment, "control") ~ "control", # If 'experiment' contains "control"
-      str_detect(experiment, "tau") ~ "tau"         # If 'experiment' contains "tau"
+      str_detect(experiment, "control") ~ "control", 
+      str_detect(experiment, "tau") ~ "tau"         
     ),
-    
       replicate = case_when(
       str_detect(experiment, "1") ~ "1",
       str_detect(experiment, "2") ~ "2",
       str_detect(experiment, "3") ~ "3"
     ) |> 
-    as.factor()  # Convert to factor
-  )
+      as.factor())
+
+stats_data_t <- stats_data_t |>
+  mutate(
+    group = case_when(
+      str_detect(experiment, "control") ~ "control", 
+      str_detect(experiment, "tau") ~ "tau"         
+    ),
+      type_of_experiment = case_when(
+      str_detect(experiment, "reads") ~ "reads",
+      str_detect(experiment, "RPM") ~ "RPM",
+      str_detect(experiment, "RPKM") ~ "RPKM"
+      ) |> 
+      as.factor())
+  
+  
 ```
 
 We will perform 3 different PCAs for each experiment to assess whether or not there are significant gene expression changes. For simplicity reasons we will first filter our genes according to the fold change values
 
 ```{r}
-top_genes <- stats_df |> 
-  select(gene_ensembl, var_reads) |> 
-  arrange(desc(var_reads)) |> 
-  select(gene_ensembl) |> 
-  slice(1:5000) |> 
-  pull()
+log_data_t |> 
+  filter(str_detect(experiment, "reads")) |> 
+  perform_PCA(type_experiment = "reads")
+
 ```
 
 ```{r}
-df |> 
-  perform_PCA(type_experiment = "reads", top_genes)
+log_data_t |>
+  filter(str_detect(experiment, "RPM")) |>
+  perform_PCA(type_experiment = "RPM")
 ```
 
 ```{r}
-df |> 
-  perform_PCA(type_experiment = "RPM", top_genes)
+log_data_t |>
+  filter(str_detect(experiment, "RPKM")) |>
+  perform_PCA(type_experiment = "RPKM")
 ```
 
 ```{r}
-df |> 
-  perform_PCA(type_experiment = "RPKM", top_genes)
-```
-
-```{r}
-df |> 
-  perform_PCA_on_all_conditions(top_genes)
+stats_data_t|> 
+  perform_PCA_on_all_conditions()
 ```

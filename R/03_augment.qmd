@@ -27,117 +27,80 @@ aug_input <- read_tsv(str_c(data_dir, data_file))
 Adding a small value before log transforming data, to ensure that zeros do not appear.
 
 ```{r}
-df_aug <- aug_input |> 
+log_df <- aug_input |> 
   mutate(across(starts_with("reads") | starts_with("RPM") | starts_with("RPKM"),~ log2(.+0.0001)))
 ```
 
-## Calculating mean of the three groups, and adding the columns to the file
+## Calculating mean of the three groups, and create a statistics data frame
 
 ```{r}
-data_augmented <- df_aug |> 
+stats_df <- log_df |>
   mutate(
     mean_reads_control = rowMeans(across(starts_with("reads_control")),
                           na.rm = TRUE),
     mean_reads_tau = rowMeans(across(starts_with("reads_tau")),
                           na.rm = TRUE),
-    mean_rpm_control = rowMeans(across(starts_with("RPM_control")),
+    mean_RPM_control = rowMeans(across(starts_with("RPM_control")),
                         na.rm = TRUE),
-    mean_rpm_tau = rowMeans(across(starts_with("RPM_tau")),
+    mean_RPM_tau = rowMeans(across(starts_with("RPM_tau")),
                         na.rm = TRUE),
-    mean_rpkm_control = rowMeans(across(starts_with("RPKM_control")),
+    mean_RPKM_control = rowMeans(across(starts_with("RPKM_control")),
                          na.rm = TRUE),
-    mean_rpkm_tau = rowMeans(across(starts_with("RPKM_tau")),
-                         na.rm = TRUE))
+    mean_RPKM_tau = rowMeans(across(starts_with("RPKM_tau")),
+                         na.rm = TRUE)) |> 
+  select(gene_ensembl,
+         starts_with("mean"))
 ```
 
-## Pivot data to long format
-
-Our dataset is a wide dataset, it might be of interest having our df in a long format
-
-```{r}
-data_long_augmented <- data_augmented |> 
-  pivot_longer(
-    cols = contains(c("control", "tau")), 
-    names_to = "experiment", 
-    values_to = "gene_expression"
-  )
-```
-
-The data is now normalized, mean is calculated for each category and the data is in long format.
-
-## Calculate the variance and create a statistics data frame
-
-```{r}
-data_augmented <- data_augmented |>
-  rowwise() |> 
-  mutate(
-    var_reads = var(c_across(starts_with("reads")), na.rm = TRUE),
-    var_rpm = var(c_across(starts_with("RPM")), na.rm = TRUE),
-    var_rpmkm = var(c_across(starts_with("RPKM")), na.rm = TRUE)
-  ) |> 
-  ungroup()
-```
+## Calculate the fold change and create a statistics data frame
 
 Create a separate data set for our statistics and add a fold change variable
 
 ```{r}
-stats_df <- data_augmented |> 
-  select(
-    gene_ensembl,
-    starts_with("mean"),
-    starts_with("var")
-  ) |> 
+stats_df <- stats_df |> 
   mutate(
-    fold_change_reads = mean_reads_tau / mean_reads_control,
-    fold_change_rpm = mean_rpm_tau / mean_rpm_control,
-    fold_change_rpkm = mean_rpkm_tau / mean_rpkm_control
+    fold_change_reads = mean_reads_tau - mean_reads_control,
+    fold_change_rpm = mean_RPM_tau - mean_RPM_control,
+    fold_change_rpkm = mean_RPKM_tau - mean_RPKM_control
   )
 ```
 
-```{r}
-data_augmented <- data_augmented |> 
-  select(
-    -starts_with("var"),
-    -starts_with("mean")
-  )
-```
+## Filter Significant genes
 
-For each gene, there is data for 6 experiments. Each of them has 3 replicates. To find out if it is necessary to keep the replicates, or use the average of them in further analysis, we look at the mean of standard deviation (SD) of gene expression for each experiment. Then we can filter out the ones with too high mean SD (\>1), and use the average of the rest of the replicates.
+For each gene, there is data for 6 experiments. Each of them has 3 replicates. To find out if it is necessary to keep the replicates, or use the average of them in further analysis, we look at log2 fold change of gene expression for each experiment. Then we can filter out the ones with significant fold change (\>1 and \<-1), and use the average of the rest of the replicates.
 
 ```{r}
-# Find genes with mean SD >1
-too_high_SD <- stats_df |>
-  filter(var_reads > 1) |>
+# Find genes with a fold change <-1 or >1
+significant_genes <- stats_df |>
+  filter(fold_change_reads > 1 | fold_change_reads < -1) |>
   pull(gene_ensembl)
 
-# Filter these genes out
-filtered_data <- data_long_augmented |>
-  filter(!gene_ensembl %in% too_high_SD)
-
-# Keep only the rows with the mean value of the replicates
-filtered_data_mean_of_replicates <- filtered_data |> 
-  group_by(gene_ensembl) |>
-  filter(str_starts(experiment, "mean"))
 ```
+
+```{r}
+
+# Filter these genes out
+filtered_stats_df <- stats_df |>
+  filter(gene_ensembl %in% significant_genes)
+
+filtered_log_df <- log_df |> 
+  filter(gene_ensembl %in% significant_genes)
+```
+
+The data is now normalized, mean is calculated for each category and the data is in long format.
 
 ## Save data in a files
 
 3 datasets will be saved:
 
--   A long dataset with all experiments
--   A wide dataset with all experiments
--   A data set containing relevant statistics that might be useful in filtering the genes with that have more expression differences.
--   A data set, where genes with high mean SD have have been filtered out
+-   A wide data set with all filtered experiments
+-   A wide dataset with statistics for all experiments (mean and fold change)
+-   A wide dataset with statistics for all filtered experiments (mean and fold change)
 
 ```{r}
-data_long_augmented |> 
-  write_tsv(file = "../data/03_data_load.tsv.gz")
-
-```
-
-```{r}
-data_augmented |>
-  write_tsv(file = "../data/03_data_load_wide.tsv.gz")
+#For the PCA
+filtered_log_df |> 
+  write_tsv(file = "../data/03_data_log_load.tsv.gz")
 ```
 
 ```{r}
@@ -146,6 +109,6 @@ stats_df |>
 ```
 
 ```{r}
-filtered_data_mean_of_replicates |> 
-  write_tsv(file = "../data/03_data_filtered_load.tsv.gz")
+filtered_stats_df |> 
+  write_tsv(file = "../data/03_data_filtered_stats.tsv.gz")
 ```

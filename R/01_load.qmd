@@ -11,7 +11,7 @@ execute:
 
 The following script will load the raw data set that contains 3 sheets to be joined:
 
--   The read counts for each experiment 
+-   The read counts for each experiment
 
 -   The Reads Per Million (RPM) for each experiment.
 

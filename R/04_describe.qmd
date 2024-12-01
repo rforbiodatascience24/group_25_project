@@ -23,30 +23,35 @@ From the augment script, we will use 2 of the files.
 
 ```{r}
 data_dir <- "../data"
-data_file_long <- "/03_data_load.tsv.gz"
-filtered_data_file <- "/03_data_filtered_load.tsv.gz"
+stats_data_file <- "/03_data_stats_load.tsv.gz"
+filtered_stats_data_file <- "/03_data_filtered_stats.tsv.gz"
+log_data_file <- "/03_data_log_load.tsv.gz" 
 
-all_data_long <- read_tsv(str_c(data_dir, data_file_long))
-filtered_data <- read_tsv(str_c(data_dir, filtered_data_file))
+log_data <- read_tsv(str_c(data_dir, log_data_file))
+all_data <- read_tsv(str_c(data_dir, stats_data_file))
+filtered_data <- read_tsv(str_c(data_dir, filtered_stats_data_file))
 ```
 
 # Size of the data and number of genes
 
-After tidying the data, we now have 522648 observations and 3 attributes.
+After tidying the data, we now have 19902 observations (genes) and 10 attributes.
 
 ```{r}
 
-dim(all_data_long)
+dim(all_data)
 ```
 
-There are 29036 different genes
+There are 19902 different RNA transcripts (genes, isoforms, miRNA, etc)
+
+We will transform the data to long format
 
 ```{r}
-unique_genes <- all_data_long |>
-  select(gene_ensembl) |>
-  distinct()
-
-dim(unique_genes)
+all_data_long<- log_data|> 
+  pivot_longer(
+    cols = contains(c("control", "tau")), 
+    names_to = "experiment", 
+    values_to = "gene_expression"
+  )
 ```
 
 Let's look at the experiments. There are 18 per gene.
@@ -87,7 +92,7 @@ gene_expression_summary
 
 # Filtered data
 
-In the filtered data, there are 19379 genes left
+In the filtered data, there are 2659 transcripts left
 
 ```{r}
 unique_genes <- filtered_data |>
@@ -97,10 +102,16 @@ unique_genes <- filtered_data |>
 dim(unique_genes)
 ```
 
-The filtered data has 110958 observations in total.
+We will also create a long format of the filtered data with mean values for plot vizualization
 
 ```{r}
-dim(filtered_data)
+filtered_data_long <- filtered_data |> 
+  select(-starts_with("fold")) |> 
+  pivot_longer(
+    cols = contains(c("control", "tau")), 
+    names_to = "experiment", 
+    values_to = "gene_expression"
+  )
 ```
 
 # Visualizing the data
@@ -108,9 +119,9 @@ dim(filtered_data)
 The data has been visualised below in separated plots for each experiment. Despite not accounting for different gene types, the plots depict a clear trend, with the control samples consistantly presenting greater gene expression. Furthermore, the fact that the control and tau curves follow such a similar shape indicates that is it likely that the increased tau protein has caused a linear shift in the gene expression.
 
 ```{r}
-RPKMplot <- filtered_data |>
+RPKMplot <- filtered_data_long |>
   filter(str_detect(experiment,
-                    pattern = "rpkm")) |> 
+                    pattern = "RPKM")) |> 
   ggplot(mapping = aes(x = gene_expression,
                        fill = experiment)) + 
   geom_density(alpha = 0.5) + 
@@ -119,9 +130,9 @@ RPKMplot <- filtered_data |>
        y = "Density",
        x = "Mean Gene Expression")
 
-RPMplot <- filtered_data |>
+RPMplot <- filtered_data_long |>
   filter(str_detect(experiment,
-                    pattern = "rpm")) |> 
+                    pattern = "RPM")) |> 
   ggplot(mapping = aes(x = gene_expression,
                        fill = experiment)) + 
   geom_density(alpha = 0.5) + 
@@ -130,7 +141,7 @@ RPMplot <- filtered_data |>
        y = "Density",
        x = "Mean Gene Expression")
 
-readsplot <- filtered_data |>
+readsplot <- filtered_data_long |>
   filter(str_detect(experiment,
                     pattern = "reads")) |> 
   ggplot(mapping = aes(x = gene_expression,
@@ -144,10 +155,4 @@ readsplot <- filtered_data |>
 # Combining the plots above each other
 combined_plot <- RPKMplot / RPMplot / readsplot
 combined_plot
-```
-
-```{r}
-filtered_data |>
-  filter(str_detect(experiment, pattern = "rpkm"))
-
 ```
