@@ -155,10 +155,20 @@ Insert picture of plot Similar description to that in the report
 
 ### 7. Analysis PCA
 
-The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment.
+::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Objective
 
-We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all.
+Confirm that RPM, RPKM, and reads yield similar results
+Verify differences between control and tau experiments
+Approach
 
+3 PCAs performed separately for RPM, RPKM, and reads data
+1 final PCA conducted on combined data
+Results
+
+Plots of individual PCAs show how each data type clusters
+Final PCA confirms global differences between control and tau groups ::: :::
+::: {.column width="60%" style="font-size: small;"}
+{fig-align="right" width="300"} :::
 ------------------------------------------------------------------------
 
 ### 8. Analysis PCA
