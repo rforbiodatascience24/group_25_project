@@ -95,27 +95,25 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ### 4. Data Augment
 
-::: columns
-::: {.column width="40%" style="font-size: 22px;"}
-::: incremental
-Statistics data frame
+::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Normalized Data
 
--   Variance for the 3 replicates for each attributes
+- Log transformation applied to selected columns
+- Small value (0.0001) added to avoid zeros in data
 
-Filtered data
+Calculated Mean
+- Mean values for control and tau groups were calculated across replicates
 
--   Genes with mean variance \> 1 were filtered out
+Fold Change
+- Calculated fold change between control and tau groups for each measure
+- Fold change values used to filter significant genes
 
--   For the rest, average of replicates was kept
+Filtered Data
+- Genes with significant fold change (>1 or <-1) retained
+- Replicates averaged for non-significant genes
 
-    -   Data frame 3 times smaller
-:::
-:::
-
-::: {.column width="60%" style="font-size: small;"}
-![](images/data.png){fig-align="right" width="300"}
-:::
-:::
+Final Data
+-Data stored in three separate files for analysis ::: :::
+::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"} :::
 
 ------------------------------------------------------------------------
 
