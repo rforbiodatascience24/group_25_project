@@ -28,8 +28,7 @@ format:
 
 Experiment Objective:\
 \
-<span style="width: 45%; font-size: 120%; text-align: justify;">**Is the overexpression of Tau associated to gene expression alterations?**</span>
-
+[**Is the overexpression of Tau associated to gene expression alterations?**]{style="width: 45%; font-size: 120%; text-align: justify;"}
 :::
 
 ::: {style="width: 55%; text-align: right;"}
@@ -39,7 +38,7 @@ Experiment Objective:\
 
 ------------------------------------------------------------------------
 
-#### 1.2 Experimental Setup
+#### 2. Experimental Setup
 
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
 ::: {style="width: 45%; font-size: 50%; text-align: justify;"}
@@ -74,12 +73,12 @@ reads_df
 
 ------------------------------------------------------------------------
 
-#### 2. Materials and Methods: Augment part 1
+#### 3. Data Wrangling
 
 ::: columns
 ::: {.column width="40%" style="font-size: small;"}
 ::: incremental
-text text
+Talk about log transformation done and means, var , fold change...
 :::
 :::
 
@@ -92,7 +91,8 @@ text
 
 ------------------------------------------------------------------------
 
-#### 3. Materials and Methods: Augment part 2
+#### 4. Data Augment 
+
 
 ::: columns
 ::: {.column width="40%" style="font-size: small;"}
@@ -118,7 +118,7 @@ Filtered data
 
 ------------------------------------------------------------------------
 
-#### 4. Materials and Methods: Describe part 1
+#### 5. Data Description part 1
 
 ::: columns
 ::: {.column width="40%" style="font-size: small;"}
@@ -146,28 +146,33 @@ Filtered data
 
 ------------------------------------------------------------------------
 
-#### 5. Materials and methods: Describe part 2
+#### 6. Data Description part 2
 
 Plots
 
 ------------------------------------------------------------------------
 
-#### 6. Materials and methods: Analysis, PCA
+#### 7. Analysis  PCA
+
+The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment.
+
+We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all. 
 
 ------------------------------------------------------------------------
 
-## 7. Materials and methods: Analysis, GSEA
+#### 8. Analysis  PCA
+Maybe for plots
 
 ------------------------------------------------------------------------
 
-#### 8. Results
+## 9. Gene Set Enrichment Analysis
 
-Key Findings\
-- \[Finding 1\] - \[Finding 2\] - \[Finding 3\]
 
 ------------------------------------------------------------------------
 
-#### 9. Discussion
+#### 10. Discussion based on the GSEA/conclusion  
+
+Which genes were overexpressed? Does it make sense with the literature?
 
 Challenges
 
@@ -179,14 +184,4 @@ Limitations
 -   \[Limitation 1\]
 -   \[Limitation 2\]
 
-------------------------------------------------------------------------
 
-#### 10. Conclusion
-
-Summary
-
--   Key takeaways from the analysis
-
-Future Work
-
--   \[Plan for next steps\]
