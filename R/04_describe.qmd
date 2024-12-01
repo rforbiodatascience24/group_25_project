@@ -10,6 +10,7 @@ editor: visual
 #| message: false
 library("tidyverse")
 library("dplyr")
+library(patchwork)
 ```
 
 From the augment script, we will use 2 of the files.
@@ -106,28 +107,45 @@ The data has been visualised below in separated plots for each experiment. Despi
 
 ```{r}
 RPKMplot <- filtered_data |>
-  filter(experiment %in% c("RPKM_control", "RPKM_tau")) |> 
-  ggplot(mapping = aes(x = gene_expression, fill = experiment)) + 
+  filter(str_detect(experiment,
+                    pattern = "rpkm")) |> 
+  ggplot(mapping = aes(x = gene_expression,
+                       fill = experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
-  labs(title = "RPKM Data", y = "Density", x = "Mean Gene Expression")
+  labs(title = "RPKM Data",
+       y = "Density",
+       x = "Mean Gene Expression")
 
 RPMplot <- filtered_data |>
-  filter(experiment %in% c("RPM_control", "RPM_tau")) |> 
-  ggplot(mapping = aes(x = gene_expression, fill = experiment)) + 
+  filter(str_detect(experiment,
+                    pattern = "rpm")) |> 
+  ggplot(mapping = aes(x = gene_expression,
+                       fill = experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
-  labs(title = "RPM Data", y = "Density", x = "Mean Gene Expression")
+  labs(title = "RPM Data",
+       y = "Density",
+       x = "Mean Gene Expression")
 
 readsplot <- filtered_data |>
-  filter(experiment %in% c("reads_control", "reads_tau")) |> 
-  ggplot(mapping = aes(x = gene_expression, fill = experiment)) + 
+  filter(str_detect(experiment,
+                    pattern = "reads")) |> 
+  ggplot(mapping = aes(x = gene_expression,
+                       fill = experiment)) + 
   geom_density(alpha = 0.5) + 
   theme_minimal() + 
-  labs(title = "Reads Data", y = "Density", x = "Mean Gene Expression")
+  labs(title = "Reads Data",
+       y = "Density",
+       x = "Mean Gene Expression")
 
-readsplot
 # Combining the plots above each other
 combined_plot <- RPKMplot / RPMplot / readsplot
 combined_plot
+```
+
+```{r}
+filtered_data |>
+  filter(str_detect(experiment, pattern = "rpkm"))
+
 ```
