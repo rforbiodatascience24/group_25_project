@@ -78,28 +78,23 @@ reads_df
 ::: columns
 ::: {.column width="40%" style="font-size: 50%;"}
 ::: incremental
-
-First the data was prepared and made clean by,
-1. by joining all dataframes into one
-2. renaming columns
-3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
-:::
-Some of the key functions that were used include full_join, mutate, rename, select)
-Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
+First the data was prepared and made clean by, 1. by joining all dataframes into one 2. renaming columns 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
 :::
 
-::: {.column width="60%" style="font-size: small;"}
+Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
+:::
+
+::: {.column width="60%" style="font-size: 50%;"}
 ::: incremental
 :::
-The data was then log transformed to enable a deeper analysis of observations with small margins of difference.
-Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
+
+The data was then log transformed to enable a deeper analysis of observations with small margins of difference. Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
 :::
 :::
 
 ------------------------------------------------------------------------
 
-#### 4. Data Augment 
-
+#### 4. Data Augment
 
 ::: columns
 ::: {.column width="40%" style="font-size: small;"}
@@ -127,27 +122,13 @@ Filtered data
 
 #### 5. Data Description part 1
 
-::: columns
-::: {.column width="40%" style="font-size: small;"}
-::: incremental
-All data
+::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
+::: {style="width: 100%; font-size: 50%; text-align: justify;"}
+-   All data: all genes, no replicates
+-   Filtered data: significant genes, no replicates (for overview of the data)
+-   Log data: significant genes, all 3 replicates (for PCA)
 
--   522,648 observations, 3 attributes
-
--   29,036 genes
-
--   18 experiments, each of them have 3 replicates
-:::
-:::
-
-::: {.column width="60%" style="font-size: small;"}
-::: incremental
-Filtered data
-
--   110,958 observations
-
--   19,379 genes
-:::
+![](images/describe_summary.png){fig-align="right" width="250"}
 :::
 :::
 
@@ -155,32 +136,45 @@ Filtered data
 
 #### 6. Data Description part 2
 
-Insert picture of plot
-Similar description to that in the report
-
+Insert picture of plot Similar description to that in the report
 
 ------------------------------------------------------------------------
 
-#### 7. Analysis  PCA
+#### 7. Analysis PCA
 
 The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment.
 
-We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all. 
+We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all.
 
 ------------------------------------------------------------------------
 
-#### 8. Analysis  PCA
-Maybe for plots
+#### 8. Analysis PCA
+
+::: {.column width="25%"}
+![](images/pca_reads.png){fig-align="right" width="450"}
+:::
+
+::: {.column width="25%"}
+![](images/pca_rpm.png){fig-align="right" width="450"}
+:::
+
+::: {.column width="25%"}
+![](images/pca_rpkm.png){fig-align="right" width="450"}
+:::
+
+::: {.column width="25%"}
+![](images/pca_all.png){fig-align="right" width="450"}
+:::
 
 ------------------------------------------------------------------------
 
 ## 9. Gene Set Enrichment Analysis
-Text
 
+Text
 
 ------------------------------------------------------------------------
 
-#### 10. Discussion based on the GSEA/conclusion  
+#### 10. Discussion based on the GSEA/conclusion
 
 Which genes were overexpressed? Does it make sense with the literature?
 
@@ -193,5 +187,3 @@ Limitations
 
 -   \[Limitation 1\]
 -   \[Limitation 2\]
-
-
