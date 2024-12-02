@@ -14,16 +14,16 @@ format:
 
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
 ::: {style="width: 55%; font-size: 22px; text-align: justify;"}
-
 -   **Function**: Microtubule protein essential for cytoskeletal stability and neuronal transport.\
-\
--   Supports healthy neuronal functions.\
-\
--   Destabilization linked to neuronal dysfunction,  and **Alzheimer's Disease**.\
-\
+    \
 
--   Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.
-\
+-   Supports healthy neuronal functions.\
+    \
+
+-   Destabilization linked to neuronal dysfunction, and **Alzheimer's Disease**.\
+    \
+
+-   Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.\
 
 [**Experimental Objective:**]{style="width: 45%; font-size: 120%; text-align: justify;"}\
 \
@@ -41,19 +41,16 @@ format:
 
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
 ::: {style="width: 45%; font-size: 22px; text-align: justify;"}
-
 **Differential gene expression analysis of RNA-seq data performed on**:
 
 -   **Control**: 3 samples of SH-SY5Y cells with overexpression of a control vector.\
 -   **Experimental Condition**: 3 samples of SH-SY5Y cells with overexpression of Tau 0N4R isoform.
 
-
-
 **RNA-seq data was reported on 3 xls sheets:**
 
 -   **Read Counts**.\
--   **RPM** (Reads Per Million). \
--   **RPKM** (Reads Per Kilobase Million). \
+-   **RPM** (Reads Per Million).\
+-   **RPKM** (Reads Per Kilobase Million).\
 
 The 3 sheets were joined into one large tibble data frame.
 :::
@@ -97,23 +94,16 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Normalized Data
 
-- Log transformation applied to selected columns
-- Small value (0.0001) added to avoid zeros in data
+-   Log transformation applied to selected columns
+-   Small value (0.0001) added to avoid zeros in data
 
-Calculated Mean
-- Mean values for control and tau groups were calculated across replicates
+Calculated Mean - Mean values for control and tau groups were calculated across replicates
 
-Fold Change
-- Calculated fold change between control and tau groups for each measure
-- Fold change values used to filter significant genes
+Fold Change - Calculated fold change between control and tau groups for each measure - Fold change values used to filter significant genes
 
-Filtered Data
-- Genes with significant fold change (>1 or <-1) retained
-- Replicates averaged for non-significant genes
+Filtered Data - Genes with significant fold change (\>1 or \<-1) retained - Replicates averaged for non-significant genes
 
-Final Data
--Data stored in three separate files for analysis ::: :::
-::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"} :::
+Final Data -Data stored in three separate files for analysis ::: ::: ::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"} :::
 
 ------------------------------------------------------------------------
 
@@ -153,22 +143,14 @@ Insert picture of plot Similar description to that in the report
 
 ### 7. Analysis PCA
 
-
 ::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Objective
 
-- Confirm that RPM, RPKM, and reads yield similar results
-- Verify differences between control and tau experiments
+-   Confirm that RPM, RPKM, and reads yield similar results
+-   Verify differences between control and tau experiments
 
-Approach
-- 3 PCAs performed separately for RPM, RPKM, and reads data
-- 1 final PCA conducted on combined data
+Approach - 3 PCAs performed separately for RPM, RPKM, and reads data - 1 final PCA conducted on combined data
 
-Results
-- Plots of individual PCAs show how each data type clusters
-- Final PCA confirms global differences between control and tau groups ::: :::
-::: {.column width="60%" style="font-size: small;"}
-{fig-align="right" width="300"} :::
-------------------------------------------------------------------------
+Results - Plots of individual PCAs show how each data type clusters - Final PCA confirms global differences between control and tau groups ::: ::: ::: {.column width="60%" style="font-size: small;"} {fig-align="right" width="300"} ::: ------------------------------------------------------------------------
 
 ### 8. Analysis PCA
 
@@ -176,10 +158,22 @@ Maybe for plots
 
 ------------------------------------------------------------------------
 
-### 9. Gene Set Enrichment Analysis
+### 9. Gene Set Enrichment Analysis (GSEA)
 
-Text
+Computational method to determine if a set of genes shows statistically significant differences in control and Tau over expressing conditions.
 
+
+::: {.left}
+-   Plot genes
+
+::: {style="width: 45%; text-align: left;"}
+<img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
+
+::: {.right}
+-   Plot pathways
+
+::: {style="width: 45%; text-align: right;"}
+<img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/>
 ------------------------------------------------------------------------
 
 ### 10. Discussion based on the GSEA/conclusion

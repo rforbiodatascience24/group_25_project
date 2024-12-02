@@ -83,6 +83,11 @@ gsea_plot <- ggplot(top_and_bottom_gsea, aes(x = reorder(gs_name, enrichment_sco
   scale_fill_manual(values = c("red", "blue"), labels = c("Underexpressed", "Overexpressed"), name = "Gene Set Type") +
   theme_minimal()
 
-gene_plot
-gsea_plot
+png("../doc/images/gene_plot.png", width = 800, height = 600)
+print(gene_plot)
+dev.off()
+
+png("../doc/images/gsea_plot.png", width = 800, height = 600)
+print(gsea_plot)
+dev.off()
 ```
