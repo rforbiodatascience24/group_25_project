@@ -70,29 +70,19 @@ reads_df
 
 ::: columns
 ::: {.column width="50%" style="font-size: 26px;"}
-*First the data was prepared and made clean by:*\
+**First the data was prepared and made clean by:**\
 \
 1. Joining three RNA sequencing data sheets into one.\
 \
 2. Renaming columns and naming unamed columns.\
 \
-3. Removing unecessary and invalid observations.\
+3. Removing unnecessary and invalid observations.\
 \
-4. Descreption data (gene_Ensmebl, gene_ID, gene_decription) was saved in a metadata file.\
+4. Description data (gene_ensembl, gene_ID, gene_description) was saved in a metadata file.\
 :::
 
 ::: {.column width="50%" style="font-size: 26px;"}
-*Tidyverse functions used:*\
-\
-\
-*full_join:* to merge three sheets into one dataframe\
-\
-*mutate:* add new columns to dataset\
-\
-\
-*select:* to subset and/or remove relevant columns\
-\
-*filter:* to subset and/or remove relevant rows
+<img src="images/data.png" alt="Description" style="width: 100%;"/>
 :::
 :::
 
@@ -110,7 +100,10 @@ reads_df
 #### Filtering By Statistical Significance
 
 -   Standard deviation calculated for each gene to filter data.\
--   Genes with high SD across replicates were discarded.   \#### Calculated Mean
+-   Genes with high SD across replicates were discarded. \
+
+#### Calculated Mean
+
 -   Mean values were calculated for control and tau groups.\
 :::
 
@@ -125,16 +118,17 @@ reads_df
 -   Data stored in three separate files for analysis.
 :::
 :::
+<img src="images/Flow_chart.jpg" style="width: 100%;"/>
 
 ------------------------------------------------------------------------
 
 ### 5. Data Description part 1
 
--   Filtered_data, long format: significant genes, all 3 replicates
--   All_data_means; all genes, mean of replicates
--   Log_data: significant genes, mean of replicates and fold change values (for PCA)
+-   Filtered_data, long format: significant genes, all 3 replicates.\
+-   All_data_means; all genes, mean of replicates.\
+-   Log_data: significant genes, mean of replicates and fold change values (for PCA).\
 
-::: {style="width: 100%; text-align: right;"}
+::: {style="width: 100%; font-size: 200%;"}
 ```{r, echo = FALSE, message=FALSE}
 library("tidyverse")
 my_tibble <- tibble(
@@ -159,7 +153,7 @@ my_tibble
 
 ------------------------------------------------------------------------
 
-### 7. Analysis PCA
+### 7. Analysis - PCA
 
 #### Objective
 
@@ -179,21 +173,23 @@ my_tibble
 
 ------------------------------------------------------------------------
 
-### 8. Analysis PCA
-::: {.column width="40%"}
-![](images/pca_reads.png){width="1000"}
+
+::: columns
+::: {.column width="50%"}
+![](images/pca_reads.png){width="100%"}
+:::
+::: {.column width="50%"}
+![](images/pca_rpm.png){width="100%"}
+:::
 :::
 
-::: {.column width="40%"}
-![](images/pca_rpm.png){width="1000"}
+::: columns
+::: {.column width="50%"}
+![](images/pca_rpkm.png){width="100%"}
 :::
-
-::: {.column width="40%"}
-![](images/pca_rpkm.png){width="1000"}
+::: {.column width="50%"}
+![](images/pca_all.png){width="100%"}
 :::
-
-::: {.column width="40%"}
-![](images/pca_all.png){width="1000"}
 :::
 
 ------------------------------------------------------------------------
