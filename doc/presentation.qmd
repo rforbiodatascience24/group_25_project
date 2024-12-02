@@ -115,17 +115,17 @@ Final Data -Data stored in three separate files for analysis
 
 ### 5. Data Description part 1
 
--   All data: all genes, no replicates
--   Filtered data: significant genes, no replicates (for overview of the data)
+-   All data: all genes, mean of replicates
+-   Filtered data: significant genes, mean of replicates (for overview of the data)
 -   Log data: significant genes, all 3 replicates (for PCA)
 
-::: {style="width: 50%; text-align: right;"}
+::: {style="width: 100%; text-align: right;"}
 ```{r, echo = FALSE, message=FALSE}
 library("tidyverse")
 my_tibble <- tibble(
-  Column1 = c("All data", "Filtered data", "Log data"),
-  Column2 = c(19279, 2036, 2036),
-  Column3 = c(10, 10, 19)
+  Data = c("All data", "Filtered data", "Log data"),
+  Genes = c(19279, 2036, 2036),
+  Attributes = c(10, 10, 19)
 )
 
 my_tibble
@@ -147,19 +147,19 @@ The objective was to confirm that RPM, RPKM and reads give the same results, as 
 ### 8. Analysis PCA
 
 ::: {.column width="25%"}
-![](images/pca_reads.png){fig-align="right" width="450"}
+![](images/pca_reads.png){width="450"}
 :::
 
 ::: {.column width="25%"}
-![](images/pca_rpm.png){fig-align="right" width="450"}
+![](images/pca_rpm.png){width="450"}
 :::
 
 ::: {.column width="25%"}
-![](images/pca_rpkm.png){fig-align="right" width="450"}
+![](images/pca_rpkm.png){width="450"}
 :::
 
 ::: {.column width="25%"}
-![](images/pca_all.png){fig-align="right" width="450"}
+![](images/pca_all.png){width="450"}
 :::
 
 ------------------------------------------------------------------------
