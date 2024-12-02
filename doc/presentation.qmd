@@ -82,13 +82,13 @@ First the data was prepared and made clean by:\
 Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
-<<<<<<< HEAD
+
 ::: {.column width="60%" style="font-size: 50%;"}
 =======
-=======
+
 
 ::: {.column width="60%" style="font-size: 22px;"}
->>>>>>> b6514368a1d68993df5739a8b2cb0851910e338f
+
 ::: incremental
 :::
 
@@ -101,16 +101,29 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ### 4. Data Augment
 
+
+::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental 
+
 ::: columns
 ::: {.column width="40%" style="font-size: small;"}
 Normalized Data
 
--   Log transformation applied to selected columns
--   Small value (0.0001) added to avoid zeros in data
 
-Calculated Mean - Mean values for control and tau groups were calculated across replicates
+Normalized Data
+- Log transformation applied to selected columns
+- Small value (0.0001) added to avoid zeros in data
 
-Fold Change - Calculated fold change between control and tau groups for each measure - Fold change values used to filter significant genes
+Calculated Mean
+- Mean values for control and tau groups were calculated across replicates
+
+Fold Change
+- Calculated fold change between control and tau groups for each measure
+- Fold change values used to filter significant genes
+
+
+Filtered Data
+- Genes with significant fold change (>1 or <-1) retained
+- Replicates averaged for non-significant genes
 
 Filtered Data - Genes with significant fold change (\>1 or \<-1) retained - Replicates averaged for non-significant genes
 
@@ -118,6 +131,10 @@ Final Data -Data stored in three separate files for analysis
 :::
 :::
 
+
+Final Data
+- Data stored in three separate files for analysis ::: :::
+::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"} :::
 ------------------------------------------------------------------------
 
 ### 5. Data Description part 1
@@ -149,6 +166,23 @@ my_tibble
 
 ### 7. Analysis PCA
 
+
+::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental 
+
+Objective
+- Confirm that RPM, RPKM, and reads yield similar results
+- Verify differences between control and tau experiments
+
+Approach
+- 3 PCAs performed separately for RPM, RPKM, and reads data
+- 1 final PCA conducted on combined data
+
+Results
+- Plots of individual PCAs show how each data type clusters
+- Final PCA confirms global differences between control and tau groups ::: :::
+::: {.column width="60%" style="font-size: small;"}
+{fig-align="right" width="300"} ::: ------------------------------------------------------------------------
+
 The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment. We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all.
 
 ------------------------------------------------------------------------
@@ -158,6 +192,7 @@ The objective was to confirm that RPM, RPKM and reads give the same results, as 
 ::: {.column width="25%"}
 ![](images/pca_reads.png){width="450"}
 :::
+
 
 ::: {.column width="25%"}
 ![](images/pca_rpm.png){width="450"}
