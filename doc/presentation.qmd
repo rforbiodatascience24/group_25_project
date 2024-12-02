@@ -190,6 +190,9 @@ The objective was to confirm that RPM, RPKM and reads give the same results, as 
 ## 10. Discussion and Conclusion
 
 ###Findings
+
+  - Alpha and Gamma Interferons: cytokines, immune response regulation, trigger JAK-STAT pathway. 
+
 - **JAK-STAT3 Pathway Activation**: 
   - Involved in immunity, cell division, and other cellular processes.
   - Neuroinflammation initiation through immune mechanisms. 
