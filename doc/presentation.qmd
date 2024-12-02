@@ -1,63 +1,56 @@
 ---
-title: "R for Bio Data Science"
-author: "Group 25"
+title: "Protein Tau's Role in Gene Expression"
+author: "Group 25:  Ana  Moral (s232119),  Jacqueline Printz (s194377),  Jenni Kinnunen (s204697), João Prazeres (s243036), William Gunns (s242051)"
 format:
   revealjs:
     slide-number: true
     embed-resources: true 
-    theme: dark
+    theme: night
+    smaller: true 
+    scroll: true
 ---
 
-#### 1. Introduction
+### 1. Introduction - Protein Tau
 
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
-::: {style="width: 45%; font-size: 50%; text-align: justify;"}
-### Protein Tau
-
+::: {style="width: 55%; font-size: 22px; text-align: justify;"}
 -   **Function**: Microtubule protein essential for cytoskeletal stability and neuronal transport.\
--   **Key Role**: Supports healthy neuronal functions.\
--   **Pathology**:
-    -   Destabilization linked to neuronal dysfunction, death, and **Alzheimer's Disease**.\
-    -   Aggregates contribute to neurodegeneration.
+    \
 
-------------------------------------------------------------------------
+-   Supports healthy neuronal functions.\
+    \
 
-### Experimental Objective
+-   Destabilization linked to neuronal dysfunction, and **Alzheimer's Disease**.\
+    \
 
--   Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.
+-   Previous studies concluded that Tau destabilization led to an alteration in the expression of glutamatergic genes.\
 
-Experiment Objective:\
+[**Experimental Objective:**]{style="width: 45%; font-size: 120%; text-align: justify;"}\
 \
-[**Is the overexpression of Tau associated to gene expression alterations?**]{style="width: 45%; font-size: 120%; text-align: justify;"}
+[Is the overexpression of Tau associated to gene expression alterations?]{style="width: 45%; font-size: 120%; text-align: justify;"}
 :::
 
-::: {style="width: 55%; text-align: right;"}
+::: {style="width: 45%; text-align: right;"}
 <img src="images/Tau_Protein.png" alt="Tau Protein Diagram" style="width: 100%; height: 600px;"/>
 :::
 :::
 
 ------------------------------------------------------------------------
 
-#### 2. Experimental Setup
+### 2. Experimental Setup
 
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
-::: {style="width: 45%; font-size: 50%; text-align: justify;"}
-### Overall Design
-
+::: {style="width: 45%; font-size: 22px; text-align: justify;"}
 **Differential gene expression analysis of RNA-seq data performed on**:
 
 -   **Control**: 3 samples of SH-SY5Y cells with overexpression of a control vector.\
 -   **Experimental Condition**: 3 samples of SH-SY5Y cells with overexpression of Tau 0N4R isoform.
 
-------------------------------------------------------------------------
+**RNA-seq data was reported on 3 xls sheets:**
 
-### Results
-
-RNA-seq data was reported on 3 xls sheets:
-
--   **Read Counts** sheet: Total number of reads for each gene.\
--   **RPM** (Reads Per Million) sheet: Read Counts are divided by a million factor (total number of reads divided by 1 million).\
--   **RPKM** (Reads Per Kilobase Million) sheet: Corresponds to RPM divided by the length of each gene.
+-   **Read Counts**.\
+-   **RPM** (Reads Per Million).\
+-   **RPKM** (Reads Per Kilobase Million).\
 
 The 3 sheets were joined into one large tibble data frame.
 :::
@@ -73,18 +66,29 @@ reads_df
 
 ------------------------------------------------------------------------
 
-#### 3. Data Wrangling
+### 3. Data Wrangling
 
 ::: columns
-::: {.column width="40%" style="font-size: 50%;"}
+::: {.column width="40%" style="font-size: 22px;"}
 ::: incremental
+<<<<<<< HEAD
 First the data was prepared and made clean by, 1. by joining all dataframes into one 2. renaming columns 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
+=======
+First the data was prepared and made clean by:\
+1. by joining all dataframes into one\
+2. renaming columns\
+3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)\
+>>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 :::
 
 Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
+<<<<<<< HEAD
 ::: {.column width="60%" style="font-size: 50%;"}
+=======
+::: {.column width="60%" style="font-size: 22px;"}
+>>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 ::: incremental
 :::
 
@@ -94,45 +98,57 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ------------------------------------------------------------------------
 
+<<<<<<< HEAD
 #### 4. Data Augment
+=======
+### 4. Data Augment
 
-::: columns
-::: {.column width="40%" style="font-size: small;"}
-::: incremental
-Statistics data frame
+::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Normalized Data
+>>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 
--   Variance for the 3 replicates for each attributes
+-   Log transformation applied to selected columns
+-   Small value (0.0001) added to avoid zeros in data
 
-Filtered data
+Calculated Mean - Mean values for control and tau groups were calculated across replicates
 
--   Genes with mean variance \> 1 were filtered out
+Fold Change - Calculated fold change between control and tau groups for each measure - Fold change values used to filter significant genes
 
--   For the rest, average of replicates was kept
+Filtered Data - Genes with significant fold change (\>1 or \<-1) retained - Replicates averaged for non-significant genes
 
-    -   Data frame 3 times smaller
-:::
-:::
-
-::: {.column width="60%" style="font-size: small;"}
-![](images/data.png){fig-align="right" width="300"}
-:::
-:::
+Final Data -Data stored in three separate files for analysis ::: ::: ::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"} :::
 
 ------------------------------------------------------------------------
 
-#### 5. Data Description part 1
+### 5. Data Description part 1
 
+<<<<<<< HEAD
 ::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
 ::: {style="width: 100%; font-size: 50%; text-align: justify;"}
 -   All data: all genes, no replicates
 -   Filtered data: significant genes, no replicates (for overview of the data)
 -   Log data: significant genes, all 3 replicates (for PCA)
+=======
+::: columns
+::: {.column width="40%" style="font-size: 22px;"}
+::: incremental
+All data
+
+-   522,648 observations, 3 attributes
+
+-   29,036 genes
+>>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 
 ![](images/describe_summary.png){fig-align="right" width="250"}
 :::
 :::
 
+<<<<<<< HEAD
 ------------------------------------------------------------------------
+=======
+::: {.column width="60%" style="font-size: 22px;"}
+::: incremental
+Filtered data
+>>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 
 #### 6. Data Description part 2
 
@@ -140,6 +156,7 @@ Insert picture of plot Similar description to that in the report
 
 ------------------------------------------------------------------------
 
+<<<<<<< HEAD
 #### 7. Analysis PCA
 
 The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment.
@@ -171,10 +188,54 @@ We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA
 ## 9. Gene Set Enrichment Analysis
 
 Text
+=======
+### 6. Data Description part 2
+
+Insert picture of plot Similar description to that in the report
 
 ------------------------------------------------------------------------
 
+### 7. Analysis PCA
+
+::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Objective
+
+-   Confirm that RPM, RPKM, and reads yield similar results
+-   Verify differences between control and tau experiments
+
+Approach - 3 PCAs performed separately for RPM, RPKM, and reads data - 1 final PCA conducted on combined data
+
+Results - Plots of individual PCAs show how each data type clusters - Final PCA confirms global differences between control and tau groups ::: ::: ::: {.column width="60%" style="font-size: small;"} {fig-align="right" width="300"} ::: ------------------------------------------------------------------------
+
+### 8. Analysis PCA
+
+Maybe for plots
+
+------------------------------------------------------------------------
+
+### 9. Gene Set Enrichment Analysis (GSEA)
+
+Computational method to determine if a set of genes shows statistically significant differences in control and Tau over expressing conditions.
+
+
+::: {.left}
+-   Plot genes
+
+::: {style="width: 45%; text-align: left;"}
+<img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
+>>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
+
+::: {.right}
+-   Plot pathways
+
+::: {style="width: 45%; text-align: right;"}
+<img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/>
+------------------------------------------------------------------------
+
+<<<<<<< HEAD
 #### 10. Discussion based on the GSEA/conclusion
+=======
+### 10. Discussion based on the GSEA/conclusion
+>>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 
 Which genes were overexpressed? Does it make sense with the literature?
 

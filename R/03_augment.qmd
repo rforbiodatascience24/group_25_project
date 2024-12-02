@@ -35,7 +35,7 @@ log_df <- aug_input |>
 Since we wish to use the mean of the replicates from this on, we will first compute the standard deviation (SD) of the replicates and exclude genes with too high mean SD. For this, we pivot the data into long format as well.
 
 ```{r}
-all_data_long <- log_data |> 
+all_data_long <- log_df |> 
   pivot_longer(
     cols = contains(c("control", "tau")), 
     names_to = "experiment", 
