@@ -71,6 +71,8 @@ reads_df
 ::: columns
 ::: {.column width="40%" style="font-size: 22px;"}
 ::: incremental
+First the data was prepared and made clean by, 1. by joining all dataframes into one 2. renaming columns 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
+
 First the data was prepared and made clean by:\
 1. by joining all dataframes into one\
 2. renaming columns\
@@ -80,19 +82,32 @@ First the data was prepared and made clean by:\
 Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
+
+::: {.column width="60%" style="font-size: 50%;"}
+=======
+
+
 ::: {.column width="60%" style="font-size: 22px;"}
+
 ::: incremental
 :::
 
 The data was then log transformed to enable a deeper analysis of observations with small margins of difference. Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
 :::
+
 :::
 
 ------------------------------------------------------------------------
 
 ### 4. Data Augment
 
+
 ::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental 
+
+::: columns
+::: {.column width="40%" style="font-size: small;"}
+Normalized Data
+
 
 Normalized Data
 - Log transformation applied to selected columns
@@ -105,9 +120,17 @@ Fold Change
 - Calculated fold change between control and tau groups for each measure
 - Fold change values used to filter significant genes
 
+
 Filtered Data
 - Genes with significant fold change (>1 or <-1) retained
 - Replicates averaged for non-significant genes
+
+Filtered Data - Genes with significant fold change (\>1 or \<-1) retained - Replicates averaged for non-significant genes
+
+Final Data -Data stored in three separate files for analysis
+:::
+:::
+
 
 Final Data
 - Data stored in three separate files for analysis ::: :::
@@ -116,39 +139,33 @@ Final Data
 
 ### 5. Data Description part 1
 
-::: columns
-::: {.column width="40%" style="font-size: 22px;"}
-::: incremental
-All data
+-   All data: all genes, mean of replicates
+-   Filtered data: significant genes, mean of replicates (for overview of the data)
+-   Log data: significant genes, all 3 replicates (for PCA)
 
--   522,648 observations, 3 attributes
+::: {style="width: 100%; text-align: right;"}
+```{r, echo = FALSE, message=FALSE}
+library("tidyverse")
+my_tibble <- tibble(
+  Data = c("All data", "Filtered data", "Log data"),
+  Genes = c(19279, 2036, 2036),
+  Attributes = c(10, 10, 19)
+)
 
--   29,036 genes
-
--   18 experiments, each of them have 3 replicates
-:::
-:::
-
-::: {.column width="60%" style="font-size: 22px;"}
-::: incremental
-Filtered data
-
--   110,958 observations
-
--   19,379 genes
-:::
-:::
+my_tibble
+```
 :::
 
 ------------------------------------------------------------------------
 
 ### 6. Data Description part 2
+<img src="images/describe plot.png" style="width: 100%; height: 600px;"/>
 
-Insert picture of plot Similar description to that in the report
 
 ------------------------------------------------------------------------
 
 ### 7. Analysis PCA
+
 
 ::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental 
 
@@ -166,9 +183,28 @@ Results
 ::: {.column width="60%" style="font-size: small;"}
 {fig-align="right" width="300"} ::: ------------------------------------------------------------------------
 
+The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment. We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all.
+
+------------------------------------------------------------------------
+
 ### 8. Analysis PCA
 
-Maybe for plots
+::: {.column width="25%"}
+![](images/pca_reads.png){width="450"}
+:::
+
+
+::: {.column width="25%"}
+![](images/pca_rpm.png){width="450"}
+:::
+
+::: {.column width="25%"}
+![](images/pca_rpkm.png){width="450"}
+:::
+
+::: {.column width="25%"}
+![](images/pca_all.png){width="450"}
+:::
 
 ------------------------------------------------------------------------
 
@@ -176,38 +212,26 @@ Maybe for plots
 
 Computational method to determine if a set of genes shows statistically significant differences in control and Tau over expressing conditions.
 
+::: {.left} - Plot genes
 
-::: {.left}
--   Plot genes
+::: {style="width: 45%; text-align: left;"} <img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
 
-::: {style="width: 45%; text-align: left;"}
-<img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
+::: {.right} - Plot pathways
 
-::: {.right}
--   Plot pathways
+::: {style="width: 45%; text-align: right;"} <img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/> ------------------------------------------------------------------------
 
-::: {style="width: 45%; text-align: right;"}
-<img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/>
-------------------------------------------------------------------------
+#### 10. Discussion based on the GSEA/conclusion
 
-### 10. Discussion based on the GSEA/conclusion
+Gamma and Alpha response- cytokine, regulation of immune response, trigger JAK-STAT3 pathway.
+JAK-STAT3 pathway- immunity, cell division,  and other cellular processes.  
 
-Which genes were overexpressed? Does it make sense with the literature?
+--Promote neuroinflammation in neurodegenerative disorders like Alzheimer's by initiation innate immunity, adaptive immune mechanisms, and neuroinflammatory response. (https://pubmed.ncbi.nlm.nih.gov/36614305/#:~:text=The%20JAK%2FSTAT%20signaling%20pathway%20is%20one%20of%20the%20critical,and%20finally%2C%20constraining%20neuroinflammatory%20response.)
 
-gamma - cytokine, regulation of immune response, trigger jak stat
-alpha - cytokine, pathogen recognition response, trigger jak stat
-jak stat - immunity, cell division,   --promote neuroinflammation in neurodegenerative disorders like Alzheimer's by initiation innate immunity, adaptive immune mechanisms, and neuroinflammatory response.(https://pubmed.ncbi.nlm.nih.gov/36614305/#:~:text=The%20JAK%2FSTAT%20signaling%20pathway%20is%20one%20of%20the%20critical,and%20finally%2C%20constraining%20neuroinflammatory%20response.)
-
+-Supports: link of Tau overexpression to neurodegenerative disorders like Alzheimer's. 
 
 Challenges
 
--   \[Challenge 1\]
+Data handling and cleaning: setting arbitrary boundaries without losing too much data or leaving in unnecessary data. 
 
-Data handling and cleaninig: setting arbitrary boundaries wothout losing too much data or leaving in unnecessary data. 
 
--   \[Challenge 2\]
 
-Limitations
-
--   \[Limitation 1\]
--   \[Limitation 2\]
