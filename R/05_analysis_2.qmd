@@ -38,7 +38,8 @@ filtered_genes <- gsea_data |>
   arrange(rank) |>
   slice(c(1:8, (n() - 7):n()))
 
-ggplot(filtered_genes, aes(x = reorder(gene_symbol, fold_change_rpkm), y = fold_change_rpkm)) +
+gene_plot <- ggplot(filtered_genes, aes(x = reorder(gene_symbol, fold_change_rpkm), 
+                                        y = fold_change_rpkm)) +
   geom_col(aes(fill = fold_change_rpkm > 0)) +  
   coord_flip() +
   labs(
@@ -50,14 +51,12 @@ ggplot(filtered_genes, aes(x = reorder(gene_symbol, fold_change_rpkm), y = fold_
   theme_minimal()
 ```
 
-Now, we will do the GSEA using the MSigDB. We will also plot the 8 more under and over expressed gene sets.
+Now, we will do the GSEA using the MSigDB. We will also plot the 8 more under and over expressed gene sets. We will use the Hallmark (H) pathways as they are more general and can be used to identify key pathways.
 
 ```{r}
-  # Step 3: Retrieve gene sets from MSigDB (Hallmark pathways as an example)
 msigdb_gene_sets <- msigdbr(species = "Homo sapiens", category = "H") |>
   select(gs_name, gene_symbol)
 
-# Step 4: Perform Gene Set Enrichment Analysis
 gsea_analysis <- gsea_data |>
   inner_join(msigdb_gene_sets, by = "gene_symbol") |>
   group_by(gs_name) |>
@@ -67,14 +66,14 @@ gsea_analysis <- gsea_data |>
   ) |>
   arrange(desc(enrichment_score))
 
-# Step 5: Filter and visualize the top 10 and bottom 10 enriched gene sets
 top_and_bottom_gsea <- gsea_analysis |>
   arrange(desc(enrichment_score)) |>
   slice(c(1:8, (n() - 7):n()))|>
-  mutate(gs_name = str_remove(gs_name, "HALLMARK_"))  # Remove "HALLMARK_" prefix
+  mutate(gs_name = str_remove(gs_name, "HALLMARK_"))  
 
-ggplot(top_and_bottom_gsea, aes(x = reorder(gs_name, enrichment_score), y = enrichment_score)) +
-  geom_col(aes(fill = enrichment_score > 0)) +  # Color based on positive/negative enrichment
+gsea_plot <- ggplot(top_and_bottom_gsea, aes(x = reorder(gs_name, enrichment_score), 
+                                             y = enrichment_score)) +
+  geom_col(aes(fill = enrichment_score > 0)) + 
   coord_flip() +
   labs(
     title = "Highest and lowest Enriched Gene Sets (MSigDB - Hallmark Pathways)",
@@ -84,5 +83,6 @@ ggplot(top_and_bottom_gsea, aes(x = reorder(gs_name, enrichment_score), y = enri
   scale_fill_manual(values = c("red", "blue"), labels = c("Underexpressed", "Overexpressed"), name = "Gene Set Type") +
   theme_minimal()
 
-
+gene_plot
+gsea_plot
 ```
