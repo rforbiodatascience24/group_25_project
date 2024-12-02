@@ -84,7 +84,7 @@ Some of the key functions that were used include full_join, mutate, rename, sele
 
 
 ::: {.column width="60%" style="font-size: 50%;"}
-=======
+
 
 
 ::: {.column width="60%" style="font-size: 22px;"}
@@ -167,7 +167,8 @@ my_tibble
 ### 7. Analysis PCA
 
 
-::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental 
+::: columns 
+::: {.column width="40%" style="font-size: small;"} ::: incremental 
 
 Objective
 - Confirm that RPM, RPKM, and reads yield similar results
@@ -179,11 +180,11 @@ Approach
 
 Results
 - Plots of individual PCAs show how each data type clusters
-- Final PCA confirms global differences between control and tau groups ::: :::
+- Final PCA confirms global differences between control and tau groups
+:::
 ::: {.column width="60%" style="font-size: small;"}
-{fig-align="right" width="300"} ::: ------------------------------------------------------------------------
-
-The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment. We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all.
+{fig-align="right" width="300"} 
+::: 
 
 ------------------------------------------------------------------------
 
