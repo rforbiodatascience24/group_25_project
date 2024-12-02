@@ -92,19 +92,26 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ### 4. Data Augment
 
-::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Normalized Data
+::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental 
 
--   Log transformation applied to selected columns
--   Small value (0.0001) added to avoid zeros in data
+Normalized Data
+- Log transformation applied to selected columns
+- Small value (0.0001) added to avoid zeros in data
 
-Calculated Mean - Mean values for control and tau groups were calculated across replicates
+Calculated Mean
+- Mean values for control and tau groups were calculated across replicates
 
-Fold Change - Calculated fold change between control and tau groups for each measure - Fold change values used to filter significant genes
+Fold Change
+- Calculated fold change between control and tau groups for each measure
+- Fold change values used to filter significant genes
 
-Filtered Data - Genes with significant fold change (\>1 or \<-1) retained - Replicates averaged for non-significant genes
+Filtered Data
+- Genes with significant fold change (>1 or <-1) retained
+- Replicates averaged for non-significant genes
 
-Final Data -Data stored in three separate files for analysis ::: ::: ::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"} :::
-
+Final Data
+- Data stored in three separate files for analysis ::: :::
+::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"} :::
 ------------------------------------------------------------------------
 
 ### 5. Data Description part 1
@@ -143,14 +150,21 @@ Insert picture of plot Similar description to that in the report
 
 ### 7. Analysis PCA
 
-::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Objective
+::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental 
 
--   Confirm that RPM, RPKM, and reads yield similar results
--   Verify differences between control and tau experiments
+Objective
+- Confirm that RPM, RPKM, and reads yield similar results
+- Verify differences between control and tau experiments
 
-Approach - 3 PCAs performed separately for RPM, RPKM, and reads data - 1 final PCA conducted on combined data
+Approach
+- 3 PCAs performed separately for RPM, RPKM, and reads data
+- 1 final PCA conducted on combined data
 
-Results - Plots of individual PCAs show how each data type clusters - Final PCA confirms global differences between control and tau groups ::: ::: ::: {.column width="60%" style="font-size: small;"} {fig-align="right" width="300"} ::: ------------------------------------------------------------------------
+Results
+- Plots of individual PCAs show how each data type clusters
+- Final PCA confirms global differences between control and tau groups ::: :::
+::: {.column width="60%" style="font-size: small;"}
+{fig-align="right" width="300"} ::: ------------------------------------------------------------------------
 
 ### 8. Analysis PCA
 
