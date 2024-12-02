@@ -1,6 +1,6 @@
 ---
 title: "Protein Tau's Role in Gene Expression"
-author: "Group 25:  Ana  Moral (s232119),  Jacqueline Printz (s194377),  Jenni Kinnunen (s204697), João Prazeres (s243036), William Gunns (s242051)"
+author: "Group 25:  Ana  PAula Rodriguez (s232119),  Jacqueline Printz (s194377),  Jenni Kinnunen (s204697), João Prazeres (s243036), William Gunns (s242051)"
 format:
   revealjs:
     slide-number: true
@@ -105,27 +105,25 @@ reads_df
 ::: {.column width="45%" style="font-size: 22px;"}
 
 #### Normalized Data
-- Log transformation applied to selected columns
-- Small value (0.0001) added to avoid zeros in data
+- Log transformation applied to selected columns.\
+- Small value (0.0001) added to avoid zeros in data.\
 
+#### Filtering By Statistical Significance
+- Standard deviation calculated for each gene to filter data.\
+- Genes with high SD across replicates were discarded. \ 
 #### Calculated Mean
-- Mean values for control and tau groups were calculated across replicates
-
-#### Fold Change
-- Calculated fold change between control and tau groups for each measure
-- Fold change values used to filter significant genes
-
-#### Filtered Data
-- Genes with significant fold change (>1 or <-1) retained
-- Replicates averaged for non-significant genes
-
-#### Final Data
-- Data stored in three separate files for analysis
+- Mean values were calculated for control and tau groups. \
 
 :::
 
-::: {.column width="50%" style="text-align: right;"}
-<img src="images/data.png" alt="Description" style="width: 100%;"/>
+::: {.column width="45%" style="font-size: 22px;"}
+
+#### Log2 Fold Change Filtering 
+- Calculated log2 fold change between control and tau groups.\
+- Genes with significant log2 fold change (>1 or <-1) were retained.\
+
+#### Final Data
+- Data stored in three separate files for analysis.
 :::
 :::
 
@@ -165,26 +163,20 @@ my_tibble
 ### 7. Analysis PCA
 
 
-::: columns 
-::: {.column width="40%" style="font-size: 22px;"} 
-
 
 #### Objective
 - Confirm that RPM, RPKM, and reads yield similar results.\
 - Verify differences between control and tau experiments.
 
 #### Approach
-- 3 PCAs performed separately for RPM, RPKM, and reads data.\
+- Library used : Broom
+- 3 different PCAs performed one for each RPM, RPKM, and reads data.\
 - 1 final PCA conducted on combined data.
 
 #### Results
 - Plots of individual PCAs show how each data type clusters.\
 - Final PCA confirms global differences between control and tau groups.
-:::
-::: {.column width="60%" style="font-size: small;"}
-test
-:::
-::: 
+
 
 ------------------------------------------------------------------------
 
@@ -208,19 +200,20 @@ test
 :::
 
 ------------------------------------------------------------------------
-## 9. Gene Set Enrichment Analysis (GSEA)
+## 9. Gene Set Enrichment Analysis
 
-### Differential Gene Expression in Tau Overexpression
+#### Differential Gene Expression in Tau Overexpression
 
-Computational method to determine if a set of genes shows statistically significant differences in control and Tau overexpressing conditions.
+Computational method to determine if a set of genes shows statistically significant differences in control and Tau overexpressing conditions. \
+\
 
 ::: columns
-::: {.column width="45%"}
+::: {.column width="50%"}
 #### Gene Expression Plot
 <img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%;"/>
 :::
 
-::: {.column width="45%"}
+::: {.column width="50%"}
 #### Pathway Enrichment Plot
 <img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%;"/>
 :::
@@ -240,7 +233,7 @@ Computational method to determine if a set of genes shows statistically signific
   - [Source](https://pubmed.ncbi.nlm.nih.gov/36614305)
 
 ### Conclusion
--Supports the association of Tau overexpression to neurodegenerative disorders like Alzheimer's disease. 
+Supports the association of Tau overexpression to neurodegenerative disorders like Alzheimer's disease. 
 
 
 
