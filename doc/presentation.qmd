@@ -79,7 +79,7 @@ First the data was prepared and made clean by:\
 
 Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
-<<<<<<< HEAD
+
 =======
 
 ::: {.column width="60%" style="font-size: 22px;"}
@@ -88,7 +88,7 @@ Some of the key functions that were used include full_join, mutate, rename, sele
 
 The data was then log transformed to enable a deeper analysis of observations with small margins of difference. Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
 :::
->>>>>>> d8f6df3bf2a055bb619b35aa730d25249a233f9e
+
 :::
 
 ------------------------------------------------------------------------
