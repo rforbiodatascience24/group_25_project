@@ -70,27 +70,18 @@ reads_df
 
 ::: columns
 ::: {.column width="40%" style="font-size: 22px;"}
-::: incremental
 First the data was prepared and made clean by, 1. by joining all dataframes into one 2. renaming columns 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
 
 First the data was prepared and made clean by:\
 1. by joining all dataframes into one\
 2. renaming columns\
 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)\
-:::
 
 Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
 
-::: {.column width="60%" style="font-size: 50%;"}
-
-
-
 ::: {.column width="60%" style="font-size: 22px;"}
-
-::: incremental
-:::
 
 The data was then log transformed to enable a deeper analysis of observations with small margins of difference. Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
 :::
@@ -101,41 +92,34 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ### 4. Data Augment
 
+::: columns
+::: {.column width="45%" style="font-size: 22px;"}
 
-::: columns 
-::: {.column width="40%" style="font-size: small;"} 
-::: incremental 
-
-Normalized Data
-
-
-Normalized Data
+#### Normalized Data
 - Log transformation applied to selected columns
 - Small value (0.0001) added to avoid zeros in data
 
-Calculated Mean
+#### Calculated Mean
 - Mean values for control and tau groups were calculated across replicates
 
-Fold Change
+#### Fold Change
 - Calculated fold change between control and tau groups for each measure
 - Fold change values used to filter significant genes
 
-
-Filtered Data
+#### Filtered Data
 - Genes with significant fold change (>1 or <-1) retained
 - Replicates averaged for non-significant genes
 
-Filtered Data - Genes with significant fold change (\>1 or \<-1) retained - Replicates averaged for non-significant genes
+#### Final Data
+- Data stored in three separate files for analysis
 
-Final Data -Data stored in three separate files for analysis
+:::
+
+::: {.column width="50%" style="text-align: right;"}
+<img src="images/data.png" alt="Description" style="width: 100%;"/>
 :::
 :::
 
-Final Data
-- Data stored in three separate files for analysis ::: :::
-::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"}
-<img src="images/data.png" alt=" Description" style="width: 100%; height: 600px;"/>
-::: incremental
 ------------------------------------------------------------------------
 
 ### 5. Data Description part 1
@@ -169,23 +153,24 @@ my_tibble
 
 
 ::: columns 
-::: {.column width="40%" style="font-size: small;"} 
-::: incremental 
+::: {.column width="40%" style="font-size: 22px;"} 
 
-Objective
-- Confirm that RPM, RPKM, and reads yield similar results
-- Verify differences between control and tau experiments
 
-Approach
-- 3 PCAs performed separately for RPM, RPKM, and reads data
-- 1 final PCA conducted on combined data
+#### Objective
+- Confirm that RPM, RPKM, and reads yield similar results.\
+- Verify differences between control and tau experiments.
 
-Results
-- Plots of individual PCAs show how each data type clusters
-- Final PCA confirms global differences between control and tau groups
+#### Approach
+- 3 PCAs performed separately for RPM, RPKM, and reads data.\
+- 1 final PCA conducted on combined data.
+
+#### Results
+- Plots of individual PCAs show how each data type clusters.\
+- Final PCA confirms global differences between control and tau groups.
 :::
 ::: {.column width="60%" style="font-size: small;"}
-{fig-align="right" width="300"} 
+test
+:::
 ::: 
 
 ------------------------------------------------------------------------
