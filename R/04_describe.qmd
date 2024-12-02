@@ -46,30 +46,6 @@ For each gene ID, there are
 
 -   gene expression value: how much the gene is expressed (i.e. how actively it's producing its corresponding RNA)
 
-# Size of each data and number of genes
-
-In table below can be seen the dimensions of the 3 data frames. Each row corresponds to a unique gene.
-
-```{r}
-data_frames <- list(
-  All_data = all_data,
-  Filtered_data = filtered_data,
-  Log_data = log_data
-)
-
-# Summarize their dimensions in a tidy table
-map_dfr(
-  data_frames,
-  ~ tibble(
-    rows = nrow(.x),
-    columns = ncol(.x)
-  ),
-  .id = "data_frame"
-)
-```
-
-In all_data, there are 19279 different RNA transcripts (genes, isoforms, miRNA, etc), while in filtered and log data there are 2036.
-
 We will pivot the data to long format
 
 ```{r}
@@ -81,12 +57,37 @@ all_data_long <- log_data |>
   )
 ```
 
-Let's look at the experiments. There are 18 per gene.
+# Size of each data and number of genes
+
+In table below can be seen the dimensions of the 3 data frames. In log & filter data, the number of rows = number of genes. In all data this is not the case, so we find the number of genes separately.
 
 ```{r}
-filtered_data |>
-  group_by(gene_ensembl) |>
-  summarise(row_count = n())
+unique_genes <- all_data_long |>
+  select(gene_ensembl) |>
+  distinct()
+
+no_of_genes <- c(All_data = nrow(unique_genes),
+                 Filtered_data = nrow(filtered_data),
+                 Log_data = nrow(log_data))
+
+data_frames <- list(
+  All_data_long = all_data_long,
+  Filtered_data = filtered_data,
+  Log_data = log_data
+)
+
+# Summarize their dimensions in a tidy table
+summary_table <- map_dfr(
+  data_frames,
+  ~ tibble(
+    rows = nrow(.x),
+    columns = ncol(.x),
+    genes = nrow(unique_genes) # Assuming unique_genes is relevant to all
+  ),
+  .id = "data_frame"
+)
+
+summary_table
 ```
 
 # Gene expression values
