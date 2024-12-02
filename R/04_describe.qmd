@@ -17,11 +17,11 @@ library(patchwork)
 
 From the augment script, we will examine the following files
 
-1\) All data; all genes, no replicates
+1\) All data; significant genes, all replicates
 
-2\) Filtered data; significant genes, no replicates (for overview of the data)
+2\) All_data_means; significant genes, mean of replicates
 
-3\) Log data; significant genes, all 3 replicates (for PCA)
+3\) Log data; significant genes, mean of replicates and fold change values
 
 ```{r}
 data_dir <- "../data"
@@ -29,9 +29,9 @@ stats_data_file <- "/03_data_stats_load.tsv.gz"
 filtered_stats_data_file <- "/03_data_filtered_stats.tsv.gz"
 log_data_file <- "/03_data_log_load.tsv.gz" 
 
-log_data <- read_tsv(str_c(data_dir, log_data_file))
-all_data <- read_tsv(str_c(data_dir, stats_data_file))
-filtered_data <- read_tsv(str_c(data_dir, filtered_stats_data_file))
+all_data <- read_tsv(str_c(data_dir, log_data_file))
+all_data_means <- read_tsv(str_c(data_dir, stats_data_file))
+log_data <- read_tsv(str_c(data_dir, filtered_stats_data_file))
 ```
 
 # Attributes
@@ -49,7 +49,7 @@ For each gene ID, there are
 We will pivot the data to long format
 
 ```{r}
-all_data_long <- log_data |> 
+all_data_long <- all_data |> 
   pivot_longer(
     cols = contains(c("control", "tau")), 
     names_to = "experiment", 
@@ -66,13 +66,13 @@ unique_genes <- all_data_long |>
   select(gene_ensembl) |>
   distinct()
 
-no_of_genes <- c(All_data = nrow(unique_genes),
-                 Filtered_data = nrow(filtered_data),
+no_of_genes <- c(All_data_long = nrow(unique_genes),
+                 All_data_means = nrow(all_data_means),
                  Log_data = nrow(log_data))
 
 data_frames <- list(
   All_data_long = all_data_long,
-  Filtered_data = filtered_data,
+  all_data_means = all_data_means,
   Log_data = log_data
 )
 
@@ -106,12 +106,12 @@ gene_expression_summary <- all_data_long |>
 gene_expression_summary
 ```
 
-# Pivot filtered data
+# Pivot log data
 
-We will also create a long format of the filtered data with mean values for plot vizualization
+We will also create a long format of the log data with mean values for plot vizualization
 
 ```{r}
-filtered_data_long <- filtered_data |> 
+all_data_means_long <- all_data_means |> 
   select(-starts_with("fold")) |> 
   pivot_longer(
     cols = contains(c("control", "tau")), 
@@ -125,7 +125,7 @@ filtered_data_long <- filtered_data |>
 The data has been visualised below in separated plots for each experiment. Despite not accounting for different gene types, the plots depict a clear trend, with the control samples consistantly presenting greater gene expression. Furthermore, the fact that the control and tau curves follow such a similar shape indicates that is it likely that the increased tau protein has caused a linear shift in the gene expression.
 
 ```{r}
-RPKMplot <- filtered_data_long |>
+RPKMplot <- log_data_long |>
   filter(str_detect(experiment,
                     pattern = "RPKM")) |> 
   ggplot(mapping = aes(x = gene_expression,
@@ -136,7 +136,7 @@ RPKMplot <- filtered_data_long |>
        y = "Density",
        x = "Mean Gene Expression")
 
-RPMplot <- filtered_data_long |>
+RPMplot <- log_data_long |>
   filter(str_detect(experiment,
                     pattern = "RPM")) |> 
   ggplot(mapping = aes(x = gene_expression,
@@ -147,7 +147,7 @@ RPMplot <- filtered_data_long |>
        y = "Density",
        x = "Mean Gene Expression")
 
-readsplot <- filtered_data_long |>
+readsplot <- log_data_long |>
   filter(str_detect(experiment,
                     pattern = "reads")) |> 
   ggplot(mapping = aes(x = gene_expression,
@@ -158,6 +158,7 @@ readsplot <- filtered_data_long |>
        y = "Density",
        x = "Mean Gene Expression")
 
+readsplot
 # Combining the plots above each other
 combined_plot <- RPKMplot / RPMplot / readsplot
 combined_plot
