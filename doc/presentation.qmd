@@ -124,17 +124,18 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ### 5. Data Description part 1
 
--   All data: all genes, mean of replicates
--   Filtered data: significant genes, mean of replicates (for overview of the data)
+-   All data, long format: significant genes, all 3 replicates
+-   Filtered data: significant genes, mean of replicates and log change values
 -   Log data: significant genes, all 3 replicates (for PCA)
 
 ::: {style="width: 100%; text-align: right;"}
 ```{r, echo = FALSE, message=FALSE}
 library("tidyverse")
 my_tibble <- tibble(
-  Data = c("All data", "Filtered data", "Log data"),
-  Genes = c(19279, 2036, 2036),
-  Attributes = c(10, 10, 19)
+  Data = c("All data long", "Filtered data", "Log data"),
+  Rows = c(36648, 2036, 2036),
+  Columns = c(3, 10, 19),
+  Genes = c(2036, 2036, 2036)
 )
 
 my_tibble
