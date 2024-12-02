@@ -40,11 +40,10 @@ Now, before the GSEA, we will plot all our genes based on fold change. The top 5
 ```{r}
 filtered_genes <- gsea_data |>
   arrange(rank) |>
-<<<<<<< HEAD
+
   slice(c(1:8, (n() - 7):n()))
-=======
+
   slice(c(1:5, (n() - 4):n()))
->>>>>>> bfcee8fad4fe8d41dbc344dc0e5dff661d137fc3
 
 gene_plot <- ggplot(filtered_genes, aes(x = reorder(gene_symbol, fold_change_rpkm), 
                                         y = fold_change_rpkm)) +
