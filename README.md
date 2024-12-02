@@ -17,3 +17,7 @@ Group 25 R for Bio Data Science project. From the NCBI Gene Expression Omnibus (
 ## Raw Data Retrieval
 
 For the the raw data retrieval, since we are using a GEO dataset, the [GEOquery](https://bioconductor.org/packages/release/bioc/html/GEOquery.html) package from Bioconductor was used. No local download is necessary. 
+
+## Presentation 
+
+The presentation link can be found [here](https://raw.githack.com/rforbiodatascience24/group_25_project/main/doc/presentation.html)
