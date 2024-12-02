@@ -69,23 +69,32 @@ reads_df
 ### 3. Data Wrangling
 
 ::: columns
-::: {.column width="40%" style="font-size: 22px;"}
-First the data was prepared and made clean by, 1. by joining all dataframes into one 2. renaming columns 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
+::: {.column width="50%" style="font-size: 26px;"}
+*First the data was prepared and made clean by:*\
+\
+1. Joining three RNA sequencing data sheets into one.\
+\
+2. Renaming columns and naming unamed columns.\
+\
+3. Removing unecessary and invalid observations. \
+\
+4. Descreption data (gene_Ensmebl, gene_ID, gene_decription) was saved in a metadata file.\
 
-First the data was prepared and made clean by:\
-1. by joining all dataframes into one\
-2. renaming columns\
-3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)\
-
-Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
+::: {.column width="50%" style="font-size: 26px;"}
 
-
-::: {.column width="60%" style="font-size: 22px;"}
-
-The data was then log transformed to enable a deeper analysis of observations with small margins of difference. Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
+*Tidyverse functions used:*\
+\
+\
+*full_join:* to merge three sheets into one dataframe\
+\
+*mutate:* add new columns to dataset\
+\
+\
+*select:* to subset and/or remove relevant columns\
+\
+*filter:* to subset and/or remove relevant rows
 :::
-
 :::
 
 ------------------------------------------------------------------------
@@ -145,7 +154,10 @@ my_tibble
 ------------------------------------------------------------------------
 
 ### 6. Data Description part 2
-<img src="images/describe plot.png" style="width: 100%; height: 600px;"/>
+<img src="images/describe plot.png" style="width: 100%;"/>
+
+- Genes with greater natural expression appear to be more effected by the increase in Tau protein.\
+- The x axis includes negative values for the RPM and RPKM plots, this is due to the log transform of values less than 1. The same effect is not present on the reads graph due to integer values.
 
 
 ------------------------------------------------------------------------
@@ -199,21 +211,25 @@ test
 ## 9. Gene Set Enrichment Analysis (GSEA)
 
 ### Differential Gene Expression in Tau Overexpression
-####Computational method to determine if a set of genes shows statistically significant differences in control and Tau over expressing conditions.
-::: {.columns}
-:::: {.column width="45%"}
+
+Computational method to determine if a set of genes shows statistically significant differences in control and Tau overexpressing conditions.
+
+::: columns
+::: {.column width="45%"}
 #### Gene Expression Plot
-<img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
-::::
-:::: {.column width="45%"}
+<img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%;"/>
+:::
+
+::: {.column width="45%"}
 #### Pathway Enrichment Plot
-<img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/>
-::::
-::: 
+<img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%;"/>
+:::
+:::
+ 
 
 ## 10. Discussion and Conclusion
 
-###Findings
+### Findings
 
   - Alpha and Gamma Interferons: cytokines, immune response regulation, trigger JAK-STAT pathway. 
 
