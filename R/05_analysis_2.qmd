@@ -31,12 +31,12 @@ gsea_data <- gsea_data |>
   rename(gene_symbol = gene_ID)
 ```
 
-Now, before the GSEA, we will plot all our genes based on fold change. The top 8 (over expressed) and bottom 8 (under expressed) genes will be shown.
+Now, before the GSEA, we will plot all our genes based on fold change. The top 5 (over expressed) and bottom 5 (under expressed) genes will be shown.
 
 ```{r}
 filtered_genes <- gsea_data |>
   arrange(rank) |>
-  slice(c(1:8, (n() - 7):n()))
+  slice(c(1:5, (n() - 4):n()))
 
 gene_plot <- ggplot(filtered_genes, aes(x = reorder(gene_symbol, fold_change_rpkm), 
                                         y = fold_change_rpkm)) +
@@ -51,7 +51,7 @@ gene_plot <- ggplot(filtered_genes, aes(x = reorder(gene_symbol, fold_change_rpk
   theme_minimal()
 ```
 
-Now, we will do the GSEA using the MSigDB. We will also plot the 8 more under and over expressed gene sets. We will use the Hallmark (H) pathways as they are more general and can be used to identify key pathways.
+Now, we will do the GSEA using the MSigDB. We will also plot the 5 more under and over expressed gene sets. We will use the Hallmark (H) pathways as they are more general and can be used to identify key pathways.
 
 ```{r}
 msigdb_gene_sets <- msigdbr(species = "Homo sapiens", category = "H") |>
@@ -68,7 +68,7 @@ gsea_analysis <- gsea_data |>
 
 top_and_bottom_gsea <- gsea_analysis |>
   arrange(desc(enrichment_score)) |>
-  slice(c(1:8, (n() - 7):n()))|>
+  slice(c(1:5, (n() - 4):n()))|>
   mutate(gs_name = str_remove(gs_name, "HALLMARK_"))  
 
 gsea_plot <- ggplot(top_and_bottom_gsea, aes(x = reorder(gs_name, enrichment_score), 

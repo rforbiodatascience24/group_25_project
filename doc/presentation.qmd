@@ -180,9 +180,17 @@ Computational method to determine if a set of genes shows statistically signific
 
 Which genes were overexpressed? Does it make sense with the literature?
 
+gamma - cytokine, regulation of immune response, trigger jak stat
+alpha - cytokine, pathogen recognition response, trigger jak stat
+jak stat - immunity, cell division,   --promote neuroinflammation in neurodegenerative disorders like Alzheimer's by initiation innate immunity, adaptive immune mechanisms, and neuroinflammatory response.(https://pubmed.ncbi.nlm.nih.gov/36614305/#:~:text=The%20JAK%2FSTAT%20signaling%20pathway%20is%20one%20of%20the%20critical,and%20finally%2C%20constraining%20neuroinflammatory%20response.)
+
+
 Challenges
 
 -   \[Challenge 1\]
+
+Data handling and cleaninig: setting arbitrary boundaries wothout losing too much data or leaving in unnecessary data. 
+
 -   \[Challenge 2\]
 
 Limitations
