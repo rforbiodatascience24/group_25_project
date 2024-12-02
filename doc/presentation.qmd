@@ -172,31 +172,32 @@ The objective was to confirm that RPM, RPKM and reads give the same results, as 
 :::
 
 ------------------------------------------------------------------------
+## 9. Gene Set Enrichment Analysis (GSEA)
 
-### 9. Gene Set Enrichment Analysis (GSEA)
+### Differential Gene Expression in Tau Overexpression
+####Computational method to determine if a set of genes shows statistically significant differences in control and Tau over expressing conditions.
+::: {.columns}
+:::: {.column width="45%"}
+#### Gene Expression Plot
+<img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
+::::
+:::: {.column width="45%"}
+#### Pathway Enrichment Plot
+<img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/>
+::::
+::: 
 
-Computational method to determine if a set of genes shows statistically significant differences in control and Tau over expressing conditions.
+## 10. Discussion and Conclusion
 
-::: {.left} - Plot genes
+###Findings
+- **JAK-STAT3 Pathway Activation**: 
+  - Involved in immunity, cell division, and other cellular processes.
+  - Neuroinflammation initiation through immune mechanisms. 
+  - Association of Tau overexpression with Alzheimer’s disease via JAK-STAT3 pathway activation.  
+  - [Source](https://pubmed.ncbi.nlm.nih.gov/36614305)
 
-::: {style="width: 45%; text-align: left;"} <img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
-
-::: {.right} - Plot pathways
-
-::: {style="width: 45%; text-align: right;"} <img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/> ------------------------------------------------------------------------
-
-#### 10. Discussion based on the GSEA/conclusion
-
-Gamma and Alpha response- cytokine, regulation of immune response, trigger JAK-STAT3 pathway.
-JAK-STAT3 pathway- immunity, cell division,  and other cellular processes.  
-
---Promote neuroinflammation in neurodegenerative disorders like Alzheimer's by initiation innate immunity, adaptive immune mechanisms, and neuroinflammatory response. (https://pubmed.ncbi.nlm.nih.gov/36614305/#:~:text=The%20JAK%2FSTAT%20signaling%20pathway%20is%20one%20of%20the%20critical,and%20finally%2C%20constraining%20neuroinflammatory%20response.)
-
--Supports: link of Tau overexpression to neurodegenerative disorders like Alzheimer's. 
-
-Challenges
-
-Data handling and cleaning: setting arbitrary boundaries without losing too much data or leaving in unnecessary data. 
+### Conclusion
+-Supports the association of Tau overexpression to neurodegenerative disorders like Alzheimer's disease. 
 
 
 
