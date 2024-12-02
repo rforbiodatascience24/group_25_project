@@ -15,11 +15,13 @@ library("dplyr")
 library(patchwork)
 ```
 
-From the augment script, we will use 2 of the files.
+From the augment script, we will examine the following files
 
-1\) All data in long format
+1\) All data; all genes, no replicates
 
-2\) Filtered data, where genes with too high mean SD between replicates have been filtered out, and the average of the replicates is used for the rest.
+2\) Filtered data; significant genes, no replicates (for overview of the data)
+
+3\) Log data; significant genes, all 3 replicates (for PCA)
 
 ```{r}
 data_dir <- "../data"
@@ -30,36 +32,6 @@ log_data_file <- "/03_data_log_load.tsv.gz"
 log_data <- read_tsv(str_c(data_dir, log_data_file))
 all_data <- read_tsv(str_c(data_dir, stats_data_file))
 filtered_data <- read_tsv(str_c(data_dir, filtered_stats_data_file))
-```
-
-# Size of the data and number of genes
-
-After tidying the data, we now have 19902 observations (genes) and 10 attributes.
-
-```{r}
-
-dim(all_data)
-```
-
-There are 19902 different RNA transcripts (genes, isoforms, miRNA, etc)
-
-We will transform the data to long format
-
-```{r}
-all_data_long<- log_data|> 
-  pivot_longer(
-    cols = contains(c("control", "tau")), 
-    names_to = "experiment", 
-    values_to = "gene_expression"
-  )
-```
-
-Let's look at the experiments. There are 18 per gene.
-
-```{r}
-all_data_long |>
-  group_by(gene_ensembl) |>
-  summarise(row_count = n())
 ```
 
 # Attributes
@@ -73,6 +45,49 @@ For each gene ID, there are
 -   mean_rpkm: normalized value of mean_rpm, by considering length of gene (in kilobases)
 
 -   gene expression value: how much the gene is expressed (i.e. how actively it's producing its corresponding RNA)
+
+# Size of each data and number of genes
+
+In table below can be seen the dimensions of the 3 data frames. Each row corresponds to a unique gene.
+
+```{r}
+data_frames <- list(
+  All_data = all_data,
+  Filtered_data = filtered_data,
+  Log_data = log_data
+)
+
+# Summarize their dimensions in a tidy table
+map_dfr(
+  data_frames,
+  ~ tibble(
+    rows = nrow(.x),
+    columns = ncol(.x)
+  ),
+  .id = "data_frame"
+)
+```
+
+In all_data, there are 19279 different RNA transcripts (genes, isoforms, miRNA, etc), while in filtered and log data there are 2036.
+
+We will pivot the data to long format
+
+```{r}
+all_data_long <- log_data |> 
+  pivot_longer(
+    cols = contains(c("control", "tau")), 
+    names_to = "experiment", 
+    values_to = "gene_expression"
+  )
+```
+
+Let's look at the experiments. There are 18 per gene.
+
+```{r}
+filtered_data |>
+  group_by(gene_ensembl) |>
+  summarise(row_count = n())
+```
 
 # Gene expression values
 
@@ -90,17 +105,7 @@ gene_expression_summary <- all_data_long |>
 gene_expression_summary
 ```
 
-# Filtered data
-
-In the filtered data, there are 2659 transcripts left
-
-```{r}
-unique_genes <- filtered_data |>
-  select(gene_ensembl) |>
-  distinct()
-
-dim(unique_genes)
-```
+# Pivot filtered data
 
 We will also create a long format of the filtered data with mean values for plot vizualization
 
