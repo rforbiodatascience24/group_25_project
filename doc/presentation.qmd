@@ -76,13 +76,12 @@ reads_df
 \
 2. Renaming columns and naming unamed columns.\
 \
-3. Removing unecessary and invalid observations. \
+3. Removing unecessary and invalid observations.\
 \
 4. Descreption data (gene_Ensmebl, gene_ID, gene_decription) was saved in a metadata file.\
-
 :::
-::: {.column width="50%" style="font-size: 26px;"}
 
+::: {.column width="50%" style="font-size: 26px;"}
 *Tidyverse functions used:*\
 \
 \
@@ -103,27 +102,27 @@ reads_df
 
 ::: columns
 ::: {.column width="45%" style="font-size: 22px;"}
-
 #### Normalized Data
-- Log transformation applied to selected columns.\
-- Small value (0.0001) added to avoid zeros in data.\
+
+-   Log transformation applied to selected columns.\
+-   Small value (0.0001) added to avoid zeros in data.\
 
 #### Filtering By Statistical Significance
-- Standard deviation calculated for each gene to filter data.\
-- Genes with high SD across replicates were discarded. \ 
-#### Calculated Mean
-- Mean values were calculated for control and tau groups. \
 
+-   Standard deviation calculated for each gene to filter data.\
+-   Genes with high SD across replicates were discarded.   \#### Calculated Mean
+-   Mean values were calculated for control and tau groups.\
 :::
 
 ::: {.column width="45%" style="font-size: 22px;"}
+#### Log2 Fold Change Filtering
 
-#### Log2 Fold Change Filtering 
-- Calculated log2 fold change between control and tau groups.\
-- Genes with significant log2 fold change (>1 or <-1) were retained.\
+-   Calculated log2 fold change between control and tau groups.\
+-   Genes with significant log2 fold change (\>1 or \<-1) were retained.\
 
 #### Final Data
-- Data stored in three separate files for analysis.
+
+-   Data stored in three separate files for analysis.
 :::
 :::
 
@@ -131,18 +130,18 @@ reads_df
 
 ### 5. Data Description part 1
 
--   All data, long format: significant genes, all 3 replicates
--   Filtered data: significant genes, mean of replicates and log change values
--   Log data: significant genes, all 3 replicates (for PCA)
+-   Filtered_data, long format: significant genes, all 3 replicates
+-   All_data_means; all genes, mean of replicates
+-   Log_data: significant genes, mean of replicates and fold change values (for PCA)
 
 ::: {style="width: 100%; text-align: right;"}
 ```{r, echo = FALSE, message=FALSE}
 library("tidyverse")
 my_tibble <- tibble(
-  Data = c("All data long", "Filtered data", "Log data"),
-  Rows = c(36648, 2036, 2036),
-  Columns = c(3, 10, 19),
-  Genes = c(2036, 2036, 2036)
+  Data = c("Filtered data long", "All data means", "Log data"),
+  Rows = c(36648, 19279, 2036),
+  Columns = c(3, 10, 10),
+  Genes = c(2036, 19279, 2036)
 )
 
 my_tibble
@@ -152,88 +151,87 @@ my_tibble
 ------------------------------------------------------------------------
 
 ### 6. Data Description part 2
+
 <img src="images/describe plot.png" style="width: 100%;"/>
 
-- Genes with greater natural expression appear to be more effected by the increase in Tau protein.\
-- The x axis includes negative values for the RPM and RPKM plots, this is due to the log transform of values less than 1. The same effect is not present on the reads graph due to integer values.
-
+-   Genes with greater natural expression appear to be more effected by the increase in Tau protein.\
+-   The x axis includes negative values for the RPM and RPKM plots, this is due to the log transform of values less than 1. The same effect is not present on the reads graph due to integer values.
 
 ------------------------------------------------------------------------
 
 ### 7. Analysis PCA
 
-
-
 #### Objective
-- Confirm that RPM, RPKM, and reads yield similar results.\
-- Verify differences between control and tau experiments.
+
+-   Confirm that RPM, RPKM, and reads yield similar results.\
+-   Verify differences between control and tau experiments.
 
 #### Approach
-- Library used : Broom
-- 3 different PCAs performed one for each RPM, RPKM, and reads data.\
-- 1 final PCA conducted on combined data.
+
+-   Library used : Broom
+-   3 different PCAs performed one for each RPM, RPKM, and reads data.\
+-   1 final PCA conducted on combined data.
 
 #### Results
-- Plots of individual PCAs show how each data type clusters.\
-- Final PCA confirms global differences between control and tau groups.
 
+-   Plots of individual PCAs show how each data type clusters.\
+-   Final PCA confirms global differences between control and tau groups.
 
 ------------------------------------------------------------------------
 
 ### 8. Analysis PCA
-
-::: {.column width="25%"}
-![](images/pca_reads.png){width="450"}
+::: {.column width="40%"}
+![](images/pca_reads.png){width="1000"}
 :::
 
-
-::: {.column width="25%"}
-![](images/pca_rpm.png){width="450"}
+::: {.column width="40%"}
+![](images/pca_rpm.png){width="1000"}
 :::
 
-::: {.column width="25%"}
-![](images/pca_rpkm.png){width="450"}
+::: {.column width="40%"}
+![](images/pca_rpkm.png){width="1000"}
 :::
 
-::: {.column width="25%"}
-![](images/pca_all.png){width="450"}
+::: {.column width="40%"}
+![](images/pca_all.png){width="1000"}
 :::
 
 ------------------------------------------------------------------------
+
 ## 9. Gene Set Enrichment Analysis
 
 #### Differential Gene Expression in Tau Overexpression
 
-Computational method to determine if a set of genes shows statistically significant differences in control and Tau overexpressing conditions. \
+Computational method to determine if a set of genes shows statistically significant differences in control and Tau overexpressing conditions.\
 \
 
 ::: columns
 ::: {.column width="50%"}
 #### Gene Expression Plot
+
 <img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%;"/>
 :::
 
 ::: {.column width="50%"}
 #### Pathway Enrichment Plot
+
 <img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%;"/>
 :::
 :::
- 
 
 ## 10. Discussion and Conclusion
 
 ### Findings
 
-  - Alpha and Gamma Interferons: cytokines, immune response regulation, trigger JAK-STAT pathway. 
+-   Alpha and Gamma Interferons: cytokines, immune response regulation, trigger JAK-STAT pathway.
 
-- **JAK-STAT3 Pathway Activation**: 
-  - Involved in immunity, cell division, and other cellular processes.
-  - Neuroinflammation initiation through immune mechanisms. 
-  - Association of Tau overexpression with Alzheimer’s disease via JAK-STAT3 pathway activation.  
-  - [Source](https://pubmed.ncbi.nlm.nih.gov/36614305)
+-   **JAK-STAT3 Pathway Activation**:
+
+    -   Involved in immunity, cell division, and other cellular processes.
+    -   Neuroinflammation initiation through immune mechanisms.
+    -   Association of Tau overexpression with Alzheimer’s disease via JAK-STAT3 pathway activation.\
+    -   [Source](https://pubmed.ncbi.nlm.nih.gov/36614305)
 
 ### Conclusion
-Supports the association of Tau overexpression to neurodegenerative disorders like Alzheimer's disease. 
 
-
-
+Supports the association of Tau overexpression to neurodegenerative disorders like Alzheimer's disease.
