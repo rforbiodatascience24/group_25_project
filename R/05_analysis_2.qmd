@@ -1,0 +1,93 @@
+---
+title: "05_analysis_2"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Here we will do a Gene Set Enrichment Analysis (GSEA). A GSEA is a computational method to determine if a set of genes shows statistically significant differences in two states. In this case, we are comparing control and Tau over expressing conditions.
+
+First, we load the necessary libraries. MSigDBr (Molecular Signatures Database) is a collection of annotated gene sets that can be used for GSEA. We will also create a dataset for human gene sets from MSigDB.
+
+```{r}
+install.packages("msigdbr")
+library(msigdbr)
+
+msigdb_gene_sets <- msigdbr(species = "Homo sapiens")
+```
+
+First, we need to create our dataframe. For this, we will take the mean RPKM, both for control and tau, amd the RPKM fold change. Also, we will take the gene ensembl. Then, we arrange the genes by fold change and create a rank variable. Furthermore, we will take the gene symbol of our genes from our original data.
+
+```{r}
+
+gsea_data <- filtered_stats_df |>
+  select(gene_ensembl, mean_RPKM_control, mean_RPKM_tau, fold_change_rpkm) |>
+  arrange(desc(fold_change_rpkm)) |>
+  mutate(rank = row_number())
+
+gsea_data <- gsea_data |>
+  left_join(aug_input |> select(gene_ensembl, gene_ID), by = "gene_ensembl") |>
+  rename(gene_symbol = gene_ID)
+```
+
+Now, before the GSEA, we will plot all our genes based on fold change. The top 8 (over expressed) and bottom 8 (under expressed) genes will be shown.
+
+```{r}
+filtered_genes <- gsea_data |>
+  arrange(rank) |>
+  slice(c(1:8, (n() - 7):n()))
+
+gene_plot <- ggplot(filtered_genes, aes(x = reorder(gene_symbol, fold_change_rpkm), 
+                                        y = fold_change_rpkm)) +
+  geom_col(aes(fill = fold_change_rpkm > 0)) +  
+  coord_flip() +
+  labs(
+    title = "Over and under expressed genes based on Fold Change",
+    x = "Gene name",
+    y = "Fold Change (RPKM)"
+  ) +
+  scale_fill_manual(values = c("red", "blue"), labels = c("Underexpressed", "Overexpressed"), name = "Expression") +
+  theme_minimal()
+```
+
+Now, we will do the GSEA using the MSigDB. We will also plot the 8 more under and over expressed gene sets. We will use the Hallmark (H) pathways as they are more general and can be used to identify key pathways.
+
+```{r}
+msigdb_gene_sets <- msigdbr(species = "Homo sapiens", category = "H") |>
+  select(gs_name, gene_symbol)
+
+gsea_analysis <- gsea_data |>
+  inner_join(msigdb_gene_sets, by = "gene_symbol") |>
+  group_by(gs_name) |>
+  summarise(
+    enrichment_score = sum(fold_change_rpkm) / sqrt(n()),
+    n_genes = n()
+  ) |>
+  arrange(desc(enrichment_score))
+
+top_and_bottom_gsea <- gsea_analysis |>
+  arrange(desc(enrichment_score)) |>
+  slice(c(1:8, (n() - 7):n()))|>
+  mutate(gs_name = str_remove(gs_name, "HALLMARK_"))  
+
+gsea_plot <- ggplot(top_and_bottom_gsea, aes(x = reorder(gs_name, enrichment_score), 
+                                             y = enrichment_score)) +
+  geom_col(aes(fill = enrichment_score > 0)) + 
+  coord_flip() +
+  labs(
+    title = "Highest and lowest Enriched Gene Sets (MSigDB - Hallmark Pathways)",
+    x = "Gene Set",
+    y = "Enrichment Score"
+  ) +
+  scale_fill_manual(values = c("red", "blue"), labels = c("Underexpressed", "Overexpressed"), name = "Gene Set Type") +
+  theme_minimal()
+
+png("../doc/images/gene_plot.png", width = 800, height = 600)
+print(gene_plot)
+dev.off()
+
+png("../doc/images/gsea_plot.png", width = 800, height = 600)
+print(gsea_plot)
+dev.off()
+```
