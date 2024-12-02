@@ -71,24 +71,18 @@ reads_df
 ::: columns
 ::: {.column width="40%" style="font-size: 22px;"}
 ::: incremental
-<<<<<<< HEAD
 First the data was prepared and made clean by, 1. by joining all dataframes into one 2. renaming columns 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)
-=======
+
 First the data was prepared and made clean by:\
 1. by joining all dataframes into one\
 2. renaming columns\
 3. removing unecessary and invalid observations (including descriptions and rows of data that are all zero)\
->>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 :::
 
 Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
-<<<<<<< HEAD
 ::: {.column width="60%" style="font-size: 50%;"}
-=======
-::: {.column width="60%" style="font-size: 22px;"}
->>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 ::: incremental
 :::
 
@@ -98,13 +92,11 @@ The data was then log transformed to enable a deeper analysis of observations wi
 
 ------------------------------------------------------------------------
 
-<<<<<<< HEAD
-#### 4. Data Augment
-=======
 ### 4. Data Augment
 
-::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Normalized Data
->>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
+::: columns
+::: {.column width="40%" style="font-size: small;"}
+Normalized Data
 
 -   Log transformation applied to selected columns
 -   Small value (0.0001) added to avoid zeros in data
@@ -115,57 +107,44 @@ Fold Change - Calculated fold change between control and tau groups for each mea
 
 Filtered Data - Genes with significant fold change (\>1 or \<-1) retained - Replicates averaged for non-significant genes
 
-Final Data -Data stored in three separate files for analysis ::: ::: ::: {.column width="60%" style="font-size: small;"}{fig-align="right" width="300"} :::
+Final Data -Data stored in three separate files for analysis
+:::
+:::
 
 ------------------------------------------------------------------------
 
 ### 5. Data Description part 1
 
-<<<<<<< HEAD
-::: {style="display: flex; align-items: flex-start; justify-content: space-between;"}
-::: {style="width: 100%; font-size: 50%; text-align: justify;"}
 -   All data: all genes, no replicates
 -   Filtered data: significant genes, no replicates (for overview of the data)
 -   Log data: significant genes, all 3 replicates (for PCA)
-=======
-::: columns
-::: {.column width="40%" style="font-size: 22px;"}
-::: incremental
-All data
 
--   522,648 observations, 3 attributes
+::: {style="width: 50%; text-align: right;"}
+```{r, echo = FALSE, message=FALSE}
+library("tidyverse")
+my_tibble <- tibble(
+  Column1 = c("All data", "Filtered data", "Log data"),
+  Column2 = c(19279, 2036, 2036),
+  Column3 = c(10, 10, 19)
+)
 
--   29,036 genes
->>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
-
-![](images/describe_summary.png){fig-align="right" width="250"}
+my_tibble
+```
 :::
-:::
-
-<<<<<<< HEAD
-------------------------------------------------------------------------
-=======
-::: {.column width="60%" style="font-size: 22px;"}
-::: incremental
-Filtered data
->>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
-
-#### 6. Data Description part 2
-
-Insert picture of plot Similar description to that in the report
 
 ------------------------------------------------------------------------
 
-<<<<<<< HEAD
-#### 7. Analysis PCA
-
-The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment.
-
-We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all.
+### 6. Data Description part 2
 
 ------------------------------------------------------------------------
 
-#### 8. Analysis PCA
+### 7. Analysis PCA
+
+The objective was to confirm that RPM, RPKM and reads give the same results, as well as confirm that there is in fact a difference when comparing the control and the tau experiment. We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA for all.
+
+------------------------------------------------------------------------
+
+### 8. Analysis PCA
 
 ::: {.column width="25%"}
 ![](images/pca_reads.png){fig-align="right" width="450"}
@@ -185,57 +164,19 @@ We performed 3 PCAs (the first 3 plots) on each type of results, and 1 final PCA
 
 ------------------------------------------------------------------------
 
-## 9. Gene Set Enrichment Analysis
-
-Text
-=======
-### 6. Data Description part 2
-
-Insert picture of plot Similar description to that in the report
-
-------------------------------------------------------------------------
-
-### 7. Analysis PCA
-
-::: columns ::: {.column width="40%" style="font-size: small;"} ::: incremental Objective
-
--   Confirm that RPM, RPKM, and reads yield similar results
--   Verify differences between control and tau experiments
-
-Approach - 3 PCAs performed separately for RPM, RPKM, and reads data - 1 final PCA conducted on combined data
-
-Results - Plots of individual PCAs show how each data type clusters - Final PCA confirms global differences between control and tau groups ::: ::: ::: {.column width="60%" style="font-size: small;"} {fig-align="right" width="300"} ::: ------------------------------------------------------------------------
-
-### 8. Analysis PCA
-
-Maybe for plots
-
-------------------------------------------------------------------------
-
 ### 9. Gene Set Enrichment Analysis (GSEA)
 
 Computational method to determine if a set of genes shows statistically significant differences in control and Tau over expressing conditions.
 
+::: {.left} - Plot genes
 
-::: {.left}
--   Plot genes
+::: {style="width: 45%; text-align: left;"} <img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
 
-::: {style="width: 45%; text-align: left;"}
-<img src="images/gene_plot.png" alt="Over and under expressed genes" style="width: 100%; height: 600px;"/>
->>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
+::: {.right} - Plot pathways
 
-::: {.right}
--   Plot pathways
+::: {style="width: 45%; text-align: right;"} <img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/> ------------------------------------------------------------------------
 
-::: {style="width: 45%; text-align: right;"}
-<img src="images/gsea_plot.png" alt="Over and under expressed pathways" style="width: 100%; height: 600px;"/>
-------------------------------------------------------------------------
-
-<<<<<<< HEAD
 #### 10. Discussion based on the GSEA/conclusion
-=======
-### 10. Discussion based on the GSEA/conclusion
->>>>>>> e3fd0a91d520275eaedafef24b9e9de4b65d8b83
 
 Which genes were overexpressed? Does it make sense with the literature?
 
