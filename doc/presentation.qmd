@@ -82,12 +82,19 @@ First the data was prepared and made clean by:\
 Some of the key functions that were used include full_join, mutate, rename, select) Following this, each row corresponds to an observation, each column corresponds to a variable and each cell is a value. Could insert picture of 'clean' data - lecture style.
 :::
 
+<<<<<<< HEAD
 ::: {.column width="60%" style="font-size: 50%;"}
+=======
+=======
+
+::: {.column width="60%" style="font-size: 22px;"}
+>>>>>>> b6514368a1d68993df5739a8b2cb0851910e338f
 ::: incremental
 :::
 
 The data was then log transformed to enable a deeper analysis of observations with small margins of difference. Average across trials of experiment (and variance) THINK THIS BIT IS FOR AUGMENT
 :::
+
 :::
 
 ------------------------------------------------------------------------
@@ -135,6 +142,8 @@ my_tibble
 ------------------------------------------------------------------------
 
 ### 6. Data Description part 2
+<img src="images/describe plot.png" style="width: 100%; height: 600px;"/>
+
 
 ------------------------------------------------------------------------
 
