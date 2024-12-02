@@ -12,14 +12,15 @@ editor: visual
 #| message: false
 library("tidyverse")
 library("dplyr")
+library("table1")
 library(patchwork)
 ```
 
 From the augment script, we will examine the following files
 
-1\) All data; significant genes, all replicates
+1\) Filtered data; significant genes, all replicates
 
-2\) All_data_means; significant genes, mean of replicates
+2\) All_data_means; all genes, mean of replicates
 
 3\) Log data; significant genes, mean of replicates and fold change values
 
@@ -29,7 +30,7 @@ stats_data_file <- "/03_data_stats_load.tsv.gz"
 filtered_stats_data_file <- "/03_data_filtered_stats.tsv.gz"
 log_data_file <- "/03_data_log_load.tsv.gz" 
 
-all_data <- read_tsv(str_c(data_dir, log_data_file))
+filtered_data <- read_tsv(str_c(data_dir, log_data_file))
 all_data_means <- read_tsv(str_c(data_dir, stats_data_file))
 log_data <- read_tsv(str_c(data_dir, filtered_stats_data_file))
 ```
@@ -49,7 +50,7 @@ For each gene ID, there are
 We will pivot the data to long format
 
 ```{r}
-all_data_long <- all_data |> 
+filtered_data_long <- filtered_data |> 
   pivot_longer(
     cols = contains(c("control", "tau")), 
     names_to = "experiment", 
@@ -59,35 +60,43 @@ all_data_long <- all_data |>
 
 # Size of each data and number of genes
 
-In table below can be seen the dimensions of the 3 data frames. In log & filter data, the number of rows = number of genes. In all data this is not the case, so we find the number of genes separately.
+In table below can be seen the dimensions of the 3 data frames as well as number of the unique genes.
 
 ```{r}
-unique_genes <- all_data_long |>
+unique_genes_filtered_data <- filtered_data_long |>
   select(gene_ensembl) |>
   distinct()
 
-no_of_genes <- c(All_data_long = nrow(unique_genes),
-                 All_data_means = nrow(all_data_means),
-                 Log_data = nrow(log_data))
+unique_genes_all_data_means <- all_data_means |>
+  select(gene_ensembl) |>
+  distinct()
+
+unique_genes_log_data <- log_data |>
+  select(gene_ensembl) |>
+  distinct()
+
+no_of_genes <- c(filtered_data_long = nrow(unique_genes_filtered_data),
+                 All_data_means = nrow(unique_genes_all_data_means),
+                 Log_data = nrow(unique_genes_log_data))
 
 data_frames <- list(
-  All_data_long = all_data_long,
-  all_data_means = all_data_means,
+  filtered_data_long = filtered_data_long,
+  All_data_means = all_data_means,
   Log_data = log_data
 )
 
-# Summarize their dimensions in a tidy table
 summary_table <- map_dfr(
   data_frames,
   ~ tibble(
     rows = nrow(.x),
-    columns = ncol(.x),
-    genes = nrow(unique_genes) # Assuming unique_genes is relevant to all
+    columns = ncol(.x)
   ),
   .id = "data_frame"
 )
 
 summary_table
+
+no_of_genes
 ```
 
 # Gene expression values
@@ -95,7 +104,7 @@ summary_table
 Let's find the range of the gene expression values. The log transformation performed in the augment script explains the negative values.
 
 ```{r}
-gene_expression_summary <- all_data_long |>
+gene_expression_summary <- filtered_data_long |>
   #group_by(gene_ID) |>
   summarize(
     mean_value = mean(gene_expression),
