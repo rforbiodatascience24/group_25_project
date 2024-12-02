@@ -120,7 +120,7 @@ gene_expression_summary
 We will also create a long format of the log data with mean values for plot vizualization
 
 ```{r}
-all_data_means_long <- all_data_means |> 
+log_data_long <- log_data |> 
   select(-starts_with("fold")) |> 
   pivot_longer(
     cols = contains(c("control", "tau")), 
@@ -171,4 +171,5 @@ readsplot
 # Combining the plots above each other
 combined_plot <- RPKMplot / RPMplot / readsplot
 combined_plot
+ggsave("../results/combined_plot.png", plot = combined_plot, width = 8, height = 6, dpi = 150)
 ```

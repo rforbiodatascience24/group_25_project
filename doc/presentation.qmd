@@ -28,6 +28,9 @@ format:
 [**Experimental Objective:**]{style="width: 45%; font-size: 120%; text-align: justify;"}\
 \
 [Is the overexpression of Tau associated to gene expression alterations?]{style="width: 45%; font-size: 120%; text-align: justify;"}
+\
+\
+[Source - National Center for Biotechnology Information (NCBI). (2023). GEO DataSets: GSE239956. Retrieved from https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE239956]{style="width: 45%; font-size: 60%; text-align: justify;"}\
 :::
 
 ::: {style="width: 45%; text-align: right;"}
@@ -100,7 +103,7 @@ reads_df
 #### Filtering By Statistical Significance
 
 -   Standard deviation calculated for each gene to filter data.\
--   Genes with high SD across replicates were discarded. \
+-   Genes with high SD across replicates were discarded.\
 
 #### Calculated Mean
 
@@ -118,6 +121,7 @@ reads_df
 -   Data stored in three separate files for analysis.
 :::
 :::
+
 <img src="images/Flow_chart.jpg" style="width: 100%;"/>
 
 ------------------------------------------------------------------------
@@ -173,11 +177,11 @@ my_tibble
 
 ------------------------------------------------------------------------
 
-
 ::: columns
 ::: {.column width="50%"}
 ![](images/pca_reads.png){width="100%"}
 :::
+
 ::: {.column width="50%"}
 ![](images/pca_rpm.png){width="100%"}
 :::
@@ -187,6 +191,7 @@ my_tibble
 ::: {.column width="50%"}
 ![](images/pca_rpkm.png){width="100%"}
 :::
+
 ::: {.column width="50%"}
 ![](images/pca_all.png){width="100%"}
 :::
@@ -224,10 +229,15 @@ Computational method to determine if a set of genes shows statistically signific
 -   **JAK-STAT3 Pathway Activation**:
 
     -   Involved in immunity, cell division, and other cellular processes.
+
     -   Neuroinflammation initiation through immune mechanisms.
+
     -   Association of Tau overexpression with Alzheimer’s disease via JAK-STAT3 pathway activation.\
-    -   [Source](https://pubmed.ncbi.nlm.nih.gov/36614305)
 
 ### Conclusion
 
 Supports the association of Tau overexpression to neurodegenerative disorders like Alzheimer's disease.
+
+
+[Source - Rusek M et.al, "The Role of the JAK/STAT Signaling Pathway in the Pathogenesis of Alzheimer's Disease: New Potential Treatment Target". Int J Mol Sci. 2023 Jan 3;24(1):864.]{style="width: 45%; font-size: 60%; text-align: justify;"}\
+

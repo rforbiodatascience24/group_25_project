@@ -1,6 +1,8 @@
 ---
 title: "Run all scripts"
-format: html
+format:
+  html:
+    embed-resources: true
 editor: visual
 ---
 
@@ -62,6 +64,17 @@ quarto_render(
 file.rename(from =  "05_analysis_1.html",
             to = "../results/05_analysis_1.html")
 ```
+
+6.  Analysis- GSEA
+
+    ```{r}
+    #| include: false
+    quarto_render(
+      input = "05_analysis_2.qmd"
+    )
+    file.rename(from =  "05_analysis_2.html",
+                to = "../results/05_analysis_2.html")
+    ```
 
 ## Master Document
 

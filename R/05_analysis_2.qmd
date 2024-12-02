@@ -1,19 +1,21 @@
 ---
 title: "05_analysis_2"
-format: html
+format:
+  html:
+    embed-resources: true
 editor: visual
 ---
 
 ## Quarto
 
 ```{r}
+library(tidyverse)
 data_dir <- "../data"
 filtered_stats_data_file <- "/03_data_filtered_stats.tsv.gz"
 meta_data_file <- "/meta_data.tsv.gz"
 filtered_stats_df <- read_tsv(str_c(data_dir, filtered_stats_data_file))
 meta_data <-  read_tsv(str_c(data_dir, meta_data_file))
 ```
-
 
 Here we will do a Gene Set Enrichment Analysis (GSEA). A GSEA is a computational method to determine if a set of genes shows statistically significant differences in two states. In this case, we are comparing control and Tau over expressing conditions.
 
@@ -41,11 +43,9 @@ gsea_data <- gsea_data |>
   rename(gene_symbol = gene_ID)
 ```
 
-
 Now, before the GSEA, we will plot all our genes based on fold change. The top 8 (over expressed) and bottom 8 (under expressed) genes will be shown.
 
 Now, before the GSEA, we will plot all our genes based on fold change. The top 5 (over expressed) and bottom 5 (under expressed) genes will be shown.
-
 
 ```{r}
 gsea_data <- gsea_data |> 
@@ -73,8 +73,6 @@ gene_plot
 
 Now, we will do the GSEA using the MSigDB. We will also plot the 8 more under and over expressed gene sets. We will use the Hallmark (H) pathways as they are more general and can be used to identify key pathways.
 
-
-
 ```{r}
 msigdb_gene_sets <- msigdbr(species = "Homo sapiens", category = "H") |>
   select(gs_name, gene_symbol)
@@ -95,7 +93,6 @@ top_and_bottom_gsea <- bind_rows(
 
 ```
 
-
 ```{r}
 gsea_plot <- top_and_bottom_gsea |> 
   ggplot( aes(x = reorder(gs_name, enrichment_score), 
@@ -110,13 +107,13 @@ gsea_plot <- top_and_bottom_gsea |>
   scale_fill_manual(values = c("red", "blue"), labels = c("Underexpressed", "Overexpressed"), name = "Gene Set Type") +
   theme_minimal()
 
+ggsave("../results/gene_plot.png", plot = gene_plot)
+ggsave("../results/gsea_plot.png", plot = gsea_plot)
+
 gsea_plot
-png("../doc/images/gene_plot.png", width = 800, height = 600)
+png("../results/gene_plot.png", width = 800, height = 600)
 dev.off()
 
-png("../doc/images/gsea_plot.png", width = 800, height = 600)
+png("../results/gsea_plot.png", width = 800, height = 600)
 dev.off()
 ```
-
-
-

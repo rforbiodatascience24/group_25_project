@@ -1,6 +1,8 @@
 ---
 title: "Analysis part 1: PCA"
-format: html
+format:
+  html:
+    embed-resources: true
 editor: visual
 ---
 
@@ -76,25 +78,29 @@ stats_data_t <- stats_data_t |>
 We will perform 3 different PCAs for each experiment to assess whether or not there are significant gene expression changes. For simplicity reasons we will first filter our genes according to the fold change values
 
 ```{r}
-log_data_t |> 
+pca_reads <- log_data_t |> 
   filter(str_detect(experiment, "reads")) |> 
   perform_PCA(type_experiment = "reads")
+ggsave("../results/pca_reads.png", plot = pca_reads, width = 8, height = 6, dpi = 150)
 
 ```
 
 ```{r}
-log_data_t |>
+pca_rpm <- log_data_t |>
   filter(str_detect(experiment, "RPM")) |>
   perform_PCA(type_experiment = "RPM")
+ggsave("../results/pca_rpm.png", plot = pca_rpm, width = 8, height = 6, dpi = 150)
 ```
 
 ```{r}
-log_data_t |>
+pca_rpkm <- log_data_t |>
   filter(str_detect(experiment, "RPKM")) |>
   perform_PCA(type_experiment = "RPKM")
+ggsave("../results/pca_rpkm.png", plot = pca_rpkm, width = 8, height = 6, dpi = 150)
 ```
 
 ```{r}
-stats_data_t|> 
+all_pca <- stats_data_t|> 
   perform_PCA_on_all_conditions()
+ggsave("../results/all_pca.png", plot = all_pca, width = 8, height = 6, dpi = 150)
 ```

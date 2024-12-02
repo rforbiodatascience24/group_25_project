@@ -46,7 +46,7 @@ all_data_long <- log_df |>
 ```{r}
 # SD for each experiment type
 gene_expression_SD <- all_data_long |> 
-  mutate(base_experiment = sub("_\\d+$", "", experiment)) |> 
+ mutate(base_experiment = str_remove(experiment, "_\\d+$")) |> 
   group_by(gene_ensembl, base_experiment) |>
   summarize(SD_gene_expression = sd(gene_expression,
                                     na.rm = TRUE),
@@ -55,7 +55,8 @@ gene_expression_SD <- all_data_long |>
 # Compute mean of these SDs, per experiment type
 gene_expression_SD_mean <- gene_expression_SD |> 
   group_by(gene_ensembl, base_experiment) |>
-  mutate(mean_gene_expression = mean(SD_gene_expression, na.rm = TRUE)) |>
+  mutate(mean_gene_expression = mean(SD_gene_expression,
+                                     na.rm = TRUE)) |>
   ungroup()
 
 # Find genes with mean SD > 1
